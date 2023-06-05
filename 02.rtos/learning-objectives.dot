@@ -12,8 +12,12 @@ rtos04 -> rtos033;
 rtos03 -> {rtos030, rtos031, rtos032, rtos033};
     rtos030 [label="Describe key functionality OS gives over bare metal"];
     rtos031 [label="setup an rtos based project."];
-rtos031 -> {rtos0310, rtos314};
-    rtos0310 [label="Install PlatformIO"];
+rtos031 -> {rtos0310, rtos314, rtos0310};
+rtos0310 [label="Install PlatformIO"];
+rtos0311 [label="Use the command line"];
+rtos 03110 [label="build a project"];
+rtos 03111 [label="flash project"];
+rtos 03112 [label="run debugger"];
     rtos032 [label="initialize the operating system"];
 rtos032 -> {rtos031};
     rtos033 [label="Instantiate tasks, locks and mutexes."];
@@ -102,3 +106,16 @@ rtos85 -> rtos821;
 rtos83 -> rtos821;
 { rank=same; rtos0; rtos1; rtos2; rtos8; rtos5}
 }
+rtos9 [label="Work in a state of the art industry environment"]
+rtos9 -> {rtos31, rtos031, rtos90, rtos94, rtos32}
+rtos90 [label="Effectively manage code in source control using git."]
+rtos91 [label="Use basic git commands"]
+rtos910 [label="Commit, push, pull"]
+rtos911 [label="Branch and merge"]
+rtos912 [label="Tag"]
+rtos90 -> {rtos91, rtos92}
+rtos92 [label="Use CI/CD tools"]
+rtos92 -> rtos31
+rtos93 [label="Review pull requests"]
+rtos93 -> rtos911
+rtos94 [label="Read and use library documentation"]
