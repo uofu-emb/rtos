@@ -136,4 +136,4 @@ https://docs.github.com/en/actions/learn-github-actions
 ```
 ![example workflow](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/main.yml/badge.svg)
 ```
-https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
+https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workfflow-status-badge
