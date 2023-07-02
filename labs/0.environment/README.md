@@ -83,10 +83,12 @@ Now that the code is compiling, it needs to be tested. Manually testing the syst
 Remember, "if you can't measure it, you can't change it".
 ## Tasks
 1. Copy in the example tests to your project `tests` directory.
-1. Add the following configuration to your platformio.ini file
+1. Add the following configuration to your platformio.ini file. This will add an environment to run our unit tests locally on your computer, including the library dependency on the Unity test framework.
 ```[env:unit-test]
 build_type = test
 platform = native
+lib_deps =
+    throwtheswitch/Unity@^2.5.2
 ```
 1. Run the tests with `pio test --environment native`
 https://docs.platformio.org/en/latest/core/userguide/cmd_test.html
@@ -127,12 +129,8 @@ jobs:
 
       - name: Build PlatformIO Project
         run: pio run
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Run Tests
-        run: pio test
+     - name: Run Tests
+        run: pio test --environment native
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
