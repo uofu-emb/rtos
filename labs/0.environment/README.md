@@ -130,7 +130,7 @@ jobs:
       - name: Build PlatformIO Project
         run: pio run
      - name: Run Tests
-        run: pio test --environment native
+        run: pio test --environment unit-test
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
