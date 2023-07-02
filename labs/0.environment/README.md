@@ -37,42 +37,43 @@ PlatformIO provides a unified command, `pio`. This command has many subcommands 
 ### Tasks
 These instructions are tailored to our particular board and framework. A more detailed tutorial using a different board can be found here https://docs.platformio.org/en/latest/core/quickstart.html
 
-- Open the "PlatformIO Core CLI".
--- Click on the PlatformIO extension in the left side bar of VSCode.
--- In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open.
-**TODO add screenshot**
--- Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
+1. Open the "PlatformIO Core CLI".
+  1. Click on the PlatformIO extension in the left side bar of VSCode.
+  1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open. **TODO add screenshot**
+1. Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
 https://docs.platformio.org/en/latest/core/installation/shell-commands.html#piocore-install-shell-commands
-- Search for the board id for the Nucleo.
--- In the terminal, run `pio boards 446`
--- Find the id for the ST Nucleo F446RE. We will pass this as an argument to the project init task
-- Create a directory for your project and open the new directory. `mkdir my_project; cd my_project`
-- Once inside that directory, run `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
--- This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
+1.  Search for the board id for the Nucleo.
+  1. In the terminal, run `pio boards 446`
+  1. Find the id for the ST Nucleo F446RE. We will pass this as an argument to the project init task
+1. Create a directory for your project and open the new directory. `mkdir my_project; cd my_project`
+1.  Once inside that directory, run `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
+  1. This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
 https://docs.platformio.org/en/latest/core/userguide/project/cmd_init.html#cmd-project-init
-- Read the output from the init command and identify the function of the different directories and files.
-- Look at the contents of the platformio.ini
+1. Read the output from the init command and identify the function of the different directories and files.
+1. Look at the contents of the platformio.ini
 https://docs.platformio.org/en/latest/projectconf/index.html#projectconf
+
 # Lab
 # Commit project
 ## Overview
 Now that we have our project, let's get it into source control.
 ## Tasks
-- Create repository on github
--- Do not initialize the repository with a README, gitignore, or license.
-- Initialize the local repository.
--- From your project directory, run `git init`. This sets up the repository metadata.
--- Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
--- Commit the stage files with a descriptive commit message `git commit -m "Initialize PlatformIO project"`
--- Create a main branch `git branch -M main`
--- Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
--- Push the main branch and the commit to the remote. `git push -u origin main`
+1. Create repository on github
+  1. Do not initialize the repository with a README, gitignore, or license.
+1. Initialize the local repository.
+  1. From your project directory, run `git init`. This sets up the repository metadata.
+  1. Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
+  1. Commit the stage files with a descriptive commit message `git commit -m "Initialize PlatformIO project"`
+  1. Create a main branch `git branch -M main`
+  1. Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
+  1. Push the main branch and the commit to the remote. `git push -u origin main`
+
 # Building a project
 
 ## Tasks
-- Copy in the example blink code to your `main.c` file. We will explore this code in the next lab. For now, we just need something to compile.
+1. Copy in the example blink code to your `main.c` file. We will explore this code in the next lab. For now, we just need something to compile.
 https://github.com/platformio/platform-ststm32/blob/master/examples/zephyr-blink/src/main.c ** TODO make a new copy this locally with tests **
-- Build project with `pio run`. The run subcommand is used to execute different __targets__. The default target compiles your project.
+1. Build project with `pio run`. The run subcommand is used to execute different __targets__. The default target compiles your project.
 https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmd-run
 # Run tests
 ## Overview
@@ -80,20 +81,20 @@ Now that the code is compiling, it needs to be tested. Manually testing the syst
 
 Remember, "if you can't measure it, you can't change it".
 ## Tasks
-- Copy in the example tests to your project `tests` directory.
-- Run the tests with `pio test`
+1. Copy in the example tests to your project `tests` directory.
+1. Run the tests with `pio test`
 https://docs.platformio.org/en/latest/core/userguide/cmd_test.html
-- Verify that all tests pass.
+1. Verify that all tests pass.
 # Setup Continuous Integration
 ## Overview
 Continuous Integration (CI), often paired with Continuous Delivery (CICD), is a development pattern to rapidly deliver consistent working software. The basic principle is to always keep your project in a working state, with small incremental changes. The project should be monitored with automated tests and performance instrumentation. When code is pushed to the central repository, a build system will run the automated tests. If the tests pass, the code is ready to be reviewed and then deployed.
 
 Github provides an automated build system called Github Actions. We will set up your project to build and run tests on push. We will then show the passing or failing status of your tests on your repository README.
 ## Tasks
-- Create the metadata directories. In the root of your repository, create a directory `.github` (note the leading dot). Inside that directory, create another directory `workflows`.
-- Create a workflow.
--- Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
--- Create a file `.github/workflows/main.yml`. Add the following configuration.
+1. Create the metadata directories. In the root of your repository, create a directory `.github` (note the leading dot). Inside that directory, create another directory `workflows`.
+1. Create a workflow.
+  1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
+  1. Create a file `.github/workflows/main.yml`. Add the following configuration.
 ```
 name: PlatformIO CI
 
@@ -128,11 +129,11 @@ jobs:
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
--- Commit the file and push.
-- add test status badge to your repo README.
--- Create a file named `README.md` in the root of your project.
--- Add a brief description of you project.
--- Add a badge image showing the current status of the workflow
+  1. Commit the file and push.
+1. add test status badge to your repo README.
+  1. Create a file named `README.md` in the root of your project.
+  1. Add a brief description of you project.
+  1. Add a badge image showing the current status of the workflow
 ```
 ![example workflow](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/main.yml/badge.svg)
 ```
