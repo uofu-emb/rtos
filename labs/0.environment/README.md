@@ -38,16 +38,16 @@ PlatformIO provides a unified command, `pio`. This command has many subcommands 
 These instructions are tailored to our particular board and framework. A more detailed tutorial using a different board can be found here https://docs.platformio.org/en/latest/core/quickstart.html
 
 1. Open the "PlatformIO Core CLI".
-  1. Click on the PlatformIO extension in the left side bar of VSCode.
-  1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open. **TODO add screenshot**
+    1. Click on the PlatformIO extension in the left side bar of VSCode.
+    1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open. **TODO add screenshot**
 1. Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
 https://docs.platformio.org/en/latest/core/installation/shell-commands.html#piocore-install-shell-commands
 1.  Search for the board id for the Nucleo.
-  1. In the terminal, run `pio boards 446`
-  1. Find the id for the ST Nucleo F446RE. We will pass this as an argument to the project init task
+    1. In the terminal, run `pio boards 446`
+    1. Find the id for the ST Nucleo F446RE. We will pass this as an argument to the project init task
 1. Create a directory for your project and open the new directory. `mkdir my_project; cd my_project`
 1.  Once inside that directory, run `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
-  1. This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
+    1. This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
 https://docs.platformio.org/en/latest/core/userguide/project/cmd_init.html#cmd-project-init
 1. Read the output from the init command and identify the function of the different directories and files.
 1. Look at the contents of the platformio.ini
@@ -59,14 +59,14 @@ https://docs.platformio.org/en/latest/projectconf/index.html#projectconf
 Now that we have our project, let's get it into source control.
 ## Tasks
 1. Create repository on github
-  1. Do not initialize the repository with a README, gitignore, or license.
+    1. Do not initialize the repository with a README, gitignore, or license.
 1. Initialize the local repository.
-  1. From your project directory, run `git init`. This sets up the repository metadata.
-  1. Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
-  1. Commit the stage files with a descriptive commit message `git commit -m "Initialize PlatformIO project"`
-  1. Create a main branch `git branch -M main`
-  1. Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
-  1. Push the main branch and the commit to the remote. `git push -u origin main`
+    1. From your project directory, run `git init`. This sets up the repository metadata.
+    1. Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
+    1. Commit the stage files with a descriptive commit message `git commit -m "Initialize PlatformIO project"`
+    1. Create a main branch `git branch -M main`
+    1. Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
+    1. Push the main branch and the commit to the remote. `git push -u origin main`
 
 # Building a project
 
@@ -93,8 +93,8 @@ Github provides an automated build system called Github Actions. We will set up 
 ## Tasks
 1. Create the metadata directories. In the root of your repository, create a directory `.github` (note the leading dot). Inside that directory, create another directory `workflows`.
 1. Create a workflow.
-  1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
-  1. Create a file `.github/workflows/main.yml`. Add the following configuration.
+    1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
+    1. Create a file `.github/workflows/main.yml`. Add the following configuration.
 ```
 name: PlatformIO CI
 
@@ -129,11 +129,11 @@ jobs:
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
-  1. Commit the file and push.
+    1. Commit the file and push.
 1. add test status badge to your repo README.
-  1. Create a file named `README.md` in the root of your project.
-  1. Add a brief description of you project.
-  1. Add a badge image showing the current status of the workflow
+    1. Create a file named `README.md` in the root of your project.
+    1. Add a brief description of you project.
+    1. Add a badge image showing the current status of the workflow
 ```
 ![example workflow](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/main.yml/badge.svg)
 ```
