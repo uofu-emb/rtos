@@ -42,7 +42,7 @@ You should have a project setup after lab 0. For reference, here is a quick setu
 3. Copy in the github actions template __todo add a link__ to `.github/workflows/main.yml`
 4. Copy in the .gitignore template __todo add a link__ to .gitignore
 
-### Working with threads
+### Part 1 - Working with Threads
 
 #### Setup
 
@@ -50,9 +50,9 @@ Copy the thread.c function from this directory into your project src directory. 
 
 Commit the new `main.c` file to source control. Make sure to give a helpful and descriptive commit message.
 
-#### Working with Undocumented Code
+#### Understand, Document, and Modify Undocumented Code
 
-You now have the all too common task of taking an undocumented piece of code, understanding it, and modifying it.
+You now have the all-too-common task of taking an undocumented piece of code, understanding it, and modifying it.
 
 There are many ways to approach an unfamiliar codebase. Some strategies you might take:
 
@@ -74,24 +74,25 @@ There are many ways to approach an unfamiliar codebase. Some strategies you migh
 * Refactor the code.
 * Explain to another person or rubber duck how it works.
 
-Some code may be better approached with different strategies than others. For example, one big long function might require a different approach than a file broken up into multiple functions.
+Some code may be better-approached with different strategies than others. For example, one big long function might require a different approach than a file broken up into multiple functions.
 
 When faced with a large system, you may not need to understand every line!
 
-Activity:
-Discuss with your partner how to approach this particular code. Come up with a brief plan.
+##### Activity - Analyze Code Exploration Tactics
 
-You may find a particular pattern or strategy works well for you. Discuss with your partner if their preferred strategy is the same or different from yours.
+1. How would you approach this code?
+2. How about your partner?
+3. What are the strengths of your partner's approach?
+4. What are the weaknesses of your own approach?
+5. What is your plan to explore the code together?
 
-Discuss with your partner what type of code might cause your preferred strategy to break down.
-
-#### Comment the Code
+#### Document Code Through Comments
 
 Adding documentation is important for both your sanity and the sanity of the person who has to work with this code next.
 
 Not every line needs a comment! Comments should be descriptive and explanatory. Avoid comments that simply restate what is in the next line of code. Give context and reasoning behind the why the code is there.
 
-Activity:
+##### Activity - Document Code Through Comments
 
 As you do your exploration of the code, add comments to the file explaining what it does, how it works, how it is organized, etc.
 
@@ -101,20 +102,19 @@ You do not have to understand perfectly what is going on to proceed. Once you ha
 
 Sometimes the best way to understand how things work is to take them apart and break stuff.
 
-Activity:
-If you have not already done so, flash the code to your microcontroller and observe the behavior of the system.
+##### Activity - Vivisection
 
-Delete or comment out the calls to `k_sem_take` and `k_sem_give` (make sure you have committed prior to this!). Predict what you think will happen.
+1. If you have not already done so, flash the code to your microcontroller and observe the behavior of the system.
 
-Compile your changes and flash the micontroller. Does the behavior match your prediction?
+2. Delete or comment out the calls to `k_sem_take` and `k_sem_give` (make sure you have committed prior to this!). Predict what you think will happen.
 
-Restore your previous code. You can use the command `git checkout src/main.c` to restore the file to the current committed version of the file.
+3. Compile your changes and flash the micontroller. Does the behavior match your prediction?
 
-### Write a Test and Make a Change
+4. Restore your previous code. You can use the command `git checkout src/main.c` to restore the file to the current committed version of the file.
 
-"Code without tests is bad code. It doesn’t matter how well written it is; it doesn’t matter how pretty or object-oriented or well-encapsulated it is. With tests, we can change the behavior of our code quickly and verifiably. Without them, we really don’t know if our code is getting better or worse."
+### Part 2 - Write a Test and Make a Change
 
-Michael C. Feathers, Working Effectively with Legacy Code
+_"Code without tests is bad code. It doesn’t matter how well written it is; it doesn’t matter how pretty or object-oriented or well-encapsulated it is. With tests, we can change the behavior of our code quickly and verifiably. Without them, we really don’t know if our code is getting better or worse."_ - Michael C. Feathers, Working Effectively with Legacy Code
 
 Before we make a change, we should write some tests. Manual testing can be fast, but has the issue of repeatability and time to test. Once the system grows in size, manually testing system becomes infeasible.
 
@@ -136,7 +136,7 @@ Write down a test plan in a file tests/manual/something.md.
 
 Commit it to source control.
 
-Work with another group. Follow their test plan. Discuss with them your experence. Was there anything unclear or missing? Does the plan describe the behavior of the system correctly? Are there any edge cases the test plan would miss? How long does it take to go through the test plan?
+Work with another group. Follow their test plan. Discuss with them your experience. Was there anything unclear or missing? Does the plan describe the behavior of the system correctly? Are there any edge cases the test plan would miss? How long does it take to go through the test plan?
 
 #### Automated Testing Strategy
 
