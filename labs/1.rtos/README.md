@@ -76,7 +76,7 @@ There are many ways to approach an unfamiliar codebase. Some strategies you migh
 
 Some code may be better-approached with different strategies than others. For example, one big long function might require a different approach than a file broken up into multiple functions.
 
-When faced with a large system, you may not need to understand every line!
+Note: _When faced with a large system, you may not need to understand every line!_
 
 ##### Activity - Analyze Code Exploration Tactics
 
@@ -130,13 +130,17 @@ Let's develop a testing plan. The testing plan should have three sections:
 2. How to exercise the system
 3. Expected behavior.
 
-Activity:
+##### Activity - Write & Follow a Test Plan
 
-Write down a test plan in a file tests/manual/something.md.
-
-Commit it to source control.
-
-Work with another group. Follow their test plan. Discuss with them your experience. Was there anything unclear or missing? Does the plan describe the behavior of the system correctly? Are there any edge cases the test plan would miss? How long does it take to go through the test plan?
+1. Write down a test plan in a file `tests/manual/something.md`.
+2. Commit it to source control.
+3. Work with another group.
+   1. Follow their test plan.
+   2. Discuss with them your experience.
+      1. Was there anything unclear or missing?
+      2. Does the plan describe the behavior of the system correctly?
+      3. Are there any edge cases the test plan would miss?
+      4. How long does it take to go through the test plan?
 
 #### Automated Testing Strategy
 
@@ -158,7 +162,7 @@ In this case, the system prints out a message to the console. Could we leverage 
 
 The `printk` function outputs a kernel message. We can capture that
 
-##### What Execution Contexts Are There?
+##### What Execution Contexts Are There? To Do Missing Information
 
 There are two execution contexts, the thread and the main loop. Execution contexts can execute in
 
@@ -168,11 +172,11 @@ Dependencies refer to systems, devices, and behaviors external to your code that
 
 #### Unit vs. Integration Testing
 
-Unit tests cover the smallest functional unit of your system. They are usually state invariant. Any initial state is set ahead of time to a known value, and any changes in state are solely due to the execution of the code. Unit tests usually have an expected output for a given input, and teh output is __asserted__ to be the expected value. Unit tests should have limited references to dependencies, and those dependencies either need to be controlled or __mocked__ with a simulated implementation. Unit tests should be automated and fast to run.
+_Unit tests_ cover the smallest functional unit of your system. They are usually state invariant. Any initial state is set ahead of time to a known value, and any changes in state are solely due to the execution of the code. Unit tests usually have an expected output for a given input, and the output is __asserted__ to be the expected value. Unit tests should have limited references to dependencies, and those dependencies either need to be controlled or __mocked__ with a simulated implementation. Unit tests should be automated and fast to run.
 
-Integration tests cover the behavior of the system in aggregate. This measures interactions between units you tested via unit tests. Integration testing is complicated by the large scope and the integration of dependencies into the system under test. Integration testing is often done manually, simulated, or run on actual hardware.
+_Integration tests_ cover the behavior of the system in aggregate. This measures interactions between units you tested via unit tests. Integration testing is complicated by the large scope and the integration of dependencies into the system under test. Integration testing is often done manually, simulated, or run on actual hardware.
 
-How big is a unit? It should be small enough that the behavior can be described in without writing a novel. It should be large enough to be non-trivial.
+How big is a unit? It should be small enough that the behavior can be described without writing a novel. It should be large enough to be non-trivial.
 
 #### Test Strategies
 
@@ -189,10 +193,14 @@ As you become familiar with how tests are written, you will start writing code i
 * Something that is executed in two execution contexts can usually be emulated in one context.
 * You can call interrupt handlers and thread entry points - they have no special meaning in other contexts. The `main` function is different - it has a special meaning in the language. Our tests will have their own `main` function being the entry point to running the test; so you need to pull any code you are testing out of `main`.
 
-##### Context-Behavior Separation - How-to
+_As always, commit the files before continuing._
+
+##### Activity - Context-Behavior Separation
 
 1. Find the main function, interrupt handlers, and thread entry points.
 2. Identify the behavioral code in these contexts. We will refactor this code in the next activities.
+
+_As always, commit the files before continuing._
 
 ##### Separate Iteration from Functionality
 
@@ -200,11 +208,13 @@ As you become familiar with how tests are written, you will start writing code i
 * This is especially important for infinite execution loops. You can't really test something that never halts.
 * Optionally, for collections, this separates the concern of what to do with one item from the concern of working with a collection.
 
-###### Iteration-Functionality Separation - How-to
+###### Activity - Iteration-Functionality Separation
 
 1. Find any infinite loops in the code.
 2. Identify the difference between setup and repeated execution.
 3. Identify any time dependent behavior, especially delays between iterations.
+
+_As always, commit the files before continuing._
 
 ##### Factor Code into Functions
 
@@ -214,7 +224,7 @@ As you become familiar with how tests are written, you will start writing code i
 * Not all functions are complete independent units. You may write a test that uses more than one function.
   * For example, you could write a test that pushes a value onto a queue, and then pops the value using two calls.
 
-###### Code Factoring - How-to
+###### Activity - Factor Code
 
 1. __Make sure all code is committed before you make any changes__.
     1. We need to make sure we know what the code was before our changes.
@@ -238,11 +248,13 @@ As you become familiar with how tests are written, you will start writing code i
 * Mark all inputs `const` if they will not be modified.
   * Anything not marked `const` should be considered by the caller as potentially modified by the function.
 
-###### State-Dependency Conversion - How-to
+###### Activity - Convert State and Dependencies to Inputs and Outputs
 
 1. For each missing variable or reference in the function you created, add an input to the function.
 2. If you need to return more than one value, pass it as an __out param__, which is a pointer to a value in the caller that the function will populate.
 3. Once your function is compiling, switch to the original location it was called from and populate the parameters of the function.
+
+_As always, commit the files before continuing._
 
 ##### Break Dependencies and Separate Concerns
 
@@ -255,7 +267,7 @@ As you become familiar with how tests are written, you will start writing code i
   * For example, instead of sending a string over a serial line and trying to test the serial line, return the string and test the string. There are two concerns - what the data is, and how it is sent.
 * System and library function calls present a special challenge - they are __statically__ bound to identifiers at compile time. We will address this in later labs.
 
-###### Dependency Injection - How-to
+###### Activity - Break Dependencies and Separate Concerns
 
 1. In the function you extracted, identify any references to global variables, HAL devices, system functions, etc.
 2. See if you can remove the dependency by separating the concern of your code from the behavior of the dependency. For example, you could move a call to get data from a peripheral to the caller and pass the data into your function instead.
@@ -265,7 +277,7 @@ As you become familiar with how tests are written, you will start writing code i
 
 Now that you have a function extracted, it is time to write the test.
 
-###### Test-Writing - How-to
+###### Activity - Write Tests
 
 1. Make sure your code compiles.
 2. Commit the code you extracted.
