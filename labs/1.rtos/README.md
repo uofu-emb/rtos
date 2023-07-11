@@ -2,12 +2,18 @@
 
 ## Learning Objectives
 
-* Organize a project.
-* Read and document unfamiliar code.
-* Navigate documentation.
-* Write unit tests.
-* Write a manual test procedure.
-* Refactor for ease of testing.
+* Instantiate the Project
+* Understand, Document, and Modify Undocumented Code
+* Document Code Through Comments
+* Exploratory Surgery
+* Write & Follow a Manual Test Plan
+* Automated Testing
+  * Separate Execution Context from Behavior
+  * Separate Iteration from Functionality
+  * Factor Code into Functions
+  * Convert State and Dependencies to Inputs and Outputs
+  * Break Dependencies and Separate Concerns
+  * Write Tests
 
 ## Prelab
 
@@ -33,7 +39,7 @@ The following basic concepts will be used:
 * Timers
   * `k_thread`
 
-### Instantiate the project
+### Instantiate the Project
 
 You should have a project setup after lab 0. For reference, here is a quick setup.
 
@@ -46,7 +52,7 @@ You should have a project setup after lab 0. For reference, here is a quick setu
 
 #### Setup
 
-Copy the thread.c function from this directory into your project src directory. We will be using this file as the foundation of the lab.
+Copy the `thread.c` function from this directory into your project src directory. We will be using this file as the foundation of the lab.
 
 Commit the new `main.c` file to source control. Make sure to give a helpful and descriptive commit message.
 
@@ -130,7 +136,7 @@ Let's develop a testing plan. The testing plan should have three sections:
 2. How to exercise the system
 3. Expected behavior.
 
-##### Activity - Write & Follow a Test Plan
+##### Activity - Write & Follow a Manual Test Plan
 
 1. Write down a test plan in a file `tests/manual/something.md`.
 2. Commit it to source control.
@@ -142,7 +148,7 @@ Let's develop a testing plan. The testing plan should have three sections:
       3. Are there any edge cases the test plan would miss?
       4. How long does it take to go through the test plan?
 
-#### Automated Testing Strategy
+#### Automated Testing
 
 When approaching how to test a system, consider the following components and concerns.
 
@@ -195,7 +201,7 @@ As you become familiar with how tests are written, you will start writing code i
 
 _As always, commit the files before continuing._
 
-##### Activity - Context-Behavior Separation
+##### Activity - Separate Execution Context from Behavior
 
 1. Find the main function, interrupt handlers, and thread entry points.
 2. Identify the behavioral code in these contexts. We will refactor this code in the next activities.
@@ -208,7 +214,7 @@ _As always, commit the files before continuing._
 * This is especially important for infinite execution loops. You can't really test something that never halts.
 * Optionally, for collections, this separates the concern of what to do with one item from the concern of working with a collection.
 
-###### Activity - Iteration-Functionality Separation
+###### Activity - Separate Iteration from Functionality
 
 1. Find any infinite loops in the code.
 2. Identify the difference between setup and repeated execution.
