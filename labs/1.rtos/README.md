@@ -22,19 +22,6 @@ https://docs.platformio.org/en/latest/projectconf/index.html
 https://docs.zephyrproject.org/latest/doxygen/html/index.html
 
 # Lab
-## Background.
-This is an overview of the basic concepts that will be used
-#### Threads
-k_timer
-
-#### Semaphores
-k_sem
-
-#### Timers
-k_thread
-
-
-
 ## Instantiate the project
 You should have a project setup after lab 0. For reference, here is a quick setup.
 
