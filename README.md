@@ -4,8 +4,11 @@
 Monday 15:00-16:05, Wedneday 15:00-16:20 MEB 2265
 
 Website: https://github.com/uofu-emb/rtos
+
 Instructor:  Ashton Snelgrove
+
 Email: ashton.snelgrove@utah.edu
+
 Office Location:  MEB 1339
 
 ## Course Description
@@ -29,21 +32,23 @@ At the end of this course, you should:
     - Review code.
     - Modify existing code base.
 
-See here for [full detailed learning objectives.]{learning_objectives.pdf}
+See here for [full detailed learning objectives.](learning_objectives.pdf)
 
 ## Class format
-5 minute case study presentation
-20 minute discussion
-Remaining time working in the lab in pairs.
+- 5 minute case study presentation
+- 20 minute discussion
+- Remaining time working in the lab in pairs.
 
 ## Tooling
-We will be using [PlatformIO]{https://platformio.org} to provide toolchain, OS, HAL, and libraries. We will be using [Zephyr RTOS]{https://docs.zephyrproject.org/2.7.5/} (note version 2.7.5).
-[VSCode]{https://code.visualstudio.com/} is the recommended IDE. Most of the time we will be operating on the command line.
+We will be using [PlatformIO](https://platformio.org) to provide toolchain, OS, HAL, and libraries. We will be using [Zephyr RTOS](https://docs.zephyrproject.org/2.7.5/) (note version 2.7.5).
+
+[VSCode](https://code.visualstudio.com/) is the recommended IDE. Most of the time we will be operating on the command line.
 
 ## Cheating and ethics
 
-We learn good practice by seeing good practice.
-We learn good practice by critiquing bad practice.
+__We learn good practice by seeing good practice.__
+
+__We learn good practice by critiquing bad practice.__
 
 This is a collaborative course, you are not just encouraged but required to work together!
 
@@ -87,6 +92,7 @@ All code must:
 ### Letter Grades
 Letter grades are assigned based on completion of the following:
 | Grade | Graduate Requirements | Undergraduate Requirements |
+| --- | --- | --- |
 | C | Case study presentation.<br/>Labs 0, 1, 2, 3, 4, and 5<br/>Contribute to the final project.| Case study presentation.<br/>Labs 0, 1, 2, 3, and 4<br/>Contribute to the final project.|
 | B | All neccessary to get a C, lab 6 and 1 more labs | All neccessary to get a C, labs 5 and 6 |
 | A | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 2 more labs |
@@ -114,7 +120,7 @@ The class will work together on a large project to apply the concepts learned in
 
 # Course Schedule
 | Day | Lab | Discussion |
-|-----------|
+|-----------|----------|---------|
 | Aug. 21 |  | Course syllabus, assign case study presentations. Git review, pull requests. |
 | Aug. 23 | Lab 0 hello world! | Real Time OS features, bare metal comparison.  |
 | Aug. 28 | Lab 1 Testing techniques | Testing techniques, refactoring, writing for testability |
