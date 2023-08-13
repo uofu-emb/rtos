@@ -32,7 +32,7 @@ At the end of this course, you should:
     - Review code.
     - Modify existing code base.
 
-See here for [full detailed learning objectives.](learning_objectives.pdf)
+See here for [full detailed learning objectives.](learning-objectives.pdf)
 
 ## Class format
 - 5 minute case study presentation
