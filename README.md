@@ -100,21 +100,22 @@ Letter grades are assigned based on completion of the following:
 # Assignments
 
 ## Safety case study with presentation
-Short 5 minute presentation to the class of a case study in critical failure in an embedded system.
-- What went wrong and why?
-- What could have been done to mitigate?
+Each student is assigned a short, 5 minute presentation. This presentation will cover a case study of a critical failure of an embedded system. The case could come from any situation, including medical devices, transportation, industrial control, and home automation. The presentation should discuss the consequences of the failure, the root causes, and what could have been done to prevent or mitigate the failure. At the beginning of class, one student will give their presentation.
 ## Labs
 Labs are broken into several components. You must complete all components of the lab.
 - Pre-lab primer
-    - Videos or readings
-    - Quiz format on canvas to prepare for discussion
+    - The pre-lab also includes introductory material. This may include videos and articles to review before class.
+    - The pre-lab includes a set of questions. Students will submit their answers on Canvas the day before class.
 - Lab coding activities
-    - Done in pairs.
-    -
+    - All lab activities will be done in pairs (if an odd number of students is present, one team will have three members).
+    - The instructor and TA will be present for the entire lab session to discuss and provide feedback.
+    - Each lab includes a set of activities with explanatory introduction. All activities are intended to yield unit tests that validate the outcome of the activity.
 - Post-lab reflection survey
-    - Quiz format on canvas to organize your thoughts.
+    - A post-lab survey is given. This helps the students evaluate their own performance and gives the instructor an opportunity to evaluate the outcomes of the lab.
+    - The survey is administered on Canvas.
 - Code review
-
+    - When all activities are complete, the team will create a pull request (PR). Each team will be paired with another team. Each team will be responsible for doing code review for the other team. In order to pass the code review, all unit tests must pass. The reviewers should verify the code  completes all the requirements of the lab. The team should also review for style, organization, and clarity. If changes are necessary, the team can make the changes and resubmit for review.
+    - In order to complete the lab, students must pass their own code review. They must also complete their assigned review. One unavoidable problem of the review process is that control is given to another party during review. It is the team's responsibility to ensure the reviewing team finishes the review. Badgering your colleague to finish reviewing your PR is a fact of life in industry practice. If needed, the instructor can help resolve any conflicts.
 ## Project to synthesize concepts
 The class will work together on a large project to apply the concepts learned in the course. Small groups will take on tasks that contribute towards the final product. Students will work on multiple tasks and teams over the course of the project.
 
@@ -127,9 +128,9 @@ The class will work together on a large project to apply the concepts learned in
 | Aug. 30 | Lab 2 Mocking | Function binding hijinks |
 | Sept. 4| Labor Day | Relax |
 | Sept. 6  | Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
-| Sept. 11 | Lab 4 Interprocess communication | communication patterns |
-| Sept. 13 | Lab 4 con't | |
-| Sept. 18.|Lab 5 Real-time systems | Real Time requirements|
+| Sept. 11 | Lab 4 Interprocess communication | Communication patterns |
+| Sept. 13 | Lab 4 con't | Non-blocking patterns |
+| Sept. 18.|Lab 5 Real-time systems | Real Time requirements |
 | Sept. 20| Lab 5 con't |  |
 | Sept. 25|  Lab 6 Scheduling | scheduling, prioritization |
 | Sept. 27 |Lab 6 con't | Priority inversion |
@@ -137,10 +138,10 @@ The class will work together on a large project to apply the concepts learned in
 | Oct. 4 |  Lab 7 con't| real-time communication |
 | Oct. 9 | fall break | |
 | Oct. 11 | fall break | |
-| Oct. 16 | Lab 8 Error handling | Power, Safety, network, reliability (start case study presentations) |
+| Oct. 16 | Lab 8 Error handling | Safety, network, reliability (start case study presentations) |
 | Oct. 18 | Lab 8 con't | |
-| Oct. 23 | Lab 9 Power | |
-| Oct. 25 | Lab 9 con't | |
+| Oct. 23 | Lab 9 Power |Measuring and estimating power|
+| Oct. 25 | Lab 9 con't | Event driven systems. |
 | Oct. 30 | Project begins | |
 | Nov. 1 | | |
 | Nov. 6 | | |
@@ -154,7 +155,7 @@ The class will work together on a large project to apply the concepts learned in
 | Dec. 4 | | |
 | Dec. 6 | | |
 
-Exam - Wednesday, December 13, 2023 3:30 – 5:30 pm
+Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to discuss what happened during the course, and show off our results.
 
 Note: This syllabus is meant to serve as an outline and guide for our course. Please note that I may modify it with reasonable notice to you. I may also modify the Course Schedule to accommodate the needs of our class. Any changes will be announced in class and posted on Canvas under Announcements.
 
