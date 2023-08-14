@@ -71,6 +71,7 @@ Now that we have our project, let's get it into source control.
 # Building a project
 
 ## Tasks
+1. Create a new git branch. You can call it whatever you like, but it is useful to use a descriptive name for what is being developed in the branch.`git checkout -b compilation-demo`
 1. Copy in the example blink code to your `main.c` file. We will explore this code in the next lab. For now, we just need something to compile.
 https://github.com/platformio/platform-ststm32/blob/master/examples/zephyr-blink/src/main.c ** TODO make a new copy this locally with tests **
 1. Build project with `pio run`. The run subcommand is used to execute different __targets__. The default target compiles your project.
@@ -144,3 +145,4 @@ https://docs.github.com/en/actions/learn-github-actions
 ```
 https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workfflow-status-badge
     1. Commit your README and push.
+    1. Open a pull request to merge your branch into main branch.
