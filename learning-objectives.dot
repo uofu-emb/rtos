@@ -61,9 +61,14 @@ digraph G {
     rtos31 [label="Write unit tests"];
     rtos31 -> { rtos310, rtos311, rtos312, rtos313};
     rtos310 [label="Choose testing strategies and methodologies"];
-    rtos310 -> rtos315;
+    rtos310 -> {rtos315,rtos316};
     rtos314 [label="Set up Testing Environments"];
     rtos315 [label="Describe difference between unit and integration tests"];
+    rtos316 [label="Using mocking techniques to break coupling."];
+    rtos316 -> {rtos3160, rtos3161 rtos316};
+    rtos3160 [label="Apply polymorphism using function pointers."];
+    rtos3161 [label="Create conditional definitions using preprocessor macros."];
+    rtos3161 [label="Describe the static linking process and linking mocked implementations."];
     rtos314 -> {rtos3140};
     rtos3140 [label="Install Renode"];
     rtos311 [label="Write Tests to Verify Compliance with System Model"];
