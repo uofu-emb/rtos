@@ -42,16 +42,20 @@ These instructions are tailored to our particular board and framework. A more de
     1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open. **TODO add screenshot**
 1. Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
 https://docs.platformio.org/en/latest/core/installation/shell-commands.html#piocore-install-shell-commands
-1.  Search for the board id for the Nucleo.
-    1. In the terminal, run `pio boards 446`
-    1. Find the id for the ST Nucleo F446RE. We will pass this as an argument to the project init task
+1.  Search for the board id for the discovery board..
+    1. In the terminal, run `pio boards disco`
+    1. Find the id for the STM32 Discovery 072. We will pass this as an argument to the project init task
 1. Create a directory for your project and open the new directory. `mkdir my_project; cd my_project`
-1.  Once inside that directory, run `pio project init --board nucleo_f446re --project-option "framework=zephyr" --project-option "test_framework=unity"`
+1.  Once inside that directory, run `pio project init --board disco_f072rb --project-option "framework=zephyr" --project-option "test_framework=unity"`
     1. This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
 https://docs.platformio.org/en/latest/core/userguide/project/cmd_init.html#cmd-project-init
 1. Read the output from the init command and identify the function of the different directories and files.
 1. Look at the contents of the platformio.ini
 https://docs.platformio.org/en/latest/projectconf/index.html#projectconf
+
+## Reading
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+
 
 # Lab
 # Commit project
