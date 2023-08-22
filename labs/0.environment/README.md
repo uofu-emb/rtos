@@ -39,7 +39,7 @@ These instructions are tailored to our particular board and framework. A more de
 
 1. Open the "PlatformIO Core CLI".
     1. Click on the PlatformIO extension in the left side bar of VSCode.
-    1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open. **TODO add screenshot**
+    1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open.
 1. Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
 https://docs.platformio.org/en/latest/core/installation/shell-commands.html#piocore-install-shell-commands
 1.  Search for the board id for the discovery board..
@@ -77,7 +77,7 @@ Now that we have our project, let's get it into source control.
 ## Tasks
 1. Create a new git branch. You can call it whatever you like, but it is useful to use a descriptive name for what is being developed in the branch.`git checkout -b compilation-demo`
 1. Copy in the example blink code to your `main.c` file. We will explore this code in the next lab. For now, we just need something to compile.
-https://github.com/platformio/platform-ststm32/blob/master/examples/zephyr-blink/src/main.c ** TODO make a new copy this locally with tests **
+https://github.com/platformio/platform-ststm32/blob/master/examples/zephyr-blink/src/main.c
 1. Build project with `pio run`. The run subcommand is used to execute different __targets__. The default target compiles your project.
 https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmd-run
 1. Commit the new main file.
