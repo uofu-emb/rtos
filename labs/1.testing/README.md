@@ -1,3 +1,5 @@
+# Lab 1. Writing testable code
+
 # Learning objectives:
 * Organize a project.
 * Read and document unfamiliar code.
@@ -7,6 +9,10 @@
 * Refactor for ease of testing.
 
 # Prelab
+"Code without tests is bad code. It doesn’t matter how well written it is; it doesn’t matter how pretty or object-oriented or well-encapsulated it is. With tests, we can change the behavior of our code quickly and verifiably. Without them, we really don’t know if our code is getting better or worse."
+
+Michael C. Feathers, Working Effectively with Legacy Code
+
 ## Identify the different components of the PlatformIO organization
 https://docs.platformio.org/en/latest/platforms/index.html
 Platforms - the microcontroller architecture
@@ -18,8 +24,6 @@ https://docs.platformio.org/en/latest/boards/index.html
 Board - a configuration for a specific development board.
 ## platformio.ini Configuration file
 https://docs.platformio.org/en/latest/projectconf/index.html
-## Zephyr documentation
-https://docs.zephyrproject.org/latest/doxygen/html/index.html
 
 # Lab
 ## Instantiate the project
@@ -27,14 +31,15 @@ You should have a project setup after lab 0. For reference, here is a quick setu
 
 Setup the project with `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
 Init a git repository with `git init`
-Copy in the github actions template **todo add a link** to `.github/workflows/main.yml`
-Copy in the .gitignore template **todo add a link** to .gitignore
-## Working with threads.
+Copy in the github actions template to `.github/workflows/main.yml`
+Copy in the .gitignore template to `.gitignore`
+
+## Working with untested code.
 ### Setup
-Copy the thread.c function from this directory into your project src directory. We will be using this file as the foundation of the lab.
+Copy the blink.c function from this directory into your project src directory. We will be using this file as the foundation of the lab.
 
 Commit the new main.c file to source control. Make sure to give a helpful and descriptive commit message.
-### Working with undocumented code.
+### Tactics
 You now have the all too common task of taking an undocumented piece of code, understanding it, and modifying it.
 
 There are many ways to approach an unfamiliar codebase. Some strategies you might take:
@@ -60,7 +65,7 @@ Some code may be better approached with different strategies than others. For ex
 
 When faced with a large system, you may not need to understand every line!
 
-Activity:
+#### Activity:
 Discuss with your partner how to approach this particular code. Come up with a brief plan.
 
 You may find a particular pattern or strategy works well for you. Discuss with your partner if their preferred strategy is the same or different from yours.
@@ -72,7 +77,7 @@ Adding documentation is important for both your sanity and the sanity of the per
 
 Not every line needs a comment! Comments should be descriptive and explanatory. Avoid comments that simply restate what is in the next line of code. Give context and reasoning behind the why the code is there.
 
-Activity:
+#### Activity:
 
 As you do your exploration of the code, add comments to the file explaining what it does, how it works, how it is organized, etc.
 
@@ -82,26 +87,22 @@ You do not have to understand perfectly what is going on to proceed. Once you ha
 
 Sometimes the best way to understand how things work is to take them apart and break stuff.
 
-Activity:
+#### Activity:
 If you have not already done so, flash the code to your microcontroller and observe the behavior of the system.
 
-Delete or comment out the calls to `k_sem_take` and `k_sem_give` (make sure you have committed prior to this!). Predict what you think will happen.
+Delete the calls to `k_timer_status_sync` (make sure you have committed prior to this!). Predict what you think will happen.
 
 Compile your changes and flash the micontroller. Does the behavior match your prediction?
 
 Restore your previous code. You can use the command `git checkout src/main.c` to restore the file to the current committed version of the file.
 
 ## Write a test and making a change.
-"Code without tests is bad code. It doesn’t matter how well written it is; it doesn’t matter how pretty or object-oriented or well-encapsulated it is. With tests, we can change the behavior of our code quickly and verifiably. Without them, we really don’t know if our code is getting better or worse."
-
-Michael C. Feathers, Working Effectively with Legacy Code
-
 Before we make a change, we should write some tests. Manual testing can be fast, but has the issue of repeatability and time to test. Once the system grows in size, manually testing system becomes infeasible.
 
 ### Manual testing - quality assurance
 Manual testing is still a valuable tool available to you, but needs to be approached systematically. Software teams often include team members doing quality assurance (QA). This umbrella term encompasses a wide range of techniques and activities. For this exercise, we will develop a __regression test__. The purpose is to verify that a change to the system does not affect previous expected behavior.
 
-Tests need to be repeatable. They also need to be documented so that new members of the team can . Documenting the expected behavior of the system also provides a record for those making changes to understand how the system works.
+Tests need to be repeatable. They also need to be documented so that new members of the team can follow them. Documenting the expected behavior of the system also provides a record for those making changes to understand how the system works.
 
 Let's develop a testing plan. The testing plan should have three sections:
 1. How to set up the test scenario.
@@ -110,7 +111,7 @@ Let's develop a testing plan. The testing plan should have three sections:
 
 Activity:
 
-Write down a test plan in a file tests/manual/something.md.
+Write down a test plan in a file, for example `tests/manual/something.md`
 
 Commit it to source control.
 
@@ -122,30 +123,26 @@ When approaching how to test a system, consider the following components and con
 
 #### What inputs are there to the system?
 
-Inputs are data used by your system. Inputs are __invariant__ or __constant__ - if they are not they are instead __state__. In our case, there are not any inputs to our system. If there were inputs, our test would need to include multiple cases of different input combinations.
+Inputs are data used by your system. Inputs are __invariant__ or __constant__ - if they are not they are instead __state__. If there are inputs, our tests would need to include multiple cases of different input combinations.
 
 #### What state is there? How does it change.
 
 __State__ refers to properties or data of the system that change over time. State can also be thought of as time dependent inputs and outputs to your system. If some state is modified by calling a function, this is called a __side effect__. Side effects can often be insidious and unexpected by a caller.
 
-In our case, there is the state of the semaphore, and the state of the timer.
-
 #### What outputs can we observe?
 
-In this case, the system prints out a message to the console. Could we leverage this as a measurable output?
-
-The `printk` function outputs a kernel message. We can capture that
+Outputs generally are the results of a system operating, typically the return value of a function or procedure. They differ from state in that they are __invariant__ over time.
 
 #### What execution contexts are there?
 
-There are two execution contexts, the thread and the main loop. Execution contexts can execute in
+There are two execution contexts, the thread and the main loop. Execution contexts represent a computational environment where code runs. These are usually managed by the hardware or by the operating system.
 
 #### What dependencies are there?
 
 Dependencies refer to systems, devices, and behaviors external to your code that your code relies on. Dependencies present a particular challenge because they have their own behavior, state, and context to account for.
 
 ### Unit vs. Integration testing
-Unit tests cover the smallest functional unit of your system. They are usually state invariant. Any initial state is set ahead of time to a known value, and any changes in state are solely due to the execution of the code. Unit tests usually have an expected output for a given input, and teh output is __asserted__ to be the expected value. Unit tests should have limited references to dependencies, and those dependencies either need to be controlled or __mocked__ with a simulated implementation. Unit tests should be automated and fast to run.
+Unit tests cover the smallest functional unit of your system. They are usually state invariant. Any initial state is set ahead of time to a known value, and any changes in state are solely due to the execution of the code. Unit tests usually have an expected output for a given input, and the output is __asserted__ to be the expected value. Unit tests should have limited references to dependencies, and those dependencies either need to be controlled or __mocked__ with a simulated implementation. Unit tests should be automated and fast to run.
 
 Integration tests cover the behavior of the system in aggregate. This measures interactions between units you tested via unit tests. Integration testing is complicated by the large scope and the integration of dependencies into the system under test. Integration testing is often done manually, simulated, or run on actual hardware.
 
@@ -160,7 +157,7 @@ As you become familiar with how tests are written, you will start writing code i
 - Separate the concern of __how__ something is executed from __what__ is executed.
 - Testing across execution contexts is tricky. Running multiple execution contexts in a test usually starts getting into integration test territory.
 - Threads, interrupts, and tasks can be assumed to be working library code.
-- Most code can be run in any execution context. Even something like an interrupt handler can separate concerns such as acknowledging the interrupt and the execution of your code.
+- Most code can be run in any execution context. Even something like an interrupt handler can separate concerns such as acknowledging the interrupt and the execution of your logic.
 - Something that is executed in two execution contexts can usually be emulated in one context.
 - You can call interrupt handlers and thread entry points - they have no special meaning in other contexts. The `main` function is different - it has a special meaning in the language. Our tests will have their own `main` function being the entry point to running the test; so you need to pull any code you are testing out of `main`.
 #### Technique and Activity
