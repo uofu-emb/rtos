@@ -14,14 +14,18 @@
 Michael C. Feathers, Working Effectively with Legacy Code
 
 ## Identify the different components of the PlatformIO organization
-https://docs.platformio.org/en/latest/platforms/index.html
 Platforms - the microcontroller architecture
-https://docs.platformio.org/en/latest/frameworks/index.html
+https://docs.platformio.org/en/latest/platforms/index.html
+
 Framework - the operating system or core HAL libraries
-https://docs.platformio.org/en/latest/librarymanager/dependencies.html
+https://docs.platformio.org/en/latest/frameworks/index.html
+
 Package - an installable library
-https://docs.platformio.org/en/latest/boards/index.html
+https://docs.platformio.org/en/latest/librarymanager/dependencies.html
+
 Board - a configuration for a specific development board.
+https://docs.platformio.org/en/latest/boards/index.html
+
 ## platformio.ini Configuration file
 https://docs.platformio.org/en/latest/projectconf/index.html
 
