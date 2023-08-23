@@ -9,9 +9,9 @@ Understand how to use mocking techniques to break dependencies for testing.
 Implement several mocking techniques.
 Measure and test the behavior of code using mocked functionality.
 
-# Setup.
+# Pre-lab
 1. Create a new project and copy in the .c files from this lab.
-1. Read through the lab and familiarize yourself with the general principle of the techniques.
+1. Read through the lab and familiarize yourself with the terms used and general principle of the techniques.
 
 # Lab
 ## Macro conditionals
