@@ -191,8 +191,8 @@ As you become familiar with how tests are written, you will start writing code i
     2. Use `git diff` or `git difftool` to compare with the previous state.
     3. If things go wrong, you can always revert back to the working state. (Use `git checkout -- file.c`)
 2. Create a new header file in the `include` directory to hold the definition of your function.
-3. Create a new code hile in the `src` directory to hold the implementation of your code.
-4. Take a block of code you identified in the infinite loop of your main execution context.Create a function in your new files, and move all of the code in a block into it.
+3. Create a new code file in the `src` directory to hold the implementation of your code.
+4. Take a block of code you identified in the infinite loop of your main execution context. Create a function in your new files, and move all of the code in a block into it.
 5. Put a call to the function where the code used to be.
 6. Compile the code. You will be missing includes, variables, references, outputs, etc. We will deal with this in the next activity.
     1. You can use the compiler as a guide for refactoring.
