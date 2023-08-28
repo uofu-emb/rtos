@@ -43,7 +43,7 @@ void thread_entry(void)
 
 	while (1) {
         counter = counter + 1;
-		gpio_pin_set(dev, PIN, (int)led_is_on);
+		gpio_pin_set(dev, PIN1, (int)led_is_on);
 		led_is_on = !led_is_on;
 		k_timer_start(&t, K_MSEC(2000), K_NO_WAIT);
 		k_timer_status_sync(&t);
@@ -73,14 +73,14 @@ void main(void)
 		return;
 	}
 
-	ret = gpio_pin_configure(dev, PIN, GPIO_OUTPUT_ACTIVE | FLAGS);
+	ret = gpio_pin_configure(dev, PIN0, GPIO_OUTPUT_ACTIVE | FLAGS0);
 	if (ret < 0) {
 		return;
 	}
 
 	while (1) {
-		gpio_pin_set(dev, PIN, (int)led_is_on);
+		gpio_pin_set(dev, PIN0, (int)led_is_on);
 		led_is_on = !led_is_on;
-		k_msleep(SLEEP_TIME_MS);
+		k_msleep(500);
 	}
 }
