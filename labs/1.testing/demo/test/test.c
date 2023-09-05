@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <unity.h>
 #include "rtos.h"
 #include "lab1.h"
@@ -21,7 +20,7 @@ void start_thread(void (* fun)(void))
 
 void test_toggle_thread_setup()
 {
-    struct gpio *d = GPIOA;
+  struct gpio *d = GPIOA;
   struct gpio dev = {0, 0};
   unsigned int led, counter;
   led = toggle_thread_setup(&dev, &counter);
