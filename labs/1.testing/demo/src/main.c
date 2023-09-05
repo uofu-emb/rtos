@@ -1,6 +1,5 @@
 #include <lab1.h>
 #include <rtos.h>
-#include <rtos_dev.h>
 
 unsigned int led_is_on;
 unsigned int counter;
