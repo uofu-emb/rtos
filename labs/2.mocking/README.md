@@ -4,10 +4,13 @@ In the previous lab, we made our code more testable by breaking dependencies and
 A common technique in unit testing is **mocking**. We replace the system function or other dependency with an implementation that we control.
 
 # Learning objectives
-Write unit tests in the context of libraries and other systems.
-Understand how to use mocking techniques to break dependencies for testing.
-Implement several mocking techniques.
-Measure and test the behavior of code using mocked functionality.
+* Use the C preprocessor to do conditional modification of source code.
+* Understand the syntax of function pointers.
+* Write function that take function pointers as arguments.
+* Write unit tests in the context of libraries and other systems.
+* Understand how to use mocking techniques to break dependencies for testing.
+* Implement several mocking techniques.
+* Measure and test the behavior of code using mocked functionality.
 
 # Pre-lab
 1. Create a new project and copy in the .c files from this lab.
