@@ -125,7 +125,7 @@ Delete the calls to `k_timer_status_sync` (make sure you have committed prior to
 
 Compile your changes and flash the micontroller. Does the behavior match your prediction?
 
-Restore your previous code. You can use the command `git checkout src/main.c` to restore the file to the current committed version of the file.
+Restore your previous code. You can use the command `git checkout src/blink.c` to restore the file to the current committed version of the file.
 
 ## Write a test and making a change.
 Before we make a change, we should write some tests. Manual testing can be fast, but has the issue of repeatability and time to test. Once the system grows in size, manually testing system becomes infeasible.
