@@ -36,7 +36,7 @@ void thread_entry(void)
     const struct device *dev;
     dev = device_get_binding(LED1);
     bool led_is_on = true;
-	int ret = gpio_pin_configure(dev, PIN0, GPIO_OUTPUT_ACTIVE | FLAGS0);
+	int ret = gpio_pin_configure(dev, PIN1, GPIO_OUTPUT_ACTIVE | FLAGS0);
 
 	struct k_timer t;
 	k_timer_init(&t, NULL, NULL);
