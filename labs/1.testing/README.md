@@ -5,6 +5,8 @@
 * Read and document unfamiliar code.
 * Navigate documentation.
 * Write unit tests.
+* Run tests in simulation
+* Run tests on hardware
 * Write a manual test procedure.
 * Refactor for ease of testing.
 
@@ -33,16 +35,41 @@ https://docs.platformio.org/en/latest/projectconf/index.html
 ## Instantiate the project
 You should have a project setup after lab 0. For reference, here is a quick setup.
 
-Setup the project with `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
-Init a git repository with `git init`
-Copy in the github actions template to `.github/workflows/main.yml`
-Copy in the .gitignore template to `.gitignore`
+1. Setup the project with `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
+1. Init a git repository with `git init`
+1. Copy in the github actions template to `.github/workflows/main.yml`
+1. Copy in the .gitignore template to `.gitignore`
+
+## Project structure
+
+PlatformIO has an opinionated project structure. It's important to put files in the correct locations so that the build system can properly find them.
+
+1. Put all your system glue code and configuration in `src` and `include`.
+    1. Code in these directories are not available when running tests.
+    1. You can only have one definition of `main`.
+1. Put all of your components and logic into `lib`
+    1. Inside `lib`, create one or more component directories.
+    1. Inside your component directory, create a `src` and `include` directory.
+    1. You should have `lib/mycode/src` and `lib/mycode/include`
+1. Put tests in `test`.
+    1. Multiple tests can be set up in subdirectories.
+
+More information:
+
+https://docs.platformio.org/en/latest/advanced/unit-testing/structure/hierarchy.html
+
+### Activity
+1. Copy the blink.c function from this directory into your project `src` directory. We will be using this file as the foundation of the lab.
+1. Create two directories `lib/lab1/src` and `lib/lab1/include`
+1. Copy the `unity_config.h` and `unity_config.c` files into `test`.
+1. Create a new file `zephyr/prj.conf`. Add the following.
+```
+CONFIG_SERIAL=y
+CONFIG_NEWLIB_LIBC=y
+```
+Commit the new files to source control. Make sure to give a helpful and descriptive commit message.
 
 ## Working with untested code.
-### Setup
-Copy the blink.c function from this directory into your project src directory. We will be using this file as the foundation of the lab.
-
-Commit the new main.c file to source control. Make sure to give a helpful and descriptive commit message.
 ### Tactics
 You now have the all too common task of taking an undocumented piece of code, understanding it, and modifying it.
 
@@ -113,7 +140,7 @@ Let's develop a testing plan. The testing plan should have three sections:
 2. How to exercise the system
 3. Expected behavior.
 
-Activity:
+#### Activity:
 
 Write down a test plan in a file, for example `tests/manual/something.md`
 
@@ -167,6 +194,7 @@ As you become familiar with how tests are written, you will start writing code i
 #### Technique and Activity
 1. Find the main function, interrupt handlers, and thread entry points.
 2. Identify the behavioral code in these contexts. We will refactor this code in the next activities.
+
 #### Separate iteration from functionality.
 - Move the body of loops into a function.
 - This is especially important for infinite execution loops. You can't really test something that never halts.
@@ -190,8 +218,8 @@ As you become familiar with how tests are written, you will start writing code i
     1. We need to make sure we know what the code was before our changes.
     2. Use `git diff` or `git difftool` to compare with the previous state.
     3. If things go wrong, you can always revert back to the working state. (Use `git checkout -- file.c`)
-2. Create a new header file in the `include` directory to hold the definition of your function.
-3. Create a new code file in the `src` directory to hold the implementation of your code.
+2. Create a new header file in the `lib/lab1/include` directory to hold the definition of your function.
+3. Create a new code file in the `lib/lab1/src` directory to hold the implementation of your code.
 4. Take a block of code you identified in the infinite loop of your main execution context. Create a function in your new files, and move all of the code in a block into it.
 5. Put a call to the function where the code used to be.
 6. Compile the code. You will be missing includes, variables, references, outputs, etc. We will deal with this in the next activity.
@@ -232,49 +260,43 @@ Now that you have a function extracted, it is time to write the test.
 
 ##### Technique and Activity
 1. Make sure your code compiles.
-2. Commit the code you extracted.
-3. Create a new file in the `test` directory.
+1. Commit the code you extracted.
+1. Add the following lines to your `platformio.ini` file.
+```
+[env:disco_f072rb]
+platform = ststm32
+board = disco_f072rb
+framework = zephyr
+lib_deps =
+    lab1
+platform_packages =
+    platformio/tool-renode
+test_testing_command =
+    ${platformio.packages_dir}/tool-renode/renode
+    --disable-xwt
+    -e mach create "stm32f072b"
+    -e machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
+    -e sysbus LoadELF @${platformio.build_dir}/${this.__env__}/firmware.elf
+    -e start
+```
+    1. We'll be running our code in the Renode simulator, so we can run our tests in GitHub actions.
+    1. We can also run tests on the microcontroller.
+1. Create a new file in the `test` directory.
     1. It can have any name, but by convention it has a similar name to the file you put your code in.
-    2. This can make it easier for another person to find the test later.
-4. Add the following code template to the file.
-```
-#include <stdint.h>
-#include <unity.h>
-
-void setUp(void) {}
-
-void tearDown(void) {}
-
-void test_variable_assignment()
-{
-    int x = 1;
-    TEST_ASSERT_TRUE_MESSAGE(x == 1,"Variable assignment failed.");
-}
-
-void test_multiplication(void)
-{
-    int x = 5;
-    int y = 6;
-    int z = x * y;
-    TEST_ASSERT_TRUE_MESSAGE(z == 30, "Multiplication of two integers returned incorrect value.");
-}
-
-int main (void)
-{
-    UNITY_BEGIN();
-    RUN_TEST(test_variable_assignment);
-    RUN_TEST(test_multiplication);
-    return UNITY_END();
-}
-```
+    1. This can make it easier for another person to find the test later.
+    1. Add the code template from `test.c` in this directory to the file.
     1. Your test must include a `setUp` and `tearDown` function. You can put any code in here that will be run at before and after each of test.
-    2. Your tests must have a `main` function.
+    1. Your tests must have a `main` function.
         1. This sets up the testing framework with the `UNITY_BEGIN` and `UNITY_END` macros.
-        2. For each test, you will call the `RUN_TEST` macro.
-4. Remove the example tests and add your own.
+        1. For each test, you will call the `RUN_TEST` macro.
+1.
+1. Remove the example tests and add your own.
     1. Tests by convention start with `test_` but don't need to.
-    2. Each test should generally demonstrate one possible case. Having multiple tests instead of one big one makes it easier to identify what is failing.
-5. If you find yourself having trouble setting up the test, you have too many parameters, or a dependency is getting in the way, try refactoring the function further. Follow the same techniques from the previous activities.
+    1. Each test should generally demonstrate one possible case. Having multiple tests instead of one big one makes it easier to identify what is failing.
+1. In your test, use any one of the GPIO peripherals available.
+1. Exercise the function under test and check the state of the GPIO peripherals.
+    1. Hint: check the docs at https://docs.zephyrproject.org/2.7.5/reference/peripherals/gpio.html for what functions are available to check the state of the GPIO peripheral.
+1. If you find yourself having trouble setting up the test, you have too many parameters, or a dependency is getting in the way, try refactoring the function further. Follow the same techniques from the previous activities.
 
 For more information, see the Unity documentation
 
@@ -286,13 +308,21 @@ https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsReferenc
 
 https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsCheatSheetSuitableforPrintingandPossiblyFraming.pdf
 
+#### Running the test
+
+
 #### Not everything needs a test.
 - Don't test external libraries.
 - Some things are trivial and don't need tests. If you aren't sure, write a test.
 - If something is not tested and breaks, write a test.
-
+- Unit tests generally try to test your logic and computations, interaction with the system peripherals and OS can often be better tested with a simulation or running on the device.
 https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
 
 #### Rinse & repeat
 1. Commit your changes.
 2. Continue refactoring and adding tests until you are satisfied with the test coverage.
+
+# Examples
+The directory `demo` contains a working project structure with no dependencies on Zephyr.
+
+The directory `reference` contains a working reference implementation of the lab.
