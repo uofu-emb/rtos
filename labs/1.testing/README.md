@@ -274,8 +274,8 @@ platform_packages =
 test_testing_command =
     ${platformio.packages_dir}/tool-renode/renode
     --disable-xwt
-    -e mach create "stm32f072b"
-    -e machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
+    -e mach create "stm32f072rb"
+    -e machine LoadPlatformDescription @platforms/boards/stm32f072rb_discovery.repl
     -e sysbus LoadELF @${platformio.build_dir}/${this.__env__}/firmware.elf
     -e start
 ```
