@@ -341,6 +341,23 @@ Finally show the usart1 interaction window and start the simulation.
 
 You should be able to type in the interaction terminal, and your system will echo the text you type.
 
+The hardware description sets up a series of device objects. If you specify an object with now function or member calls, it will show the documentation for that object.
+```
+(machine-0) sysbus.usart1
+```
+
+Let's write a small interaction that should blow up if we get an unexpected result.
+```
+sysbus.usart1 AddLineHook "HELLO" "assert(line == 'HELLO WORLD!')"
+sysbus.usart1 WriteLine 'hello world!'
+sysbus.usart1 DumpHistoryBuffer
+```
+
+You can put all of this into a script and run it from `renode script.repl`.
+
+
+# **Skip this for now, the installed renode package has a broken version of renode-test**
+
 ## Automating Renode tests with Robot Framework.
 With the simulation running, we would like to run a series of interactions and measure the behavior of the system.
 The Robot Framework provides a __domain specific language (DSL)__ which is specific to the Renode environment.
