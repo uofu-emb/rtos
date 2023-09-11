@@ -1,6 +1,4 @@
-void map(?)
-{
-}
+#include "map.h"
 
 int add5(int x)
 {

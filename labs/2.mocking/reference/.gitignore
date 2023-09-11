@@ -1,0 +1,6 @@
+.pio
+log.html
+report.html
+*.robot.xml
+robot_output.xml
+snapshots/*
