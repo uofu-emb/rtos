@@ -312,7 +312,7 @@ https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsCheatShe
 
 Run the test with this command. Because we are using the simulator, the test does not need to upload the binary.
 
-`pio test --without-uploading --environment disco_f072b`
+`pio test --without-uploading --environment disco_f072rb`
 
 #### Not everything needs a test.
 - Don't test external libraries.
