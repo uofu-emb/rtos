@@ -9,7 +9,7 @@ Mocking the implementation of peripheral or system function can work for simple 
 * Write unit tests in the context of libraries and other systems.
 * Use the C preprocessor to do conditional modification of source code.
 * Understand the syntax of function pointers.
-* Write function that take function pointers as arguments.
+* Write functions that take function pointers as arguments.
 * Understand how to use mocking techniques to break dependencies for testing.
 * Measure and test the behavior of code using mocked functionality.
 * Write tests in the context of a simulated environment.
@@ -68,10 +68,10 @@ void do_the_thing(void) {
 #endif
 ```
 
-The preprocessor is a powerful tool. It can be used to provide alternate implementations, change behavior for different runtime or platforms, disable or enable functionality, add debugging and tracing facilities. As with any powerful tool you can also shoot yourself in the foot.
+The preprocessor is a powerful tool. It can be used to provide alternate implementations, change behavior for different runtime or platforms, disable or enable functionality, add debugging and tracing facilities. As with any powerful tool, you can also shoot yourself in the foot.
 
 ### Activity
-In the `uart_hello.*` files, a functions is defined which uses a UART device. It echoes back any character received (in uppercase), until a newline character is received.
+In the `uart_hello.*` files, a function is defined which uses a UART device. It echoes back any character received (in uppercase), until a newline character is received.
 
 1. Use the preprocessor to conditionally control the implementation of the system uart functions.
     1. Define new functions `test_uart_out` and `test_uart_in` in your header file. Wrap them in a conditional, testing for the definition of TESTING_ENV.
@@ -294,7 +294,7 @@ Recall that in our project structure, code in `lib` can be used in both test and
 ### Activity
 1. Create a new test, and implement `uart_poll_in` and `uart_poll_out` functions directly in the test.
 
-## Other techniques to be aware of.
+## Other techniques to be aware of
 
 ### Redefine macros
 
@@ -303,7 +303,7 @@ The C preprocessor allows you to do all sorts of silly things, like undefine pre
 #undef TOGGLE_PIN(pin)
 #define TOGGLE_PIN(pin) my_toggle(pin)
 ```
-This isn't a good idea to do in normal practice - who knows what mayhem you could cause. But in a test, it's a technique you have available manipulate the behavior.
+This isn't a good idea to do in normal practice - who knows what mayhem you could cause. But in a test, it's a technique you have available to manipulate the behavior.
 
 ### Beware tight coupling
 Rebinding and mocking is often most useful when you have high visibility and accessibility into code. The danger is making your tests too coupled to the internal implementation of the code you are testing. Unit testing in general treats the unit under test as a black box. Mocking introduces a dependency of your test to the internals of the tested code.
@@ -311,7 +311,7 @@ Rebinding and mocking is often most useful when you have high visibility and acc
 # Simulation
 In the previous section we did some rebinding tricks to try and get visibility into the behavior of our system. This worked, but there were some drawbacks. Let's examine a different way to control and instrument the environment of our system.
 
-Our tests so far have focused on testing small units of functionality. We wrote test code using the Unity testing framework, which was designed to run on the microcontroller self-contained. Our tests worked on individual functions. Lets instead think of our program holistically as a system, which is interacting with some external environment.
+Our tests so far have focused on testing small units of functionality. We wrote test code using the Unity testing framework, which was designed to run on the microcontroller self-contained. Our tests worked on individual functions. Let's instead think of our program holistically as a system which is interacting with some external environment.
 
 https://renode.readthedocs.io/en/latest/introduction/using.html
 
