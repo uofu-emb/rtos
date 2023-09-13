@@ -1,3 +1,4 @@
+# Lab 3 Threads and shared state.
 # Learning objectives:
 Setup the operating system.
 Setup multiple threads.
@@ -5,35 +6,39 @@ Identify shared state and race conditions.
 Protect critical sections.
 Write unit tests.
 
+# Pre-lab
+## Readings
+Read the Zephyr thread, semaphore, and mutex documentation (You don't need to read the API Reference section)
+
+https://docs.zephyrproject.org/2.7.5/reference/kernel/threads/index.html
+
+https://docs.zephyrproject.org/2.7.5/reference/kernel/synchronization/semaphores.html
+
+https://docs.zephyrproject.org/2.7.5/reference/kernel/synchronization/mutexes.html
+
+Read sections 11.1 and 11.2 from Lee & Seshia.
+
+https://ptolemy.berkeley.edu/books/leeseshia/releases/LeeSeshia_DigitalV2_2.pdf
+
 ## Background.
 This is an overview of the basic concepts that will be used.
 #### Threads
-A **thread** is an __execution context__ managed by the operating system. The normal execution contexts for an embedded system running on bare metal are the main function execution and interrupt handlers. Threads have more in common with the main function than with interrupts - they typically run forever, and don't preempt the system. The main function execution context is often called the __main thread__.
+A **thread** is an __execution context__ managed by the operating system. The normal execution contexts for an embedded system running on bare metal are the main function execution and interrupt handlers. Threads have more in common with the main function than with interrupts - they typically run forever in a lop, and don't preempt the system in reaction to some event. The main function execution context is often called the __main thread__.
 
-k_thread
+In Zephyr, the structure that represents a thread is k_thread.
 
-#### Semaphores
-Semaphores are inter-context signalling mechanisms. There are many possible ways to use them - in our case we are using them as a way to create mutually exclusive (__mutex__) access around a shared state or resource. This is often simply called a __mutex__ or __lock__.
+#### Semaphores and Mutexes
+Semaphores are inter-context signalling mechanisms. There are many possible ways to use them - in our case we are using them as a way to create mutually exclusive (__mutex__) access around a shared state or resource. This is often simply called a __lock__.
 
-k_sem
+You'll often hear the terms mutex, lock, and semaphore used interchangeably. In Zephyr, a k_semaphore and a k_mutex are separate types with subtle difference in behavior. A Zephyr mutex is __reentrant__, which means a thread can take the mutex mutiple times (as long as it gives it the same number of times). It also manipulates priorities of the schedule. It should __not__ be used in an ISR. We'll use semaphores in this lab.
 
 Semaphores have a count, which represents the available resources. Semaphores have two operations, incrementing or decrementing the count.
 The operations are traditionally denoted as P and V, Dijkstra's earliest paper on the subject gives the Dutch terms __passering__ ("passing") as the meaning for P, and __vrijgave__ ("release") as the meaning for V.
 Alternate terms include down/up, wait/signal, acquire/release, and procur/vacate. In the Zephyr OS library the operation is **take** and **give**.
 
-When a process wants access to the resource(s), it attempts to __take__ the resource. If the count is zero, the process will need to wait until a resource is available. If the count is greater than zero, there are available resources, and the counter is decremented.  When the process is finished with the resource, it __gives__ the resource back, incrementing the counter.
+When a process wants access to the resource(s), it attempts to __take__ the resource. If the count is zero, the process will need to wait until a resource is available. If the count is greater than zero, there are available resources, and the counter is decremented.  When the process is finished with the resource, it __gives__ the resource back, decrementing the counter.
 
 The operating system handles the internal concerns of atomicity, tracking counter value, as well as blocking and waiting for availability.
-
-## Working with threads.
-### Activity
-1. Create a new project.
-2. Copy in the `thread.c` example file. Commit.
-3. Identify the execution contexts in the program, and their entry points.
-4. Identify shared state between execution contexts.
-5. Identify the semaphore.
-6. Predict the behavior of the program.
-7. Run the program and compare the output to your prediction.
 
 ## Shared state
 The execution contexts in this program both use two shared resources. The first is __shared state__, a global variable `counter` containing a count. The second is a shared system device, the standard IO `printk` function and its underlying serial output. These resources are not __thread-safe__, and cannot be accessed by more than one thread at a time. Anytime we access a shared resource we must do so in a mutually exclusive way.
@@ -41,10 +46,10 @@ The execution contexts in this program both use two shared resources. The first 
 ## Critical sections
 A __critical section__ refers to a block of code that **must** be executed mutually exclusive with other execution contexts that share resources.
 
-Critical sections should be small as possible - while in the critical section, other execution is halted. Like interrupt handlers, staying in a critical section for too long can __starve__ the system. We'll discuss this topic in detail in later labs. For now, any independent activity of the thread should be outside the bounds of the protected critical section
+Critical sections should be small as possible - while in the critical section, other execution is halted. Like interrupt handlers, staying in a critical section for too long can __starve__ the system. We'll discuss this topic in more detail in later labs. For now, any independent activity of the thread should be outside the bounds of the protected critical section
 
 ## Race conditions
-A __race condition__ is a scenario in which two threads have behavior that depends on the execution order of their code. If a thread can be preempted, it can and will be preempted at any point, even in the middle of a line of C code.
+A __race condition__ is a scenario in which two threads have behavior that depends on the execution order of their code. If a thread can be preempted, it can and will be preempted at any point, even in the middle of a line of C code. You should never rely on timing or chance for your code to work.
 
 ### You won't believe this one weird style trick
 In C, you can always create a block by wrapping code using curly braces. We can use this as a way to visually distinguish and organize our critical sections. Failing to unlock or release a resource is a common problem, so we want to be able to quickly verify that every take has a matching give.
@@ -59,6 +64,16 @@ This creates a visual distinction of what is "inside" vs "outside" of the contex
 
 I've never seen anyone else do this but me, but I think it is a good way to organize your code. Hopefully it catches on.
 
+# Lab
+## Working with threads.
+### Activity
+1. Create a new project.
+2. Copy in the `thread.c` example file. Commit.
+3. Identify the execution contexts in the program, and their entry points.
+4. Identify shared state between execution contexts.
+5. Identify the semaphore.
+6. Predict the behavior of the program.
+7. Run the program and compare the output to your prediction.
 
 ### Activity
 1. Are all uses of the shared resources in protected critical sections? Make any modifications necessary to protect the critical sections.
