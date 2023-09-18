@@ -3,7 +3,7 @@ In the previous lab, we made our code more testable by breaking dependencies and
 
 A common technique in unit testing is **mocking**. We replace the system function or other dependency with an implementation that we control. We'll explore some techniques for manipulating bindings in source code.
 
-Mocking the implementation of peripheral or system function can work for simple behavior, but for more complex behavior you might end up writing a full parallel implementation of the microcontroller environment. Instead of writing this ourselves, we'll leverage an existing tool called Renode. Renode provides an emulated environment where are given a working implementation of the system but also complete control and visibility. We'll write some tests using the simulator environment.
+Mocking the implementation of peripheral or system function can work for simple behavior, but for more complex behavior you might end up writing a full parallel implementation of the microcontroller environment. Instead of writing this ourselves, we'll leverage an existing tool called Renode. Renode provides an emulated environment where we are given a working implementation of the system but also complete control and visibility. We'll write some tests using the simulator environment.
 
 # Learning objectives
 * Write unit tests in the context of libraries and other systems.
