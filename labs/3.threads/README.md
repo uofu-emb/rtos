@@ -66,7 +66,7 @@ I've never seen anyone else do this but me, but I think it is a good way to orga
 
 # Lab
 ## Working with threads.
-### Activity
+### Activity 0
 1. Create a new project.
 2. Copy in the `thread.c` example file. Commit.
 3. Identify the execution contexts in the program, and their entry points.
@@ -75,7 +75,7 @@ I've never seen anyone else do this but me, but I think it is a good way to orga
 6. Predict the behavior of the program.
 7. Run the program and compare the output to your prediction.
 
-### Activity
+### Activity 1
 1. Are all uses of the shared resources in protected critical sections? Make any modifications necessary to protect the critical sections.
 2. Is the critical section starving the system? If so, make modifications to prevent starving the system.
 
@@ -88,41 +88,58 @@ Testing threaded coded is hard. Our test methodology so far relies on one execut
 5. Threads usually are long running, often with an infinite loop.
 6. Threads may block indefinitely waiting for a resource.
 
-### Activity
+### Activity 2
 1. Write a unit test for the thread code. Remember to separate functionality from execution context concerns, timing, and looping.
-2. Write a manual integration test plan.
-3. Write an integration test showing what happens with preemption. You will need to use the `k_thread
+1. You'll need to make some modifications to the code. Hints:
+    1. You don't need to test execution in a thread, but you should test the behavior of the lock and the side effect.
+    1. k_semaphore_take includes a timeout on waiting for the semaphore.
+    1. k_semaphore_take returns a status code, don't forget to check it.
+1. Don't forget to commit as you go.
 
-## Deadlock.
+## Thread control.
+Threads execution can be controlled. They can be created, destroyed, suspended, and prioritized.
+
+One typical concurrency pattern is _scatter-gather_: The _supervisor_ thread will launch several _worker_ threads to run in parallel (the scatter), each with some computation or long running tasks. The supervisor observes the status of the worker threads and collects the results (the gather).
+
+### Activity 3
+1. Create a thread that calculates the nth element of the Fibonacci sequence.
+    1. Fibonacci sequence defines the nth element as the sum of the n-1 and n-2 elements. n=0 is 0 and n=1 is 1.
+    1. You don't need to store the whole sequence, just calculate the target element.
+    1. You'll need to use entry point parameters on k_thread_create.
+    1. Pass in a target element number and an output parameter to store the result.
+1. Create a supervisor thread implementation that spawns 16 copies of the thread to calculate 16 elements, then blocks waiting for all threads to exit before exiting.
+    1. Hint: Look at k_thread_join, K_THREAD_STACK_ARRAY_DEFINE.
+1. Write a test. Your test should spawn the supervisor thread and wait for it to complete and check the results.
+
+# Deadlock.
 __Deadlock__ is a condition when one thread holds a lock and is incapable of releasing it.
 Let's examine two possible cases of deadlock.
-### Case 1
+## Case 1
 There are two threads, and two locks.
 One thread has lock A, and is waiting for a lock B. The other thread holds lock B and is waiting for resource A.
 
-#### Activity
+### Activity 4
 1. Write code that creates this situation.
 2. Write a test that shows this code will lock.
-
-### Case 2, the orphaned lock.
+3. https://docs.zephyrproject.org/2.7.5/reference/timing_functions/index.html
+## Case 2, the orphaned lock.
 A thread acquires a lock but fails to properly release it.
 ```
 void orphaned_lock(void)
 {
     while (1) {
-        k_sem_take(&semaphore, K_FOREVER);
+        k_semaphore_take(&semaphore, K_FOREVER);
+        counter++;
         if (counter % 2) {
-            continue
+            continue;
         }
-        printk("hello world from %s! Count %d\n", "thread", counter);
+        printk("Count %d\n", counter);
         k_sem_give(&semaphore);
     }
 }
 ```
-### Activity
+### Activity 5
 1. Write a test for the functionality of the thread.
 2. Write a test showing the thread will deadlock.
 3. Create a new version of the code that will not deadlock.
 4. Write a test showing the thread will not deadlock.
-
-https://docs.zephyrproject.org/latest/develop/test/ztest.html#stress-test-framework
