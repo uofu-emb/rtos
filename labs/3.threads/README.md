@@ -74,6 +74,7 @@ I've never seen anyone else do this but me, but I think it is a good way to orga
 5. Identify the semaphore.
 6. Predict the behavior of the program.
 7. Run the program and compare the output to your prediction.
+    1. The easiest way to do this is to copy the file into `test`, remove the `--disable-xwt` argument in platform.io and run the `pio test` command.
 
 ### Activity 1
 1. Are all uses of the shared resources in protected critical sections? Make any modifications necessary to protect the critical sections.
@@ -96,21 +97,6 @@ Testing threaded coded is hard. Our test methodology so far relies on one execut
     1. k_semaphore_take returns a status code, don't forget to check it.
 1. Don't forget to commit as you go.
 
-## Thread control.
-Threads execution can be controlled. They can be created, destroyed, suspended, and prioritized.
-
-One typical concurrency pattern is _scatter-gather_: The _supervisor_ thread will launch several _worker_ threads to run in parallel (the scatter), each with some computation or long running tasks. The supervisor observes the status of the worker threads and collects the results (the gather).
-
-### Activity 3
-1. Create a thread that calculates the nth element of the Fibonacci sequence.
-    1. Fibonacci sequence defines the nth element as the sum of the n-1 and n-2 elements. n=0 is 0 and n=1 is 1.
-    1. You don't need to store the whole sequence, just calculate the target element.
-    1. You'll need to use entry point parameters on k_thread_create.
-    1. Pass in a target element number and an output parameter to store the result.
-1. Create a supervisor thread implementation that spawns 16 copies of the thread to calculate 16 elements, then blocks waiting for all threads to exit before exiting.
-    1. Hint: Look at k_thread_join, K_THREAD_STACK_ARRAY_DEFINE.
-1. Write a test. Your test should spawn the supervisor thread and wait for it to complete and check the results.
-
 # Deadlock.
 __Deadlock__ is a condition when one thread holds a lock and is incapable of releasing it.
 Let's examine two possible cases of deadlock.
@@ -121,7 +107,10 @@ One thread has lock A, and is waiting for a lock B. The other thread holds lock 
 ### Activity 4
 1. Write code that creates this situation.
 2. Write a test that shows this code will lock.
+    1. You'll need to have your test wait for a short period of time, check the state of the threads, and then kill them with k_thread_abort.
+    1. Hint: you might find it useful to pass semaphores or other data into the thread with the three available p1, p2, and p3 general parameters passed to the thread entry function.
 3. https://docs.zephyrproject.org/2.7.5/reference/timing_functions/index.html
+
 ## Case 2, the orphaned lock.
 A thread acquires a lock but fails to properly release it.
 ```
@@ -141,5 +130,6 @@ void orphaned_lock(void)
 ### Activity 5
 1. Write a test for the functionality of the thread.
 2. Write a test showing the thread will deadlock.
+    1. Recall your test will need to kill the deadlocked threads before it can complete.
 3. Create a new version of the code that will not deadlock.
 4. Write a test showing the thread will not deadlock.
