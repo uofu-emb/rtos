@@ -40,80 +40,64 @@ void test_loop_runs(void)
 }
 
 /**************** Activity 3 ****************/
-void test_fib_calc(void)
-{
-    TEST_ASSERT_EQUAL_INT(0, nth_fibonacci(0));
-    TEST_ASSERT_EQUAL_INT(1, nth_fibonacci(1));
-    TEST_ASSERT_EQUAL_INT(1, nth_fibonacci(2));
-    TEST_ASSERT_EQUAL_INT(2, nth_fibonacci(3));
-    TEST_ASSERT_EQUAL_INT(3, nth_fibonacci(4));
-    TEST_ASSERT_EQUAL_INT(5, nth_fibonacci(5));
-    TEST_ASSERT_EQUAL_INT(8, nth_fibonacci(6));
-    TEST_ASSERT_EQUAL_INT(267914296, nth_fibonacci(42));
-}
-
-#define STACK_SIZE 100
-#define THREAD_COUNT 4
-K_THREAD_STACK_ARRAY_DEFINE(fib_stack, THREAD_COUNT, STACK_SIZE);
-K_THREAD_STACK_DEFINE(sup_stack, STACK_SIZE);
-
-void test_fibonacci(void)
-{
-    struct k_thread threads[THREAD_COUNT];
-    struct k_thread *pool_threads[THREAD_COUNT];
-    struct k_thread supervisor;
-    struct thread_pool pool = {pool_threads, fib_stack, THREAD_COUNT, STACK_SIZE};
-
-    int results[THREAD_COUNT];
-    int args[THREAD_COUNT];
-    int expected[THREAD_COUNT];
-    for (int i = 0; i < THREAD_COUNT; i++) {
-        args[i] = i;
-        expected[i] = nth_fibonacci(i);
-        pool_threads[i] = &threads[i];
-    }
-    struct fibonacci calc = {args, results, THREAD_COUNT};
-
-    int result = async_fibonacci(&supervisor, sup_stack, STACK_SIZE, &pool, &calc);
-    TEST_ASSERT_EQUAL_INT(0, result);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected, results, THREAD_COUNT);
-}
-
-/**************** Activity 4 ****************/
+#define STACK_SIZE 200
 K_THREAD_STACK_DEFINE(left_stack, STACK_SIZE);
 K_THREAD_STACK_DEFINE(right_stack, STACK_SIZE);
-struct k_thread left_thread, right_thread;
+K_THREAD_STACK_DEFINE(sup_stack, STACK_SIZE);
+struct k_thread left_thread, right_thread, sup_thread;
+struct k_sem left, right;
+
+int counter1 = 0;
+int counter0 = 42;
+void deadlock_supervisor(void)
+{
+    k_sem_init(&left, 1, 1);
+    // Right starts locked,
+    k_sem_init(&right, 1, 1);
+    printf("- Creating threads\n");
+    printf("- address deadlock %d\n", (int)deadlock);
+    k_tid_t l = k_thread_create(&left_thread, left_stack, STACK_SIZE,
+                                (k_thread_entry_t) deadlock,
+                                &left, &right, &counter1,
+                                K_PRIO_COOP(6),
+                                0,
+                                K_NO_WAIT);
+    k_tid_t r = k_thread_create(&right_thread, right_stack, STACK_SIZE,
+                                (k_thread_entry_t) deadlock,
+                                &left, &right, &counter0,
+                                K_PRIO_COOP(6),
+                                0,
+                    K_NO_WAIT);
+    printf("-Created threads\n");
+    printf("-Waiting\n");
+    for (int i = 0; i < 10; i++) {
+        printf("Status left %s\n", k_thread_state_str(l));
+        printf("Status right %s\n", k_thread_state_str(r));
+        k_sleep(K_MSEC(10));
+    }
+    printf("-Killing threads\n");
+    k_thread_abort(l);
+    k_thread_abort(r);
+    printf("-Killed threads\n");
+}
 
 void test_deadlock(void)
 {
-    struct k_sem left, right;
-    k_sem_init(&left, 1, 1);
-    // Right starts locked,
-    k_sem_init(&right, 0, 1);
-    int counter;
-    // Give threads semaphores in the opposite order
-    k_thread_create(&left_thread, left_stack, STACK_SIZE,
-                    (k_thread_entry_t) deadlock,
-                    &left, &right, &counter,
-                    K_PRIO_COOP(7),
+    printf("-Starting deadlock test\n");
+    k_thread_create(&sup_thread, sup_stack, STACK_SIZE,
+                    (k_thread_entry_t) deadlock_supervisor,
+                    NULL, NULL, NULL,
+                    K_PRIO_COOP(6),
                     0,
                     K_NO_WAIT);
-    k_thread_create(&right_thread, right_stack, STACK_SIZE,
-                    (k_thread_entry_t) deadlock,
-                    &right, &left, &counter,
-                    K_PRIO_COOP(7),
-                    0,
-                    K_NO_WAIT);
-    k_busy_wait(50);
-    k_thread_abort(&right_thread);
-    k_thread_abort(&left_thread);
+    k_thread_join(&sup_thread, K_FOREVER);
     TEST_ASSERT_EQUAL_INT(0, k_sem_count_get(&left));
     TEST_ASSERT_EQUAL_INT(0, k_sem_count_get(&right));
-    TEST_ASSERT_EQUAL_INT(0, counter);
+    TEST_ASSERT_EQUAL_INT(44, counter0);
+    TEST_ASSERT_EQUAL_INT(2, counter1);
 }
 
-
-/**************** Activity 5 ****************/
+/**************** Activity 4 ****************/
 void test_orphaned(void)
 {
     int counter = 1;
@@ -157,12 +141,10 @@ void test_unorphaned(void)
 int main (void)
 {
     UNITY_BEGIN();
+    RUN_TEST(test_deadlock);
     RUN_TEST(test_loop_blocks);
     RUN_TEST(test_loop_runs);
     RUN_TEST(test_orphaned);
     RUN_TEST(test_unorphaned);
-    RUN_TEST(test_fib_calc);
-    RUN_TEST(test_fibonacci);
-    RUN_TEST(test_deadlock);
     return UNITY_END();
 }
