@@ -15,10 +15,12 @@ void thread_entry(void)
 {
 	struct k_timer timer;
 	k_timer_init(&timer, NULL, NULL);
+    k_timer_start(&timer, K_MSEC(SLEEPTIME/2), K_NO_WAIT);
+    k_timer_status_sync(&timer);
 
 	while (1) {
-        counter = counter + 1;
-		printk("hello world from %s! Count %d\n", "thread", counter);
+        *counter++;
+		printk("hello world from %s! Count %d\n", "thread", *counter);
 		k_timer_start(&timer, K_MSEC(SLEEPTIME), K_NO_WAIT);
 		k_timer_status_sync(&timer);
 	}
@@ -27,6 +29,7 @@ void thread_entry(void)
 int main(void)
 {
     counter = 0;
+    k_sem_init(&semaphore, 1, 1);
     k_thread_create(&coop_thread,
                     coop_stack,
                     STACKSIZE,
