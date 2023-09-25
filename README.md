@@ -125,27 +125,27 @@ The class will work together on a large project to apply the concepts learned in
 | Aug. 21 |  | Course syllabus, assign case study presentations. Git review, pull requests. |
 | Aug. 23 | Lab 0 hello world! | Real Time OS features, bare metal comparison.  |
 | Aug. 28 | Lab 1 Testing techniques | Testing techniques, refactoring, writing for testability |
-| Aug. 30 | Lab 2 Mocking | Function binding hijinks |
+| Aug. 30 | Lab 1 con't | |
 | Sept. 4| Labor Day | Relax |
-| Sept. 6  | Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
-| Sept. 11 | Lab 4 Interprocess communication | Communication patterns |
-| Sept. 13 | Lab 4 con't | Non-blocking patterns |
-| Sept. 18.|Lab 5 Real-time systems | Real Time requirements |
-| Sept. 20| Lab 5 con't |  |
-| Sept. 25|  Lab 6 Scheduling | scheduling, prioritization |
-| Sept. 27 |Lab 6 con't | Priority inversion |
-| Oct. 2 | Lab 7 CAN Bus | Networking |
-| Oct. 4 |  Lab 7 con't| real-time communication |
+| Sept. 6  | Lab 1 con't | |
+| Sept. 11 | Lab 2 Mocking | Function binding hijinks |
+| Sept. 13 | Lab 2 con't | |
+| Sept. 18.| Lab1/2 completion | |
+| Sept. 20| Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
+| Sept. 25|  Lab 3 con't| |
+| Sept. 27 | Lab 4 Interprocess communication | Communication patterns |
+| Oct. 2 | Lab 5 Real-time systems | Real Time requirements |
+| Oct. 4 |  Lab 5 con't |  |
 | Oct. 9 | fall break | |
 | Oct. 11 | fall break | |
-| Oct. 16 | Lab 8 Error handling | Safety, network, reliability (start case study presentations) |
-| Oct. 18 | Lab 8 con't | |
-| Oct. 23 | Lab 9 Power |Measuring and estimating power|
-| Oct. 25 | Lab 9 con't | Event driven systems. |
-| Oct. 30 | Project begins | |
-| Nov. 1 | | |
-| Nov. 6 | | |
-| Nov. 8 | | |
+| Oct. 16 | Lab 6 Scheduling | **Presentations** scheduling, prioritization |
+| Oct. 18 | Lab 6 con't | Priority inversion |
+| Oct. 23 |  Lab 7 CAN Bus | Networking |
+| Oct. 25 | Lab 7 con't| real-time communication |
+| Oct. 30 | Lab 8 Error handling | Safety, network, reliability (start case study presentations) |
+| Nov. 1 | Lab 8 con't | |
+| Nov. 6 |Lab 9 Power |Measuring and estimating power|
+| Nov. 8 |Lab 9 con't  | |
 | Nov. 13 | | |
 | Nov. 15 | | |
 | Nov. 20 | | |
