@@ -20,23 +20,25 @@ int do_loop(struct k_timer *timer,
     return 0;
 }
 
+/* void deadlock(void *l, void *r, void *c) */
 void deadlock(struct k_sem *a, struct k_sem *b, int *counter)
 {
-    printk("inside deadlock %d\n", *counter);
+    int id = *counter;
+    printk("\tinside deadlock %d\n", id);
     (*counter)++;
     struct k_timer timer;
 	k_timer_init(&timer, NULL, NULL);
     k_sem_take(a, K_FOREVER);
     {
         (*counter)++;
-        printk("\tinside first lock %d\n", *counter);
+        printk("\tinside first lock %d\n", id);
         k_yield();
-        printk("\tpost-yield %d\n", *counter);
-        k_timer_start(&timer, K_MSEC(10), K_NO_WAIT);
+        printk("\tpost-yield %d\n", id);
+        k_timer_start(&timer, K_MSEC(100), K_NO_WAIT);
         k_timer_status_sync(&timer);
         k_sem_take(b, K_FOREVER);
         {
-            printk("\tinside second lock %d\n", *counter);
+            printk("\tinside second lock %d\n", id);
             (*counter)++;
         }
         k_sem_give(b);

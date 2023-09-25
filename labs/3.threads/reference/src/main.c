@@ -7,6 +7,7 @@
 struct k_sem semaphore;
 int counter;
 
+#define SLEEPTIME 1000
 #define THREAD_COUNT 16
 #define STACKSIZE 100
 K_THREAD_STACK_ARRAY_DEFINE(coop_stack, THREAD_COUNT, STACKSIZE);
