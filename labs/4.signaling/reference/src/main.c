@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <zephyr.h>
 #include <arch/cpu.h>
-#include <sys/printk.h>
 
 #define STACKSIZE 2000
 #define SLEEPTIME 1000
@@ -16,25 +15,30 @@ int output;
 
 void handle_calculation(void)
 {
-    k_sem_take(request);
+    k_sem_take(&request, K_FOREVER);
+    printf("Handling calculation");
     output = input + 5;
-    k_sem_give(response);
-    k_sem_give(request);
+    k_sem_give(&response);
+    printf("Done with calculation");
+    k_sem_give(&request);
     k_yield();
-    k_sem_take(response);
+    k_sem_take(&response, K_FOREVER);
 }
 
 void request_async_calculate(int value)
 {
     input = value;
+    printf("Handoff to worker");
     k_sem_give(&request);
     k_yield();
 }
 
 int block_for_result(void)
 {
+    printf("Waiting for results");
     k_sem_take(&response, K_FOREVER);
     k_sem_take(&request, K_FOREVER);
+    printf("Got result");
     k_sem_give(&response);
     return output;
 }
@@ -48,9 +52,9 @@ void thread_entry(void)
 
 int main(void)
 {
-    k_sem_take(&response, K_FOREVER);
-    k_sem_take(request);
-
+    k_sem_init(&request, 0, 1);
+    k_sem_init(&response, 0, 1);
+    printf("Starting worker thread");
     k_thread_create(&coop_thread,
                     coop_stack,
                     STACKSIZE,
@@ -66,10 +70,10 @@ int main(void)
 	k_timer_init(&timer, NULL, NULL);
     int counter = 0;
     while (1) {
-        printk("Requesting calculation %d", counter++);
-        request_async_calculate(counter++);
-        int result = await_result();
-        printk("Got result %d", result);
+        printf("Requesting calculation");
+        request_async_calculate(counter);
+        int result = block_for_result();
+        printf("Got result %d for %d", result, ++counter);
         k_timer_start(&timer, K_MSEC(SLEEPTIME), K_NO_WAIT);
         k_timer_status_sync(&timer);
 	}

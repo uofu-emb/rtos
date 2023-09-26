@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <zephyr.h>
 #include <arch/cpu.h>
-#include <sys/printk.h>
 
 #define STACKSIZE 2000
-#define SLEEPTIME 1000
 
 struct k_thread coop_thread;
 K_THREAD_STACK_DEFINE(coop_stack, STACKSIZE);
@@ -16,27 +14,25 @@ int output;
 
 void handle_calculation(void)
 {
-    k_sem_take(request);
+    printf("+ Waiting for request\n");
+    k_sem_take(&request, K_FOREVER);
+    printf("+ Handling calculation\n");
     output = input + 5;
-    k_sem_give(response);
-    k_sem_give(request);
-    k_yield();
-    k_sem_take(response);
+    k_sleep(K_MSEC(1));
+    printf("+ Done with calculation\n");
+    k_sem_give(&response);
 }
 
-void request_async_calculate(int value)
+int request_calculate(int value)
 {
     input = value;
+    printf("- Handoff to worker\n");
     k_sem_give(&request);
-    k_yield();
-}
-
-int block_for_result(void)
-{
+    printf("- Waiting for results\n");
     k_sem_take(&response, K_FOREVER);
-    k_sem_take(&request, K_FOREVER);
-    k_sem_give(&response);
+    printf("- Result ready\n");
     return output;
+
 }
 
 void thread_entry(void)
@@ -48,9 +44,9 @@ void thread_entry(void)
 
 int main(void)
 {
-    k_sem_take(&response, K_FOREVER);
-    k_sem_take(request);
-
+    k_sem_init(&request, 0, 1);
+    k_sem_init(&response, 0, 1);
+    printf("Starting worker thread\n");
     k_thread_create(&coop_thread,
                     coop_stack,
                     STACKSIZE,
@@ -61,17 +57,10 @@ int main(void)
                     K_PRIO_COOP(7),
                     0,
                     K_NO_WAIT);
-
-	struct k_timer timer;
-	k_timer_init(&timer, NULL, NULL);
-    int counter = 0;
-    while (1) {
-        printk("Requesting calculation %d", counter++);
-        request_async_calculate(counter++);
-        int result = await_result();
-        printk("Got result %d", result);
-        k_timer_start(&timer, K_MSEC(SLEEPTIME), K_NO_WAIT);
-        k_timer_status_sync(&timer);
+    for (int counter = 0; counter < 8; counter++) {
+        k_sleep(K_MSEC(5000));
+        int result = request_calculate(counter);
+        printf("- Got result %d for %d\n", result, counter);
 	}
 
 	return 0;
