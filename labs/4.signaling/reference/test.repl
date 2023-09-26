@@ -1,0 +1,36 @@
+mach create
+machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
+sysbus LoadELF @.pio/build/disco_board/firmware.elf
+showAnalyzer sysbus.usart1
+start
+
+
+# emulationManager Antmicro.Renode.Core.EmulationManager
+# pythonEngine
+# System
+# Antmicro
+# Renode
+# Monitor
+# 'Antmicro': <module 'Antmicro' (CLS module, 3 assemblies loaded)>,
+# 'System': <module 'System' (CLS module, 2 assemblies loaded)>,
+# 'time': <module 'time' (built-in)>,
+# 'sys': <module 'sys' (built-in)>,
+# 'LogLevel': <type 'LogLevel'>,
+# 'sleep': <built-in function sleep>,
+# 'Renode': <module 'Renode' (CLS module, 3 assemblies loaded)>,
+# 'current_value': 0,
+# 'mc_uart_connect': <function mc_uart_connect at 0x000000000000002D>,
+# 'mc_next_value': <function mc_next_value at 0x000000000000002E>,
+# 'mc_sleep': <function mc_sleep at 0x000000000000002F>,
+# 'mc_console_log': <function mc_console_log at 0x0000000000000030>,
+# 'mc_echo': <function mc_echo at 0x0000000000000031>,
+# 'mc_dump': <function mc_dump at 0x0000000000000032>,
+# 'mc_dump_file': <function mc_dump_file at 0x0000000000000033>,
+# 'mc_get_environ': <function mc_get_environ at 0x0000000000000034>,
+# 'self': <Antmicro.Renode.UserInterface.Monitor object at 0x0000000000000035 [Antmicro.Renode.UserInterface.Monitor]>,
+# 'monitor': <Antmicro.Renode.UserInterface.Monitor object at 0x0000000000000035 [Antmicro.Renode.UserInterface.Monitor]>,
+# sysbustime,
+# logLevelsleep
+# https://github.com/renode/renode/blob/master/scripts/monitor.py
+#python "for k, v in globals().items(): print(k, v)"
+#python "for k, v in locals().items(): print(k, v)"
