@@ -1,4 +1,3 @@
-#ifdef KERNEL_ACTIVITY
 #include <zephyr.h>
 #include <device.h>
 #include <devicetree.h>
@@ -21,4 +20,3 @@ void kernel_main(void)
 		k_timer_status_sync(&t);
     }
 }
-#endif
