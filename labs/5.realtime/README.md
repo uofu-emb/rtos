@@ -78,26 +78,63 @@ The files are:
 * `kernel.c`: a loop with a delay using `k_timer`
 * `rtc.c`: an alarm interrupt from the RTC
 
-For each of the cases, use an oscilloscope to measure jitter and drift of the time keeping method.
+1. For each of the cases, use an oscilloscope to measure jitter and drift of the time keeping method.
+   1. Read through the code, see what it does.
+   1. Load the code onto your board (e.g. `pio run -t upload -e sleep`)
+   1. Measure the jitter (see instructions below)
+   1. Once you are finished, modify the code - introduce a k_busy_wait call after the GPIO is toggled.
+       1.Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).    1. Measure the jitter with several delay values.
+1. Measure the jitter of the Agilent function generator operating at the same frequency for comparison.
 
-Capture the data. They'll need some matlab or python to process the data.
+### Measuring jitter with the R&S RTM3004
+More information in the manual section 8.2
 
-Commit a report and the data.
+1. Set source to the appropriate channel
+1. Press the "Meas" button.
+1. Select "Meas. Place" and select 1 to add a first measurement.
+1. Set "Type" to "Period"
+1. Set "Statistics" to on (should be blue)
+1. Set "Measure X" to on if it isn't.
+1. Statistics for current, min, max, mean, stddev, and count should be shown.
+1. Select "Meas. Place" and select 2 to add a second measurement.
+1. Add another measurement for frequency.
+1. Add another measurement for duty cycle.
+1. Using these measurements, calculate the drift over a 1 hour period.
 
+### Capturing data with the RTM3004
+More information in the manual section 10.2 for flash drive and section 12.2 for MTP.
 
+1. To save to a flash drive inserted into the front panel
+    1. You can save the complete capture history, though this can be a lot of data. It's easier to capture the current display data.
+        1. Set a large display by setting the horizontal scale to 100s
+        1. Wait a while.
+    1. Stop acquisition with "Run Stop" in the Trigger section
+    1. Press "Save Load" in the Action section.
+    1. Select "Waveforms" from the touchscreen.
+    1. Change "Points" to "Display data"
+    1. CSV is a good file format for use with other tools.
+1. Transfer files with MTP.
+    1. Connect the USB cable from the rear of the scope to your computer.
+    1. If you are on a Windows or Linux machine, it should appear as an attached drive.
+        1. Apple still refuses to implement MTP in OSX natively. I wasn't able to get OpenMTP working, your mileage may vary.
+    1. Data should be "Live Data/Channel/Acquisition Memory"
+
+Manual for the scope is here:
+
+https://www.rohde-schwarz.com/us/manual/r-s-rtm3000-user-manual-manuals_78701-508356.html
 ## Activity
 Measure the latency of an interrupt handler.
 
-Run the code `gpio_interrupt.c`
-
-When an interrupt is triggered on a GPIO pin, toggles another GPIO pin, goes back to sleep.
-
-CPU is idle in `k_sleep(K_FOREVER)`;
-Drive with a signal generator.
+1. Review and run the code `gpio_interrupt.c`
+1. Attach the Sync output from the signal generator to the oscilloscope and use as the trigger.
+1. Drive the board with the signal generator output on pin A1.
+   1. **Make sure to check the output voltages on the oscilloscope before attaching it to your board or you'll let the magic smoke out!** Set amplitude HiLevel to 3.3V, LoLevel to 0.0 V.
+1. Measure the delay between the sync signal and the output from the board.
+1. Increase the delay using a busy wait loop as before.
 
 ## Activity
-Modify the latency by adding in a message queue. From the interrupt handler send a message.
-
-Create a new thread that reads messages from the queue and toggles the output pin when a message is received.
-
-Measure the latency again.
+1. Modify the interrupt handler by adding in a message queue.
+1. From the interrupt handler send a message.
+1. Create a new thread that reads messages from the queue and toggles the output pin when a message is received.
+1. Measure the latency again.
+1. Add a busy wait delay to the message handler.
