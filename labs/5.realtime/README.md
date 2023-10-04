@@ -77,13 +77,15 @@ The files are:
 * `sleep.c` : a loop with a delay using `k_sleep`.
 * `kernel.c`: a loop with a delay using `k_timer`
 * `rtc.c`: an alarm interrupt from the RTC
+* `busy.c`: a loop with a delay using `k_busy_wait`
 
 1. For each of the cases, use an oscilloscope to measure jitter and drift of the time keeping method.
    1. Read through the code, see what it does.
    1. Load the code onto your board (e.g. `pio run -t upload -e sleep`)
    1. Measure the jitter (see instructions below)
    1. Once you are finished, modify the code - introduce a k_busy_wait call after the GPIO is toggled.
-       1.Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).    1. Measure the jitter with several delay values.
+       1.Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).
+       1. Measure the jitter with several delay values. Make sure to go up to a large value, such as would come from reading 1KB of data
 1. Measure the jitter of the Agilent function generator operating at the same frequency for comparison.
 
 ### Measuring jitter with the R&S RTM3004
@@ -102,7 +104,7 @@ More information in the manual section 8.2
 1. Using these measurements, calculate the drift over a 1 hour period.
 
 ### Capturing data with the RTM3004
-More information in the manual section 10.2 for flash drive and section 12.2 for MTP.
+More information in the manual section 10.2 for flash drive and section 12.2 for MTP. (I wrote these instructions when I was learning the features of the scope, you don't need to do this data capture during the lab.)
 
 1. To save to a flash drive inserted into the front panel
     1. You can save the complete capture history, though this can be a lot of data. It's easier to capture the current display data.
@@ -130,11 +132,11 @@ Measure the latency of an interrupt handler.
 1. Drive the board with the signal generator output on pin A1.
    1. **Make sure to check the output voltages on the oscilloscope before attaching it to your board or you'll let the magic smoke out!** Set amplitude HiLevel to 3.3V, LoLevel to 0.0 V.
 1. Measure the delay between the sync signal and the output from the board.
-1. Increase the delay using a busy wait loop as before.
+1. Increase the delay using a busy wait loop as before. (Put the delay before the toggle)
 
 ## Activity
 1. Modify the interrupt handler by adding in a message queue.
 1. From the interrupt handler send a message.
 1. Create a new thread that reads messages from the queue and toggles the output pin when a message is received.
 1. Measure the latency again.
-1. Add a busy wait delay to the message handler.
+1. Add a busy wait delay to the message handler. (Put the delay before the toggle)
