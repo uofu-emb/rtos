@@ -1,12 +1,8 @@
 &rtc {
-	status = "okay";
+    prescaler = < 0x0010 >;
+    status = "okay";
 };
 
-&timers2 {
+&timers14 {
 	status = "okay";
-	counters2: counter {
-		compatible = "st,stm32-counter";
-		status = "okay";
-		label = "COUNTER_2";
-	};
 };
