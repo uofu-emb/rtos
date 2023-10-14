@@ -29,7 +29,7 @@
 extern "C"
 {
 #endif
-
+#define UNITY_SUPPORT_64
 void unityOutputStart();
 void unityOutputChar(char);
 void unityOutputFlush();
