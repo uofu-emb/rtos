@@ -1,18 +1,24 @@
-usart2: serial@40004400 {
-	compatible = "st,stm32-usart", "st,stm32-uart";
-	reg = < 0x40004400 0x400 >;
-	clocks = < &rcc 0x2 0x20000 >;
-	interrupts = < 0x1c 0x0 >;
-	status = "okay";
-	label = "UART_2";
-    pinctrl-0 = <&usart2_cts_pa0 &usart2_rts_pa1 &usart2_tx_pa2 &usart2_rx_pa3>;
-};
-usart3: serial@40004800 {
-    compatible = "st,stm32-usart", "st,stm32-uart";
-    reg = <0x40004800 0x400>;
-    clocks = <&rcc STM32_CLOCK_BUS_APB1 0x00040000>;
-    interrupts = <29 0>;
+&usart2 {
     status = "okay";
-    label = "UART_3";
-    pinctrl-0 = <&usart3_cts_pb13 &usart3_rts_pb14 &usart3_tx_pb10 &usart3_rx_pb11>;
-}
+    pinctrl-0 = < &usart2_tx_pa2 &usart2_rx_pa3 &usart2_cts_pa0 &usart2_rts_pa1 >;
+    current-speed = < 0x1c200 >;
+};
+
+/ {
+    chosen {
+        zephyr,console = &usart1;
+        zephyr,shell-uart = &usart1;
+    };
+    soc {
+        usart3: serial@40004800 {
+            compatible = "st,stm32-usart", "st,stm32-uart";
+            reg = <0x40004800 0x400>;
+            clocks = <&rcc STM32_CLOCK_BUS_APB1 0x00040000>;
+            interrupts = <29 0>;
+            status = "okay";
+            label = "UART_3";
+            pinctrl-0 = < &usart3_cts_pb13 &usart3_rts_pb14 &usart3_tx_pb10 &usart3_rx_pb11 >;
+			current-speed = < 0x1c200 >;
+        };
+    };
+};
