@@ -157,31 +157,17 @@ void busy_sleep(char *name)
 1. Predict the share of the runtime for each of the threads.
 
 ### Activity 3
+Message queues and other communication channels can become saturated with data if the
 
-The RS-232 communication protocol works by sending bytes at specific frequency called the _baudrate_. Data cannot be transmitted faster than the communication channel allows.
+1. Create a message queue
+1. Create a producer thread and a consumer thread.
+1. The producer should produce data faster than the consumer consumes.
+    1. Add a busy wait to the consumer to emulate a long computation.
+    1. The producer should produce data to the queue. If the queue is full, lose the data.
+1. Track the production and consumption rates, the throughput and any data loss.
 
-1. Create a producing thread that sends data using `uart_poll_out`
-    1. It should repeatedly write out the 95 ASCII printable characters, in the range 0x20 to 0x7d inclusive.
-    1. It should track a count of how many bytes it sent.
-1. Create a consuming thread that reads data using `uart_poll_in`
-    1. It should operate at a higher priority than the producer.
-    1. It should read as many bytes are available.
-    1. If no bytes are available, the thread should sleep for 1 ms.
-    1. It should track how a count of how many bytes it received.
-1. Connect the TX line to the RX line of the UART on your board.
-1. Test the throughput of the system.
-1. Verify that no data is being dropped.
+You'll need to pay attention to the reshedule points in your threads and their priority.
 
 ### Activity 4
-RS-232 includes additional pins that are used to coordinate and control between the data terminal equipment (DTE) and the data communication equipment (DCE). This historically was used by a dumb terminal or a computer (the DTE) connecting to a modem (the DCE).
 
-The standard includes the request to send (RTS) and clear to send (CTS) signals. These can be used for _flow control_. If one of the devices cannot handle incoming data, it signals to the other device to halt transmission. THe difference between RTS and CTS lies in the direction of the connection. For our purposes, we will setup the UART in a _null modem_ configuration, with the two signals tied together.
-
-https://docs.zephyrproject.org/2.7.5/reference/peripherals/uart.html#c.uart_config_flow_control.UART_CFG_FLOW_CTRL_RTS_CTS
-
-1. Use the same producer/consumer pair from activity 3.
-1. Connect the RTS and CTS pins on the board together.
-1. Enable flow control.
-1. Use the oscilloscope to observe the CTS line.
-1. Measure the throughput again.
-1. Verify that no data is being dropped.
+1. Create a variant on the producer consumer from activity 3, but make it lossless.
