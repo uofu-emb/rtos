@@ -155,19 +155,3 @@ void busy_sleep(char *name)
 ```
 1. Write tests for two threads: one should run `busy_sleep` and the other `busy_yield`
 1. Predict the share of the runtime for each of the threads.
-
-### Activity 3
-Message queues and other communication channels can become saturated with data if the
-
-1. Create a message queue
-1. Create a producer thread and a consumer thread.
-1. The producer should produce data faster than the consumer consumes.
-    1. Add a busy wait to the consumer to emulate a long computation.
-    1. The producer should produce data to the queue. If the queue is full, lose the data.
-1. Track the production and consumption rates, the throughput and any data loss.
-
-You'll need to pay attention to the reshedule points in your threads and their priority.
-
-### Activity 4
-
-1. Create a variant on the producer consumer from activity 3, but make it lossless.
