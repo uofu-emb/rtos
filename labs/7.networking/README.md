@@ -33,3 +33,22 @@ https://www.researchgate.net/publication/322500050_Fallacies_of_Distributed_Comp
 Read this article
 
 https://www.dnsstuff.com/what-is-network-topology
+
+# Lab
+
+## Activity 0
+send messages.
+Use loopback.
+Add callback.
+
+## Activity 1
+use workqueue
+add filter
+
+## Activity 2
+download example code to one board.
+run a babbling node
+use oscilloscope to observe the access pattern.
+
+## Activity 3
+Decoding car data.

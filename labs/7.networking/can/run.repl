@@ -1,0 +1,5 @@
+mach create
+machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
+sysbus LoadELF @.pio/build/disco_renode/firmware.elf
+showAnalyzer sysbus.usart1
+start
