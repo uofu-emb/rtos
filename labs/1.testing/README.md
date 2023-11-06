@@ -277,6 +277,7 @@ test_testing_command =
     -e mach create "stm32f072b"
     -e machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
     -e sysbus LoadELF @${platformio.build_dir}/${this.__env__}/firmware.elf
+    -e showAnalyzer sysbus.usart1
     -e start
 ```
     1. We'll be running our code in the Renode simulator, so we can run our tests in GitHub actions.
