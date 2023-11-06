@@ -117,7 +117,7 @@ A thread acquires a lock but fails to properly release it.
 void orphaned_lock(void)
 {
     while (1) {
-        k_semaphore_take(&semaphore, K_FOREVER);
+        k_sem_take(&semaphore, K_FOREVER);
         counter++;
         if (counter % 2) {
             continue;
