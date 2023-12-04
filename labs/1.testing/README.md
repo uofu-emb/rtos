@@ -35,7 +35,7 @@ https://docs.platformio.org/en/latest/projectconf/index.html
 ## Instantiate the project
 You should have a project setup after lab 0. For reference, here is a quick setup.
 
-1. Setup the project with `pio project init --board nucleo_f446re --project-option "framework=zephyr"`
+1. Setup the project with `pio project init --board disco_f072rb --project-option "framework=zephyr"`
 1. Init a git repository with `git init`
 1. Copy in the github actions template to `.github/workflows/main.yml`
 1. Copy in the .gitignore template to `.gitignore`
