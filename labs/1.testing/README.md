@@ -289,7 +289,6 @@ test_testing_command =
     1. Your tests must have a `main` function.
         1. This sets up the testing framework with the `UNITY_BEGIN` and `UNITY_END` macros.
         1. For each test, you will call the `RUN_TEST` macro.
-1.
 1. Remove the example tests and add your own.
     1. Tests by convention start with `test_` but don't need to.
     1. Each test should generally demonstrate one possible case. Having multiple tests instead of one big one makes it easier to identify what is failing.
