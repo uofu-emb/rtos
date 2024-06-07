@@ -21,9 +21,16 @@ digraph G {
     rtos031 -> {rtos0310, rtos314, rtos0310};
     rtos0310 [label="Install PlatformIO"];
     rtos0311 [label="Use the command line"];
-    rtos 03110 [label="build a project"];
-    rtos 03111 [label="flash project"];
-    rtos 03112 [label="run debugger"];
+    rtos03110 [label="build a project"];
+    rtos03110 -> rtos031100;
+    rtos031100 [label="Write makefiles"];
+    rtos031100 -> {rtos0311001, rtos0311002, rtos0311003, rtos0311004, rtos93};
+    rtos0311001 [label="explain difference between phony and regular targets"];
+    rtos0311002 [label="write a target recipe with and without substitutions"];
+    rtos0311003 [label="create dependencies in recipes"];
+    rtos0311004 [label="identify advantages and disadvantages of Makefiles for building"]
+    rtos03111 [label="flash project"];
+    rtos03112 [label="run debugger"];
     rtos032 [label="initialize the operating system"];
     rtos032 -> {rtos031};
     rtos033 [label="Instantiate tasks, locks and mutexes."];
