@@ -1,7 +1,7 @@
-# ECE 5960/6960 Advanced Embedded Systems
+# ECE 5785/6785 Advanced Embedded Systems
 
-**Fall 2023**
-Monday 15:00-16:05, Wedneday 15:00-16:20 MEB 2265
+**Fall 2024**
+Monday/Wednesday 11:50AM-01:10PM MEB 2265
 
 Website: https://github.com/uofu-emb/rtos
 
@@ -9,7 +9,7 @@ Instructor:  Ashton Snelgrove
 
 Email: ashton.snelgrove@utah.edu
 
-Office Location:  MEB 1339
+Office Location:  SMBB 3750
 
 ## Course Description
 
@@ -100,7 +100,7 @@ Letter grades are assigned based on completion of the following:
 # Assignments
 
 ## Safety case study with presentation
-Each student is assigned a short, 5 minute presentation. This presentation will cover a case study of a critical failure of an embedded system. The case could come from any situation, including medical devices, transportation, industrial control, and home automation. The presentation should discuss the consequences of the failure, the root causes, and what could have been done to prevent or mitigate the failure. At the beginning of class, one student will give their presentation.
+Each student is assigned a short, 5 minute presentation. This presentation will cover a case study of a critical failure of an embedded system. The case could come from any situation, including medical devices, transportation, industrial control, and home automation.  The presentation should discuss the consequences of the failure, the root causes, and what could have been done to prevent or mitigate the failure. At the beginning of class, one student will give their presentation.
 ## Labs
 Labs are broken into several components. You must complete all components of the lab.
 - Pre-lab primer
@@ -122,38 +122,38 @@ The class will work together on a large project to apply the concepts learned in
 # Course Schedule
 | Day | Lab | Discussion |
 |-----------|----------|---------|
-| Aug. 21 |  | Course syllabus, assign case study presentations. Git review, pull requests. |
-| Aug. 23 | Lab 0 hello world! | Real Time OS features, bare metal comparison.  |
-| Aug. 28 | Lab 1 Testing techniques | Testing techniques, refactoring, writing for testability |
-| Aug. 30 | Lab 1 con't | |
-| Sept. 4| Labor Day | Relax |
-| Sept. 6  | Lab 1 con't | |
-| Sept. 11 | Lab 2 Mocking | Function binding hijinks |
-| Sept. 13 | Lab 2 con't | |
-| Sept. 18.| Lab1/2 completion | |
-| Sept. 20| Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
-| Sept. 25|  Lab 3 con't| |
-| Sept. 27 | Lab 4 Interprocess communication | Communication patterns |
-| Oct. 2 | Lab 5 Real-time systems | Real Time requirements |
-| Oct. 4 |  Lab 5 con't |  |
+| Aug. 19 |  | Course syllabus, assign case study presentations. Git review, pull requests. |
+| Aug. 21 | Lab 0 hello world! | Real Time OS features, bare metal comparison.  |
+| Aug. 26 | Lab 1 Testing techniques | Testing techniques, refactoring, writing for testability |
+| Aug. 28 | Lab 1 con't | |
+| Sept. 2| Labor Day | Relax |
+| Sept. 4  | Lab 2 Makefiles | |
+| Sept. 9 |Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
+| Sept. 11 | Lab 3 con't | |
+| Sept. 16|  Lab 4 Interprocess communication | Communication patterns |
+| Sept. 18| Lab 4 con't | |
+| Sept. 23| Lab 5 Real-time systems | Real Time requirements |
+| Sept. 25 | Lab 5 con't |  |
+| Sept. 30 | Lab 6 Scheduling | scheduling, prioritization |
+| Oct. 2 | Lab 6 con't | Priority inversion |
+| Oct. 7 | fall break | |
 | Oct. 9 | fall break | |
-| Oct. 11 | fall break | |
-| Oct. 16 | Lab 6 Scheduling | **Presentations** scheduling, prioritization |
-| Oct. 18 | Lab 6 con't | Priority inversion |
-| Oct. 23 |  Lab 7 CAN Bus | Networking |
-| Oct. 25 | Lab 7 con't| real-time communication |
-| Oct. 30 | Lab 8 Error handling | Safety, network, reliability (start case study presentations) |
-| Nov. 1 | Lab 8 con't | |
-| Nov. 6 |Lab 9 Power |Measuring and estimating power|
-| Nov. 8 |Lab 9 con't  | |
+| Oct. 14 | Lab 7 CAN Bus | Networking |
+| Oct. 16 | Lab 7 con't| real-time communication |
+| Oct. 21 |Lab 8 Error handling | Safety, network, reliability |
+| Oct. 23 |Lab 8 con't | Risk |
+| Oct. 28 | Lab 9 Power |Measuring and estimating power|
+| Oct. 30 | Lab 9 con't  | |
+| Nov. 4 | Lab 10 Formal Verification | |
+| Nov. 6 | Lab 10 con't | |
+| Nov. 11 | Lab 11 Bluetooth | |
 | Nov. 13 | | |
-| Nov. 15 | | |
+| Nov. 18 | Lab 12 SMP | Context switching vs symmetric multiprocessing|
 | Nov. 20 | | |
-| Nov. 22 |Thanksgiving Eve | |
-| Nov. 27 | | |
-| Nov. 29 | | |
+| Nov. 25 | Lab 13 DMA | |
+| Nov. 27 |Thanksgiving Eve | |
+| Dec. 2 | | |
 | Dec. 4 | | |
-| Dec. 6 | | |
 
 Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to discuss what happened during the course, and show off our results.
 
