@@ -40,9 +40,9 @@ See here for [full detailed learning objectives.](learning-objectives.pdf)
 - Remaining time working in the lab in pairs.
 
 ## Tooling
-We will be using [PlatformIO](https://platformio.org) to provide toolchain, OS, HAL, and libraries. We will be using [Zephyr RTOS](https://docs.zephyrproject.org/2.7.5/) (note version 2.7.5).
+We will be using [Raspberry Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) toolchain to provide OS, HAL, and libraries. We will be using [FreeRTOS](htts://www.freertos.org/Documentation/02-Kernel/04-API-references/01-Task-creation/00-TaskHandle).
 
-[VSCode](https://code.visualstudio.com/) is the recommended IDE. Most of the time we will be operating on the command line.
+[VSCode](https://code.visualstudio.com/) is the recommended IDE. Most of the time we will be operating on the **command line**.
 
 ## Cheating and ethics
 
@@ -93,10 +93,11 @@ All code must:
 Letter grades are assigned based on completion of the following:
 | Grade | Graduate Requirements | Undergraduate Requirements |
 | --- | --- | --- |
-| C | Case study presentation.<br/>Labs 0, 1, 2, 3, 4, and 5<br/>Contribute to the final project.| Case study presentation.<br/>Labs 0, 1, 2, 3, and 4<br/>Contribute to the final project.|
+| C | Case study presentation.<br/>Labs 0, 1, 2, 3, 4, 5, 6, <br/>Contribute to the final project.| Case study presentation.<br/>Labs 0, 1, 2, 3, 4, 5, and 6<br/>Contribute to the final project.|
 | B | All neccessary to get a C, lab 6 and 1 more labs | All neccessary to get a C, labs 5 and 6 |
 | A | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 2 more labs |
 
+Note that you are working in pairs, and a choice to abandon an assignment affects your partner.
 # Assignments
 
 ## Safety case study with presentation
@@ -155,7 +156,7 @@ The class will work together on a large project to apply the concepts learned in
 | Dec. 2 | | |
 | Dec. 4 | | |
 
-Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to discuss what happened during the course, and show off our results.
+Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
 
 Note: This syllabus is meant to serve as an outline and guide for our course. Please note that I may modify it with reasonable notice to you. I may also modify the Course Schedule to accommodate the needs of our class. Any changes will be announced in class and posted on Canvas under Announcements.
 
