@@ -91,11 +91,11 @@ All code must:
 
 ### Letter Grades
 Letter grades are assigned based on completion of the following:
-| Grade | Graduate Requirements | Undergraduate Requirements |
-| --- | --- | --- |
-| C | Case study presentation.<br/>Labs 0, 1, 2, 3, 4, 5, 6, <br/>Contribute to the final project.| Case study presentation.<br/>Labs 0, 1, 2, 3, 4, 5, and 6<br/>Contribute to the final project.|
-| B | All neccessary to get a C, lab 6 and 1 more labs | All neccessary to get a C, labs 5 and 6 |
-| A | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 2 more labs |
+| Grade | Graduate Requirements                                                                      | Undergraduate Requirements                                                                     |
+|-------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| C     | Case study presentation.<br/>Labs 0-7<br/>Contribute to the final project.                 | Case study presentation.<br/>Labs 0-6<br/>Contribute to the final project. |
+| B     | All neccessary to get a C, lab 8 and 2 more labs                                           | All neccessary to get a C and 2 more labs                                                        |
+| A     | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 2 more labs                                                      |
 
 Note that you are working in pairs, and a choice to abandon an assignment affects your partner.
 # Assignments
@@ -121,40 +121,40 @@ Labs are broken into several components. You must complete all components of the
 The class will work together on a large project to apply the concepts learned in the course. Small groups will take on tasks that contribute towards the final product. Students will work on multiple tasks and teams over the course of the project.
 
 # Course Schedule
-| Day | Lab | Discussion |
-|-----------|----------|---------|
-| Aug. 19 |  | Course syllabus, assign case study presentations. Git review, pull requests. |
-| Aug. 21 | Lab 0 hello world! | Real Time OS features, bare metal comparison.  |
-| Aug. 26 | Lab 1 Testing techniques | Testing techniques, refactoring, writing for testability |
-| Aug. 28 | Lab 1 con't | |
-| Sept. 2| Labor Day | Relax |
-| Sept. 4  | Lab 2 Makefiles | |
-| Sept. 9 |Lab 3 Tasks, Semaphores, Synchronization | Shared state, race conditions, deadlock |
-| Sept. 11 | Lab 3 con't | |
-| Sept. 16|  Lab 4 Interprocess communication | Communication patterns |
-| Sept. 18| Lab 4 con't | |
-| Sept. 23| Lab 5 Real-time systems | Real Time requirements |
-| Sept. 25 | Lab 5 con't |  |
-| Sept. 30 | Lab 6 Scheduling | scheduling, prioritization |
-| Oct. 2 | Lab 6 con't | Priority inversion |
-| Oct. 7 | fall break | |
-| Oct. 9 | fall break | |
-| Oct. 14 | Lab 7 CAN Bus | Networking |
-| Oct. 16 | Lab 7 con't| real-time communication |
-| Oct. 21 |Lab 8 Error handling | Safety, network, reliability |
-| Oct. 23 |Lab 8 con't | Risk |
-| Oct. 28 | Lab 9 Power |Measuring and estimating power|
-| Oct. 30 | Lab 9 con't  | |
-| Nov. 4 | Lab 10 Formal Verification | |
-| Nov. 6 | Lab 10 con't | |
-| Nov. 11 | Lab 11 Bluetooth | |
-| Nov. 13 | | |
-| Nov. 18 | Lab 12 SMP | Context switching vs symmetric multiprocessing|
-| Nov. 20 | | |
-| Nov. 25 | Lab 13 DMA | |
-| Nov. 27 |Thanksgiving Eve | |
-| Dec. 2 | | |
-| Dec. 4 | | |
+| Day      | Lab                                      | Discussion                                                    |
+|----------|------------------------------------------|---------------------------------------------------------------|
+| Aug. 19  |                                          | Course syllabus, assign case study presentations. Git review. |
+| Aug. 21  |                                          | Pull requests                                                 |
+| Aug. 26  | Lab 0 hello world!                       | Real Time OS features, bare metal comparison.                 |
+| Aug. 28  | Lab 1 Makefiles                          | Makefile basics                                               |
+| Sept. 2  | Labor Day                                | Relax                                                         |
+| Sept. 4  | Lab 2 Testing techniques                 | Testing techniques                                            |
+| Sept. 9  | Lab 2 con't                              | refactoring                                                   |
+| Sept. 11 | Lab 2 con't                              | writing for testability                                       |
+| Sept. 16 | Lab 3 Tasks, Semaphores, Synchronization | Shared state,                                                 |
+| Sept. 18 | Lab 3 con't                              | race conditions, deadlock                                     |
+| Sept. 23 | Lab 4 Interprocess communication         | Communication patterns                                        |
+| Sept. 25 | Lab 4 con't                              | Queues and backpressure                                       |
+| Sept. 30 | Lab 9 Formal verification                | Model checking                                                |
+| Oct. 2   | Lab 9 con't                              |                                                               |
+| Oct. 7   | fall break                               |                                                               |
+| Oct. 9   | fall break                               |                                                               |
+| Oct. 14  | Lab 5 Real-time systems                  | Real Time requirements                                        |
+| Oct. 16  | Lab 5 con't                              | Priority inversion                                            |
+| Oct. 21  | Lab 8 CAN Bus                            | Networking                                                    |
+| Oct. 23  | Lab 8 con't                              | real-time communication                                       |
+| Oct. 28  | Lab 6 Scheduling                         | Scheduling algorithms                                         |
+| Oct. 30  | Lab 6 con't                              | Prioritization                                                |
+| Nov. 4   | Lab 10 Power                             | Measuring and estimating power                                |
+| Nov. 6   | Lab 10 con't                             |                                                               |
+| Nov. 11  | Lab 7 Error Handling                     | Safety, reliability, and risk                                 |
+| Nov. 13  | Lab 7 con't                              | Networking fallacies                                          |
+| Nov. 18  | Lab 11 Bluetooth                         | Radio technologies                                            |
+| Nov. 20  | Lab 11 con't                             |                                                               |
+| Nov. 25  | Lab 12 SMP                               | Context switching vs symmetric multiprocessing                |
+| Nov. 27  | Thanksgiving Eve                         |                                                               |
+| Dec. 2   | Lab 12 con't                             | Designing for concurrency                                     |
+| Dec. 4   | Lab 12 con't                             |                                                               |
 
 Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
 
