@@ -44,6 +44,16 @@ We will be using [Raspberry Pico](https://www.raspberrypi.com/documentation/micr
 
 [VSCode](https://code.visualstudio.com/) is the recommended IDE. Most of the time we will be operating on the **command line**.
 
+I recommend you use a Linux machine if possible. Linux is what you will be using in the industry, you need to be comfortable with it.
+
+## Materials
+
+You will need to purchase **two** Picos from the ECE stockroom (MEB 2355).
+
+You will also need to purchase a CAN transceiver module from the stockroom later in the semester.
+
+Total cost should be less than $15.
+
 ## Cheating and ethics
 
 __We learn good practice by seeing good practice.__
@@ -60,6 +70,10 @@ This is a collaborative course, you are not just encouraged but required to work
     - Working with people from outside class.
 - What is cheating:
     - Copying code without understanding it.
+
+Labs include a reference implementation which you may find useful.
+
+If you do find a code snippet, example online, or read the reference implementation - I recommend you type it into your code rather than copy and paste. This will make you engage with the code and give a better understanding.
 
 Students are expected to maintain the ethical and professional standards of the engineering discipline. Show respect for one another. For more information see the University Policies section below.
 
