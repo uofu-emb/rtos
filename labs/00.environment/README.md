@@ -11,51 +11,40 @@ In this lab, we'll be setting up the development environment. This environment w
 - Use the debugger
 - Setup CICD
 # Prelab
-Complete the following tasks before lab. At the end of this section, you should have the tools installed and a working project skeleton.
+Complete the following tasks before lab. **This will require a large download and long installation, so do it before lab**. At the end of this section, you should have the tools installed and a working project skeleton.
+
+## Reading
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+
 
 ## Install Visual Studio Code
 ### Overview
 We will use the Visual Studio Code integrated development environment (IDE). Modern software development leverages many tools - the IDE integrates them into a single environment. You'll use the IDE to write, manage, build, deploy, and debug your code.
 
-We will also be heavily using the command line. The IDE automates and provides GUI shortcuts, but these are just wrappers over the underlying commands available.
+We will also be heavily using the command line. The IDE automates and provides GUI shortcuts, but these are just wrappers over the underlying commands available. **Don't use the GUI when a command line or keyboard shortcut is available**.
 ### Tasks
-- Download and install VSCode, available at the following link. https://code.visualstudio.com/
-## Install PlatformIO
-### Overview
-PlatformIO is a tool to simplify and unify the development process for embedded systems. It allows easy bootstrapping of projects, and a consistent interface between different build tools, frameworks, libraries, and hardware.
+Detailed installation instructions are available in the chapters 2 and 3 in the getting started datasheet https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
 
-We'll be using the VSCode extension integration to setup and use PlatformIO.
-### Tasks
-- Install the PlatformIO extension in VSCode. (We will go through the quickstart in the next task in the lab)
-https://docs.platformio.org/en/latest/integration/ide/vscode.html#installation
+1. Download and install VSCode, available at the following link. https://code.visualstudio.com/
+1. Install these plugins
+    - https://marketplace.visualstudio.com/items?itemName=raspberry-pi.raspberry-pi-pico
+    - https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+    - https://marketplace.visualstudio.com/items?itemName=twxs.cmake
+    - https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools
+
+We'll be using the VSCode extension integration to setup the SDK and the build toolchain.
+
 ## Create a new project
 ### Overview
-PlatformIO and other build tools use a set of conventions to setup a project. This usually defines a consistent organization for source code, header, and test code. The configuration of the project, library dependencies, along with any custom build tasks, will be located in the build file. For PlatformIO the build file `platform.ini` is located at the root of the project. The build file will be committed to your git repository with the rest of your source code. Anyone else working on the project will be able to use the same project configuration by simply checking out the code.
 
-PlatformIO provides a unified command, `pio`. This command has many subcommands for various tasks. We'll use this command to set up our project.
+Build tools use a set of conventions to setup a project. This usually defines a consistent organization for source code, header, and test code. The configuration of the project, library dependencies, along with any custom build tasks, will be located in the build file. The Raspberry Pi Pico uses the CMake tool to configure and run the build process. The build file `CMakeLists.txt` is located at the root of the project. The build file will be committed to your git repository with the rest of your source code. Anyone else working on the project will be able to use the same project configuration by simply checking out the code.
 
 ### Tasks
-These instructions are tailored to our particular board and framework. A more detailed tutorial using a different board can be found here https://docs.platformio.org/en/latest/core/quickstart.html
+You should be able to load the example code onto the board following the instructions.
 
-1. Open the "PlatformIO Core CLI".
-    1. Click on the PlatformIO extension in the left side bar of VSCode.
-    1. In the expand "Miscellaneous" and click on "PlatformIO Core CLI". A terminal window should open.
-1. Optional: Add the PlatformIO commands to your system PATH variable so you can use them from the system terminal.
-https://docs.platformio.org/en/latest/core/installation/shell-commands.html#piocore-install-shell-commands
-1.  Search for the board id for the discovery board..
-    1. In the terminal, run `pio boards disco`
-    1. Find the id for the STM32 Discovery 072. We will pass this as an argument to the project init task
-1. Create a directory for your project and open the new directory. `mkdir my_project; cd my_project`
-1.  Once inside that directory, run `pio project init --board disco_f072rb --project-option "framework=zephyr" --project-option "test_framework=unity"`
-    1. This sets up the project with the correct board, the STM32 platform, and the Zephyr RTOS framework.
-https://docs.platformio.org/en/latest/core/userguide/project/cmd_init.html#cmd-project-init
-1. Read the output from the init command and identify the function of the different directories and files.
-1. Look at the contents of the platformio.ini
-https://docs.platformio.org/en/latest/projectconf/index.html#projectconf
+- Follow the chapter 4 introduction and section 4.1 of the getting started guide. https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
 
-## Reading
-https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
-
+You can build the project using the GUI as outlined in the documentation. We will explore the command line in the next lab (see Appendix C).
 
 # Lab
 # Commit project
@@ -63,32 +52,34 @@ https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/propos
 Now that we have our project, let's get it into source control.
 ## Tasks
 1. Create repository on github
-    1. Do not initialize the repository with a README, gitignore, or license.
+    1. Do *not* initialize the repository with a README, gitignore, or license.
 1. Initialize the local repository.
     1. From your project directory, run `git init`. This sets up the repository metadata.
     1. Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
-    1. Commit the staged files with a descriptive commit message `git commit -m "Initialize PlatformIO project"`
+    1. Commit the staged files with a descriptive commit message `git commit -m "Initialize Pico project"`
     1. Create a main branch `git branch -M main`
     1. Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
     1. Push the main branch and the commit to the remote. `git push -u origin main`
 
-# Building a project
+# Making changes to a project
 
 ## Tasks
 1. Create a new git branch. You can call it whatever you like, but it is useful to use a descriptive name for what is being developed in the branch.`git checkout -b compilation-demo`
-1. Copy in the example blink code to your `main.c` file. We will explore this code in the next lab. For now, we just need something to compile.
-https://github.com/platformio/platform-ststm32/blob/master/examples/zephyr-blink/src/main.c
-1. Build project with `pio run`. The run subcommand is used to execute different __targets__. The default target compiles your project.
-https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmd-run
-1. Commit the new main file.
+1. Make the modifications in section 4.2 of the getting started datasheet.
+1. Build and deploy the changes.
+1. Commit the changes to the main file, and push the branch to your github remote.
+
 # Run tests
 ## Overview
 Now that the code is compiling, it needs to be tested. Manually testing the system by running it and observing the behavior is often easy, but does not scale once a project grows in size and complexity. Automated testing demonstrates the behavior of your system and codifies that behavior. Any change to the system should maintain the previous behavior of the system outside the change.
 
 Remember, "if you can't measure it, you can't change it".
+
+We will be using the Unity test framework.
 ## Tasks
+
 1. Copy in the example tests to your project `tests` directory.
-1. Add the following configuration to your platformio.ini file. This will add an environment to run our unit tests locally on your computer, including the library dependency on the Unity test framework.
+1. Add the following configuration to your CMakeLists.txt file. This will add a target to run our unit tests
 ```[env:unit-test]
 build_type = test
 platform = native
@@ -110,32 +101,55 @@ Github provides an automated build system called Github Actions. We will set up 
     1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
     1. Create a file `.github/workflows/main.yml`. Add the following configuration.
 ```
-name: PlatformIO CI
+name: CMake
+on: [push, pull_request]
 
-on: [push]
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
 
 jobs:
   build:
     runs-on: ubuntu-latest
+  steps:
+    - name: Clean workspace
+      run: |
+        echo "Cleaning up previous run"
+        rm -rf "${{ github.workspace }}"
+        mkdir -p "${{ github.workspace }}"
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
+    - name: Checkout pico-sdk/develop
+      uses: actions/checkout@v2
+      with:
+        repository: raspberrypi/pico-sdk
+        ref: develop
+        path: pico-sdk
 
-      - name: Build PlatformIO Project
-        run: pio run
-     - name: Run Tests
-        run: pio test --environment unit-test
+    - name: Checkout pico-sdk submodules
+      working-directory: ${{github.workspace}}/pico-sdk
+      run: git submodule update --init
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      working-directory: ${{github.workspace}}/build
+      run:  cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{github.workspace}}
+      # Note the current convention is to use the -S and -B options here to specify source
+      # and build directories, but this is only available with CMake 3.13 and higher.
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: PICO_SDK_PATH=../pico-sdk cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build .
+
+    - name: Build
+      working-directory: ${{github.workspace}}
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: cmake --build ./build --config $BUILD_TYPE --parallel $(nproc)
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
