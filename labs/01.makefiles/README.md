@@ -13,7 +13,7 @@ Practice command line usage.
 # Prelab
 We will specifically be using the GNU implementation of make and the GNU compiler collection.
 The manual is a lot like a datasheet, you don't have to read the whole thing.
-Looking at my browser history visited links, I have looked at 38 out 178 sections, so you don't even need a significant percentage.
+Looking at my browser history, I have looked at 38 out 178 sections, so even for complicated tasks you just need to know the relevant information.
 
 ## Reading
 ### GNU make manual
@@ -117,3 +117,227 @@ Create a new file called `.gitignore`, and add a line with `hello.txt`
 Now run `git status`. The build artifact is no longer listed as a new file. You will see the ignore file.
 
 Commit everything, including the `.gitignore` file, before moving to the next section.
+
+## Dependencies
+Our basic rule is pretty trivial. Let's introduce the first member of our toolchain.
+
+```
+CPP=$(PICO_TOOLCHAIN_PATH)/bin/arm-none-eabi-cpp
+
+main.i: main.c
+    $(CPP) main.c > main.i
+```
+The C pre-processor (cpp) performs macro and pre-processor directive expansion. Note that we put the path to the tool binary into a variable to make it easier to specify the location if working in a different environment. Many of these tools have standard variables which you can set in your shell environment.
+
+Try to run `make main.i`. What output do you predict if you run it a second time?
+
+Modify the `main.c` file, adding a comment or changing the return value. What do you predict will happen if you run make again?
+
+The rule for `main.i` *depends* on the file `make.c` Make will track the modified status of files, and will only run a rule 1) if the target does not exist or 2) if any of the dependencies have been modified. Rules may have multiple dependencies, and a change in any dependency forces the rule being run.
+
+Commit everything before moving to the next section.
+
+## Cleaning up
+A common task is to remove all the build artifacts to start with a clean build. Let's add a rule to remove the two artifacts we have.
+
+```
+clean:
+    rm -f main.i hello.txt
+```
+Run `make clean`. What do you predict will happen if you run it again?
+
+The `clean` rule does not generate the target file.
+But this breaks our concept of a rule, which specifies a recipe to generate a target!
+However, this is what we want - everytime you invoke make with the `clean` target, it should run the recipe and remove all the files.
+We need to specify that the clean rule does not generate a target file.
+Add the following.
+
+```
+.PHONY: clean
+```
+
+`.PHONY` is a special target - its dependencies will not generate a target file. We will use phony targets for helper rules and aliases.
+
+
+Commit everything before moving to the next section.
+
+## Implicit rules.
+
+Let's continue with the compiler and assembler.
+
+```
+CC=$(PICO_TOOLCHAIN_PATH)/bin/arm-none-eabi-gcc
+AS=$(PICO_TOOLCHAIN_PATH)/bin/arm-none-eabi-as
+
+main.s: main.i
+    $(CC) -S main.i
+
+main.o: main.s
+    $(AS) main.s -o main.o
+```
+
+`cc` is the historic name of the the C compiler (the gcc name is for the GNU version). `as` is the name for the assembler.
+
+The C compiler works on individual .c files. There is one .o file for every .c file.
+This saves us time waiting for compilation to finish, only recompiling files that have changed.
+The .s file contains the assembly language - textual and generally human readable.
+The .o file contains the instructions and data in binary as the processor will read them.
+
+Let's add a second .c file.
+Create another file with an empty function in it.
+We just need something that will compile.
+What is your strategy for compiling the second file?
+
+Our projects will consist of many files, and adding rules for every file is impractical.
+What if we had a way to define a rule in so that any .c file can be compiled?
+
+```
+main.o: main.s
+    $(AS) main.s -o main.o
+
+second.o: second.s
+    $(AS) second.s -o second.o
+```
+
+We can see that the difference between the rules is the dependency and target filenames.
+We also have a convention where the input file and the output file share a name with different extensions.
+We can create an *implicit rule* using a *pattern*.
+Modify your rule to look like the following.
+```
+%.o: %.s
+    $(AS) second.s -o second.o
+```
+The % symbol is our pattern.
+Any file which ends in .s will match the pattern and the rule will be applied.
+This solves the problem of matching target name to dependency.
+We still have to deal with the recipe.
+The recipe uses a different syntax than the target, and the pattern is not available.
+Modify your rule.
+
+```
+%.o: %.s
+    $(AS) $< -o $@
+```
+
+`$@` and `$<` are special *automatic variables*.
+They are the target and the first dependency respectively, generated when make matches the rule.
+There are [many variables available to you](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html).
+
+Update your rules to use patterns and automatic variables.
+
+Commit everything before moving to the next section.
+
+### Historical notes
+Why do all of these commands have different ways of specifying the input file and the output file?
+These tools trace their roots back to the earliest days of Unix in the 1970s.
+We've been stuck with backwards compatibility with the strange quirks ever since.
+The C compilation environment is very primitive compared to modern tools like gradle or cargo.
+It does not handle any package management, and requires significant manual setup.
+You won't often generate Makefiles directly, rather you will use a tool like CMake (which is what we will be using with the pico).
+These type of tools are an improvement, but don't fully solve the problem in the way more sophisticated tools do.
+Why do we keep doing this?
+Most of this is just [Stockholm syndrome](https://en.wikipedia.org/wiki/Stockholm_syndrome) - it's the way we've always done it, and it works good enough.
+You'll get used to it, and then you'll pass the trauma on to the next generation.
+Luckily, when you start a job, the build system will largely be set up for you.
+
+## Linking it all together
+We now have a Makefile that can compile our C files to binary objects.
+We need to combine them together into a single binary that can be executed.
+We will use a tool called a *linker*.
+When you reference a variable or function that exists outside your C file, the object files contain a placeholder location.
+The linker will take all object files, allocate memory to the objects, and replace placeholders with allocated memory locations.
+The linker will also bring in any library object files.
+
+```
+LD=$(PICO_TOOLCHAIN_PATH)/bin/arm-none-eabi-ld
+SRC=main.c second.c
+OBJS=$(patsubst %.c,%.o,$(SRC))
+
+firmware.elf: $(OBJS)
+    $(LD) -o $@ $^
+```
+
+Rather than list out each .o file, we can use variables to list the files and use patterns to substitute the file names.
+`$^` is the automatic variable that contains all dependencies.
+
+We engineers are lazy, so let's find a way to .
+Define a new rule named `all` that depends on `firmware.elf`.
+Leave the recipe empty.
+Remember to add `all` to the `.PHONY` list.
+
+`all` is a special target - when you invoke make with no targets, it will build the `all` target.
+
+Commit everything before moving to the next section.
+
+## CI/CD
+Create a file `.github/workflows/main.yml`. Add the following configuration.
+
+```
+name: Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  steps:
+    - name: Clean workspace
+      run: |
+        echo "Cleaning up previous run"
+        rm -rf "${{ github.workspace }}"
+        mkdir -p "${{ github.workspace }}"
+
+    - name: Checkout pico-sdk/develop
+      uses: actions/checkout@v2
+      with:
+        repository: raspberrypi/pico-sdk
+        ref: develop
+        path: pico-sdk
+
+    - name: Checkout pico-sdk submodules
+      working-directory: ${{github.workspace}}/pico-sdk
+      run: git submodule update --init
+
+    - name: Say hello
+      working-directory: ${{github.workspace}}
+      run:
+          test ! -f hello.txt
+          test ! -f main.o
+          test ! -f main.i
+          test ! -f main.s
+          make hello.txt
+          test -f hello.txt
+
+    - name: Compile
+      shell: bash
+      working-directory: ${{github.workspace}}
+      run:
+          test ! -f firmware.elf
+          PICO_TOOLCHAIN_PATH=../pico-sdk make
+          test -f firmware.elf
+    - name: Clean
+      shell: bash
+      working-directory: ${{github.workspace}}
+      run:
+          make clean
+          test ! -f hello.txt
+          test ! -f main.o
+          test ! -f main.i
+          test ! -f main.s
+          test ! -f firmware.elf
+
+```
+
+# Next steps
+We've briefly covered a simple Makefile.
+We have not covered the more complex aspects of C compilation such as headers and libraries, optimization, or other compiler options.
+If we were to continue expanding this Makefile, we would need to start introducing these additional aspects.
+Luckily we don't have to set up the compilation process for the pico directly.
+The toolchain uses a tool called CMake, which is a higher level abstraction that generates the Makefile for you.
+You can find the generated makefiles in the build directory of a project.
+VSCode works directly with the CMake and Makefiles when you use the build button.
+
+Make is a useful tool for other tasks besides compilation.
+Any shell commands can be used as a recipe, so you can write makefiles to run reports, or compile your scientific data, or any task you need to automate.
+Make is capable of running multiple targets in parallel with the `-j` flag.
+This is really useful if you want to parallelize a bunch of tasks.
+If a task fails, fix your Makefile and run it again.
