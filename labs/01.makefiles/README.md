@@ -329,7 +329,8 @@ jobs:
 
 # Next steps
 We've briefly covered a simple Makefile.
-We have not covered the more complex aspects of C compilation such as headers and libraries, optimization, or other compiler options.
+We have not covered the more complex aspects of C compilation such as headers and libraries, optimization, or compiler options.
+We probably would want targets for loading the firmware onto the microcontroller.
 If we were to continue expanding this Makefile, we would need to start introducing these additional aspects.
 Luckily we don't have to set up the compilation process for the pico directly.
 The toolchain uses a tool called CMake, which is a higher level abstraction that generates the Makefile for you.
