@@ -1,0 +1,20 @@
+logFile $ORIGIN/hello_world-renode.log True
+
+using sysbus
+$name?="rpi_pico_rp2040_w"
+mach create $name
+
+machine LoadPlatformDescription $ORIGIN/hello_world.repl
+
+showAnalyzer uart0
+uart0 RecordToAsciinema $ORIGIN/hello_world-asciinema
+
+macro reset
+"""
+    sysbus LoadELF @build/mytest.elf
+    cpu0 VectorTableOffset `sysbus GetSymbolAddress "_vector_table"`
+    cpu1 IsHalted true
+    cpu0 EnableProfilerCollapsedStack $ORIGIN/hello_world-profile true
+"""
+
+runMacro $reset
