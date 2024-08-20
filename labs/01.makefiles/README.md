@@ -342,3 +342,6 @@ Any shell commands can be used as a recipe, so you can write makefiles to run re
 Make is capable of running multiple targets in parallel with the `-j` flag.
 This is really useful if you want to parallelize a bunch of tasks.
 If a task fails, fix your Makefile and run it again.
+
+In this lab you've been reminded in each section to commit regularly to source control.
+Future labs remove the training wheels, it's up to you to remember good source control habits.
