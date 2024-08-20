@@ -31,9 +31,10 @@ Detailed installation instructions are available in the chapters 2 and 3 in the 
     - https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
     - https://marketplace.visualstudio.com/items?itemName=twxs.cmake
     - https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools
-
+1. Download and install Renode, available at the following link https://renode.io/#downloads
 We'll be using the VSCode extension integration to setup the SDK and the build toolchain.
 
+If you want to install the SDK manually, there are instructions on https://github.com/raspberrypi/pico-sdk
 ## Create a new project
 ### Overview
 
@@ -75,24 +76,44 @@ Now that the code is compiling, it needs to be tested. Manually testing the syst
 
 Remember, "if you can't measure it, you can't change it".
 
-We will be using the Unity test framework.
+We will be using the Unity test framework. We will establish a convention on the installation location to make things more portable. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build.
 ## Tasks
-
-1. Copy in the example tests to your project `tests` directory.
-1. Add the following configuration to your CMakeLists.txt file. This will add a target to run our unit tests
-```[env:unit-test]
-build_type = test
-platform = native
-lib_deps =
-    throwtheswitch/Unity@^2.5.2
+1. Change working directory to the pico installation. `cd $PICO_SDK_PATH/../..`
+1. Clone the Unity repo. `git clone https://github.com/ThrowTheSwitch/Unity.git`
+1. From the Unity repo, run `CC=arm-none-eabi-gcc cmake -B build . && cmake --install build`
+1. Copy the `rpi_pico_rp2040_w.repl` and `hello_world.repc` files to your project directory.
+1. Add the following to your CMakeLists.txt. `mytest` can be anything you want.
 ```
-1. Run the tests with `pio test --environment native`
-https://docs.platformio.org/en/latest/core/userguide/cmd_test.html
-1. Verify that all tests pass.
-1. Commit the new test file and the changes you made to platformio.ini.
+include(CTest)
+add_executable(mytest test/test_unity.c ${PICO_TOOLCHAIN_PATH}/../../Unity/src/unity.c)
+target_link_libraries(mytest pico_stdlib)
+target_include_directories(mytest PRIVATE ${PICO_TOOLCHAIN_PATH}/../../Unity/src)
+
+find_program(
+  RENODE
+  renode
+)
+set(RENODE /Applications/Renode.app/Contents/MacOS/macos_run.command)
+
+set(RENODE_FLAGS
+  --disable-xwt
+  --port -2
+  --pid-file renode.pid
+  --console
+  )
+
+add_test(NAME runmytest COMMAND
+    ${RENODE}
+     ${RENODE_FLAGS}
+     --config hello_world.repc
+    )
+```
+
+1. Verify that all tests pass. run `ctest`
+1. Commit the new test file and the changes you made to cmake config.
 # Setup Continuous Integration
 ## Overview
-Continuous Integration (CI), often paired with Continuous Delivery (CICD), is a development pattern to rapidly deliver consistent working software. The basic principle is to always keep your project in a working state, with small incremental changes. The project should be monitored with automated tests and performance instrumentation. When code is pushed to the central repository, a build system will run the automated tests. If the tests pass, the code is ready to be reviewed and then deployed.
+Continuous Integration (CI), often paired with Continuous Delivery (CI/CD), is a development pattern to rapidly deliver consistent working software. The basic principle is to always keep your project in a working state, with small incremental changes. The project should be monitored with automated tests and performance instrumentation. When code is pushed to the central repository, a build system will run the automated tests. If the tests pass, the code is ready to be reviewed and then deployed.
 
 Github provides an automated build system called Github Actions. We will set up your project to build and run tests on push. We will then show the passing or failing status of your tests on your repository README.
 ## Tasks
