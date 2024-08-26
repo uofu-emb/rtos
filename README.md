@@ -149,22 +149,22 @@ The class will work together on a large project to apply the concepts learned in
 | Sept. 18 | Lab 3 con't                              | race conditions, deadlock                                     |
 | Sept. 23 | Lab 4 Interprocess communication         | Communication patterns                                        |
 | Sept. 25 | Lab 4 con't                              | Queues and backpressure                                       |
-| Sept. 30 | Lab 9 Formal verification                | Model checking                                                |
-| Oct. 2   | Lab 9 con't                              |                                                               |
+| Sept. 30 | Lab 8 CAN Bus                            | Networking                                                    |
+| Oct. 2   | Lab 8 con't                              | real-time communication                                       |
 | Oct. 7   | fall break                               |                                                               |
 | Oct. 9   | fall break                               |                                                               |
-| Oct. 14  | Lab 5 Real-time systems                  | Real Time requirements                                        |
-| Oct. 16  | Lab 5 con't                              | Priority inversion                                            |
-| Oct. 21  | Lab 8 CAN Bus                            | Networking                                                    |
-| Oct. 23  | Lab 8 con't                              | real-time communication                                       |
-| Oct. 28  | Lab 6 Scheduling                         | Scheduling algorithms                                         |
-| Oct. 30  | Lab 6 con't                              | Prioritization                                                |
-| Nov. 4   | Lab 10 Power                             | Measuring and estimating power                                |
-| Nov. 6   | Lab 10 con't                             |                                                               |
-| Nov. 11  | Lab 7 Error Handling                     | Safety, reliability, and risk                                 |
-| Nov. 13  | Lab 7 con't                              | Networking fallacies                                          |
-| Nov. 18  | Lab 11 Bluetooth                         | Radio technologies                                            |
-| Nov. 20  | Lab 11 con't                             |                                                               |
+| Oct. 14  | Lab 9 Formal verification                | Model checking                                                |
+| Oct. 16  | Lab 9 con't                              |                                                               |
+| Oct. 21  | Lab 5 Real-time systems                  | Real Time requirements                                        |
+| Oct. 23  | Lab 5 con't                              | Priority inversion                                            |
+| Oct. 28  | Lab 10 Power                             | Measuring and estimating power                                |
+| Oct. 30  | Lab 10 con't                             |                                                               |
+| Nov. 4   | Lab 6 Scheduling                         | Scheduling algorithms                                         |
+| Nov. 6   | Lab 6 con't                              | Prioritization                                                |
+| Nov. 11  | Lab 11 Bluetooth                         | Radio technologies                                            |
+| Nov. 13  | Lab 11 con't                             |                                                               |
+| Nov. 18  | Lab 7 Error Handling                     | Safety, reliability, and risk                                 |
+| Nov. 20  | Lab 7 con't                              | Networking fallacies                                          |
 | Nov. 25  | Lab 12 SMP                               | Context switching vs symmetric multiprocessing                |
 | Nov. 27  | Thanksgiving Eve                         |                                                               |
 | Dec. 2   | Lab 12 con't                             | Designing for concurrency                                     |
