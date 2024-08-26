@@ -38,6 +38,7 @@ NOTE: If you are using a windows device, install this: https://zadig.akeo.ie/
 Use this to install a driver for the RP2 USB-Device, after you have plugged in your RP2040 from the stockroom to your computer.
 
 If you want to install the SDK manually, there are instructions on https://github.com/raspberrypi/pico-sdk
+
 ## Create a new project
 ### Overview
 
@@ -82,6 +83,26 @@ Continuous Integration (CI), often paired with Continuous Delivery (CI/CD), is a
 
 Github provides an automated build system called Github Actions. We will set up your project to build and run tests on push. We will then show the passing or failing status of your tests on your repository README.
 ## Tasks
+1. Update your CMakelists.txt file to fix some paths. Replace these lines, which you'll find towards the top of the file.
+```
+set(PICO_SDK_PATH ${USERHOME}/.pico-sdk/sdk/2.0.0)
+set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk/toolchain/13_2_Rel1)
+```
+With these lines. This will allow us to override the paths to the SDK and toolchain with correct paths in the CI/CD environment.
+```
+if(DEFINED ENV{PICO_SDK_PATH})
+    set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
+else()
+    set(PICO_SDK_PATH ${USERHOME}/.pico-sdk/sdk/2.0.0)
+endif()
+
+if(DEFINED ENV{PICO_TOOLCHAIN_PATH})
+    set(PICO_TOOLCHAIN_PATH $ENV{PICO_TOOLCHAIN_PATH})
+else()
+    set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk/toolchain/13_2_Rel1)
+endif()
+```
+
 1. Create the metadata directories. In the root of your repository, create a directory `.github` (note the leading dot). Inside that directory, create another directory `workflows`.
 1. Create a workflow.
     1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
@@ -98,6 +119,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install GCC
+        id: arm-none-eabi-gcc-action
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: '13.2.Rel1'
+
       - name: Clean workspace
         run: |
           echo "Cleaning up previous run"
@@ -109,16 +136,17 @@ jobs:
         with:
           repository: raspberrypi/pico-sdk
           ref: develop
-          path: pico-sdk
+          path: ${{github.workspace}}/pico_sdk
+          submodules: true
 
-      - name: Checkout pico-sdk submodules
-        working-directory: ${{github.workspace}}/pico-sdk
-        run: git submodule update --init
+      - uses: actions/checkout@v3
+        with:
+          path: ${{github.workspace}}/source
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
         # We'll use this as our working directory for all subsequent commands
-        working-directory: ${{github.workspace}}/build
+        working-directory: ${{github.workspace}}
         run:  cmake -E make_directory ${{github.workspace}}/build
 
       - name: Configure CMake
@@ -129,7 +157,7 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: PICO_SDK_PATH=../pico-sdk cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build .
+        run: PICO_SDK_PATH=${{github.workspace}}/pico_sdk PICO_TOOLCHAIN_PATH=${{ steps.arm-none-eabi-gcc-action.outputs.path }} cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build ./source
 
       - name: Build
         working-directory: ${{github.workspace}}
@@ -139,7 +167,8 @@ jobs:
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
-    1. Commit the file and push.
+
+1. Commit the file and push.
 1. add test status badge to your repo README.
     1. Create a file named `README.md` in the root of your project.
     1. Add a brief description of you project.

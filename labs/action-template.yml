@@ -1,26 +1,56 @@
-name: PlatformIO CI
+name: CMake
+on: [push, pull_request]
 
-on: [push]
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - name: Install GCC
+        id: arm-none-eabi-gcc-action
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
+          release: '13.2.Rel1'
 
-      - name: Build PlatformIO Project
-        run: pio run
-      - name: Run Tests
-        run: pio test --environment disco_f072rb --without-uploading -vvv
+      - name: Clean workspace
+        run: |
+          echo "Cleaning up previous run"
+          rm -rf "${{ github.workspace }}"
+          mkdir -p "${{ github.workspace }}"
+
+      - name: Checkout pico-sdk/develop
+        uses: actions/checkout@v2
+        with:
+          repository: raspberrypi/pico-sdk
+          ref: develop
+          path: ${{github.workspace}}/pico_sdk
+          submodules: true
+
+      - uses: actions/checkout@v3
+        with:
+          path: ${{github.workspace}}/source
+
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        working-directory: ${{github.workspace}}
+        run:  cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Configure CMake
+        # Use a bash shell so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        shell: bash
+        working-directory: ${{github.workspace}}
+        # Note the current convention is to use the -S and -B options here to specify source
+        # and build directories, but this is only available with CMake 3.13 and higher.
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: PICO_SDK_PATH=${{github.workspace}}/pico_sdk PICO_TOOLCHAIN_PATH=${{ steps.arm-none-eabi-gcc-action.outputs.path }} cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build ./source
+
+      - name: Build
+        working-directory: ${{github.workspace}}
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: cmake --build ./build --config $BUILD_TYPE --parallel $(nproc)
