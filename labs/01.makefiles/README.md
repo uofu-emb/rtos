@@ -2,13 +2,13 @@
 In this lab, we will be examining C compilation for embedded systems. We will examine the function of the Unix make tool, and its place in the C ecosystem, and its general utility in the Unix environment. We will also learn the role of various tools in the embedded toolchain.
 
 ## Learning objectives
-Identify the major steps of the C toolchain and explain their roles.
-Write Makefile recipe to build a target.
-Use substitution patterns to make flexible targets
-Explain difference between phony and regular targets
-Express target dependency relationships in recipes.
-Analyze the advantages and disadvantages of the make tool.
-Practice command line usage.
+- Identify the major steps of the C toolchain and explain their roles.
+- Write Makefile recipe to build a target.
+- Use substitution patterns to make flexible targets
+- Explain difference between phony and regular targets
+- Express target dependency relationships in recipes.
+- Analyze the advantages and disadvantages of the make tool.
+- Practice command line usage.
 
 # Prelab
 We will specifically be using the GNU implementation of make and the GNU compiler collection.
