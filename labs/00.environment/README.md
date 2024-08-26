@@ -34,10 +34,20 @@ Detailed installation instructions are available in the chapters 2 and 3 in the 
 1. Download and install Renode, available at the following link https://renode.io/#downloads
 We'll be using the VSCode extension integration to setup the SDK and the build toolchain.
 
+If you want to install the SDK manually, there are instructions on https://github.com/raspberrypi/pico-sdk
+
+#### Windows specific issues
 NOTE: If you are using a windows device, install this: https://zadig.akeo.ie/
 Use this to install a driver for the RP2 USB-Device, after you have plugged in your RP2040 from the stockroom to your computer.
 
-If you want to install the SDK manually, there are instructions on https://github.com/raspberrypi/pico-sdk
+#### Linux specific issues
+You may need to install this udev rule to allow non-root access over USB.
+
+https://github.com/raspberrypi/picotool/blob/master/udev/99-picotool.rules
+
+You may need to add your user to the dialout group to access serial devices.
+
+`sudo usermod -a -G dialout $USER`
 
 ## Create a new project
 ### Overview
