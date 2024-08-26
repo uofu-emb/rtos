@@ -55,6 +55,9 @@ You can build the project using the GUI as outlined in the documentation. We wil
 ## Overview
 Now that we have our project, let's get it into source control.
 ## Tasks
+1. Create an ssh key for authentication with github
+    1. Generate: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+    1. Add to your account: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 1. Create repository on github
     1. Do *not* initialize the repository with a README, gitignore, or license.
 1. Initialize the local repository.
