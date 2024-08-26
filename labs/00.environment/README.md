@@ -94,45 +94,45 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-  steps:
-    - name: Clean workspace
-      run: |
-        echo "Cleaning up previous run"
-        rm -rf "${{ github.workspace }}"
-        mkdir -p "${{ github.workspace }}"
+    steps:
+      - name: Clean workspace
+        run: |
+          echo "Cleaning up previous run"
+          rm -rf "${{ github.workspace }}"
+          mkdir -p "${{ github.workspace }}"
 
-    - name: Checkout pico-sdk/develop
-      uses: actions/checkout@v2
-      with:
-        repository: raspberrypi/pico-sdk
-        ref: develop
-        path: pico-sdk
+      - name: Checkout pico-sdk/develop
+        uses: actions/checkout@v2
+        with:
+          repository: raspberrypi/pico-sdk
+          ref: develop
+          path: pico-sdk
 
-    - name: Checkout pico-sdk submodules
-      working-directory: ${{github.workspace}}/pico-sdk
-      run: git submodule update --init
+      - name: Checkout pico-sdk submodules
+        working-directory: ${{github.workspace}}/pico-sdk
+        run: git submodule update --init
 
-    - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      working-directory: ${{github.workspace}}/build
-      run:  cmake -E make_directory ${{github.workspace}}/build
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        working-directory: ${{github.workspace}}/build
+        run:  cmake -E make_directory ${{github.workspace}}/build
 
-    - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
-      shell: bash
-      working-directory: ${{github.workspace}}
-      # Note the current convention is to use the -S and -B options here to specify source
-      # and build directories, but this is only available with CMake 3.13 and higher.
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: PICO_SDK_PATH=../pico-sdk cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build .
+      - name: Configure CMake
+        # Use a bash shell so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        shell: bash
+        working-directory: ${{github.workspace}}
+        # Note the current convention is to use the -S and -B options here to specify source
+        # and build directories, but this is only available with CMake 3.13 and higher.
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: PICO_SDK_PATH=../pico-sdk cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -B ./build .
 
-    - name: Build
-      working-directory: ${{github.workspace}}
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build ./build --config $BUILD_TYPE --parallel $(nproc)
+      - name: Build
+        working-directory: ${{github.workspace}}
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: cmake --build ./build --config $BUILD_TYPE --parallel $(nproc)
 ```
 
 https://docs.github.com/en/actions/learn-github-actions
