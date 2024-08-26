@@ -59,10 +59,10 @@ Now that we have our project, let's get it into source control.
     1. Do *not* initialize the repository with a README, gitignore, or license.
 1. Initialize the local repository.
     1. From your project directory, run `git init`. This sets up the repository metadata.
-    1. Stage all of the files in the current working directory `git add .gitignore src include lib test platformio.ini`
+    1. Stage all of the files in the current working directory `git add .`
     1. Commit the staged files with a descriptive commit message `git commit -m "Initialize Pico project"`
     1. Create a main branch `git branch -M main`
-    1. Add your github repository as a remote. `git remote add origin git@github.com:uofu-embed/embedded_demo.git`
+    1. Add your github repository as a remote. `git remote add origin git@github.com:username/lab0.git`
     1. Push the main branch and the commit to the remote. `git push -u origin main`
 
 # Making changes to a project
@@ -72,48 +72,7 @@ Now that we have our project, let's get it into source control.
 1. Make the modifications in section 4.2 of the getting started datasheet.
 1. Build and deploy the changes.
 1. Commit the changes to the main file, and push the branch to your github remote.
-
-# Run tests
-## Overview
-Now that the code is compiling, it needs to be tested. Manually testing the system by running it and observing the behavior is often easy, but does not scale once a project grows in size and complexity. Automated testing demonstrates the behavior of your system and codifies that behavior. Any change to the system should maintain the previous behavior of the system outside the change.
-
-Remember, "if you can't measure it, you can't change it".
-
-We will be using the Unity test framework. We will establish a convention on the installation location to make things more portable. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build.
-## Tasks
-1. Change working directory to the pico installation. `cd $PICO_SDK_PATH/../..`
-1. Clone the Unity repo. `git clone https://github.com/ThrowTheSwitch/Unity.git`
-1. From the Unity repo, run `CC=arm-none-eabi-gcc cmake -B build . && cmake --install build`
-1. Copy the `rpi_pico_rp2040_w.repl` and `hello_world.repc` files to your project directory.
-1. Add the following to your CMakeLists.txt. `mytest` can be anything you want.
-```
-include(CTest)
-add_executable(mytest test/test_unity.c ${PICO_TOOLCHAIN_PATH}/../../Unity/src/unity.c)
-target_link_libraries(mytest pico_stdlib)
-target_include_directories(mytest PRIVATE ${PICO_TOOLCHAIN_PATH}/../../Unity/src)
-
-find_program(
-  RENODE
-  renode
-)
-set(RENODE /Applications/Renode.app/Contents/MacOS/macos_run.command)
-
-set(RENODE_FLAGS
-  --disable-xwt
-  --port -2
-  --pid-file renode.pid
-  --console
-  )
-
-add_test(NAME runmytest COMMAND
-    ${RENODE}
-     ${RENODE_FLAGS}
-     --config hello_world.repc
-    )
-```
-
-1. Verify that all tests pass. run `ctest`
-1. Commit the new test file and the changes you made to cmake config.
+.
 # Setup Continuous Integration
 ## Overview
 Continuous Integration (CI), often paired with Continuous Delivery (CI/CD), is a development pattern to rapidly deliver consistent working software. The basic principle is to always keep your project in a working state, with small incremental changes. The project should be monitored with automated tests and performance instrumentation. When code is pushed to the central repository, a build system will run the automated tests. If the tests pass, the code is ready to be reviewed and then deployed.

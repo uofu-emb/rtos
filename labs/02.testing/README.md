@@ -40,6 +40,48 @@ You should have a project setup after lab 0. For reference, here is a quick setu
 1. Copy in the github actions template to `.github/workflows/main.yml`
 1. Copy in the .gitignore template to `.gitignore`
 
+# Run tests
+## Overview
+Now that the code is compiling, it needs to be tested. Manually testing the system by running it and observing the behavior is often easy, but does not scale once a project grows in size and complexity. Automated testing demonstrates the behavior of your system and codifies that behavior. Any change to the system should maintain the previous behavior of the system outside the change.
+
+Remember, "if you can't measure it, you can't change it".
+
+We will be using the Unity test framework. We will establish a convention on the installation location to make things more portable. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build.
+## Tasks
+1. Change working directory to the pico installation. `cd $PICO_SDK_PATH/../..`
+1. Clone the Unity repo. `git clone https://github.com/ThrowTheSwitch/Unity.git`
+1. From the Unity repo, run `CC=arm-none-eabi-gcc cmake -B build . && cmake --install build`
+1. Copy the `rpi_pico_rp2040_w.repl` and `hello_world.repc` files to your project directory.
+1. Add the following to your CMakeLists.txt. `mytest` can be anything you want.
+```
+include(CTest)
+add_executable(mytest test/test_unity.c ${PICO_TOOLCHAIN_PATH}/../../Unity/src/unity.c)
+target_link_libraries(mytest pico_stdlib)
+target_include_directories(mytest PRIVATE ${PICO_TOOLCHAIN_PATH}/../../Unity/src)
+
+find_program(
+  RENODE
+  renode
+)
+set(RENODE /Applications/Renode.app/Contents/MacOS/macos_run.command)
+
+set(RENODE_FLAGS
+  --disable-xwt
+  --port -2
+  --pid-file renode.pid
+  --console
+  )
+
+add_test(NAME runmytest COMMAND
+    ${RENODE}
+     ${RENODE_FLAGS}
+     --config hello_world.repc
+    )
+```
+
+1. Verify that all tests pass. run `ctest`
+1. Commit the new test file and the changes you made to cmake config
+
 ## Project structure
 
 PlatformIO has an opinionated project structure. It's important to put files in the correct locations so that the build system can properly find them.
