@@ -113,9 +113,20 @@ else()
 endif()
 ```
 
+1. If your CMakelists.txt file has the following line:
+```
+include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+```
+Replace it with the following so GitHub doesn't fail on trying to access vscode specific files.
+```
+if(EXISTS "${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake")
+  include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+endif()
+```
+
 1. Create the metadata directories. In the root of your repository, create a directory `.github` (note the leading dot). Inside that directory, create another directory `workflows`.
 1. Create a workflow.
-    1. Worflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
+    1. Workflows are defined in yaml configuration files, which define a series of steps that will be executed in response to an event, such as a push.
     1. Create a file `.github/workflows/main.yml`. Add the following configuration.
 ```
 name: CMake
@@ -179,7 +190,7 @@ jobs:
 https://docs.github.com/en/actions/learn-github-actions
 
 1. Commit the file and push.
-1. add test status badge to your repo README.
+1. Add test status badge to your repo README.
     1. Create a file named `README.md` in the root of your project.
     1. Add a brief description of you project.
     1. Add a badge image showing the current status of the workflow
