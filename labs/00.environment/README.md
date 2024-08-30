@@ -73,11 +73,18 @@ Now that we have our project, let's get it into source control.
     1. Do *not* initialize the repository with a README, gitignore, or license.
 1. Initialize the local repository.
     1. From your project directory, run `git init`. This sets up the repository metadata.
+    1. Create a file named `.gitignore` to tell git not to track IDE and build files (see below for example contents)
     1. Stage all of the files in the current working directory `git add .`
     1. Commit the staged files with a descriptive commit message `git commit -m "Initialize Pico project"`
     1. Create a main branch `git branch -M main`
     1. Add your github repository as a remote. `git remote add origin git@github.com:username/lab0.git`
     1. Push the main branch and the commit to the remote. `git push -u origin main`
+
+### .gitignore sample
+```
+.vscode/
+**/build/
+```
 
 # Making changes to a project
 
