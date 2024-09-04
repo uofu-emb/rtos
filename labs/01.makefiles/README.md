@@ -260,11 +260,12 @@ firmware.elf: $(OBJS)
 Rather than list out each .o file, we can use variables to list the files and use patterns to substitute the file names.
 `$^` is the automatic variable that contains all dependencies.
 
-We engineers are lazy, so let's find a way to define a new rule named `all` that depends on `firmware.elf`.
-Leave the recipe empty.
-Remember to add `all` to the `.PHONY` list.
+We engineers are lazy, so let's add a shortcut to run everything.
+* Define a new rule named `all` that depends on `firmware.elf`. Place it as the **first recipe**.
+* Leave the recipe empty.
+* Remember to add `all` to the `.PHONY` list.
 
-`all` is a special target - when you invoke make with no targets, it will build the `all` target.
+`all` is a special target by convention - when you invoke make with no targets, it will build the `all` target.
 
 Commit everything before moving to the next section.
 
