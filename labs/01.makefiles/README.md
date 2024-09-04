@@ -51,7 +51,7 @@ https://www.slideshare.net/slideshow/cu-cmp445-lec13introductiontotoolchain1/483
 ```
 int main(void) {
     while(1);
-    return 0
+    return 0;
 }
 ```
 - Commit the files.
