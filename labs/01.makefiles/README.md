@@ -276,7 +276,7 @@ Commit everything before moving to the next section.
 Create a file `.github/workflows/main.yml`. Add the following configuration.
 
 ```
-name: Build
+name: CMake
 on: [push, pull_request]
 
 jobs:
@@ -289,24 +289,21 @@ jobs:
           rm -rf "${{ github.workspace }}"
           mkdir -p "${{ github.workspace }}"
 
-      - name: Checkout pico-sdk/develop
-        uses: actions/checkout@v2
+      - name: Install GCC
+        id: arm-none-eabi-gcc-action
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
-          repository: raspberrypi/pico-sdk
-          ref: develop
-          path: pico-sdk
-
-      - name: Checkout pico-sdk submodules
-        working-directory: ${{github.workspace}}/pico-sdk
-        run: git submodule update --init
+          release: '13.2.Rel1'
 
       - uses: actions/checkout@v3
         with:
           path: ${{github.workspace}}/source
 
       - name: Say hello
-        working-directory: ${{github.workspace}}
-        run:
+        shell: bash
+        working-directory: ${{github.workspace}}/source
+        run: |
+            ls
             test ! -f hello.txt
             test ! -f main.o
             test ! -f main.i
@@ -314,17 +311,18 @@ jobs:
             make hello.txt
             test -f hello.txt
 
-      - name: Compile
+      - name: Test Compile
         shell: bash
-        working-directory: ${{github.workspace}}
-        run:
+        working-directory: ${{github.workspace}}/source
+        run: |
             test ! -f firmware.elf
-            PICO_TOOLCHAIN_PATH=../pico-sdk make
+            PICO_TOOLCHAIN_PATH=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.. make
             test -f firmware.elf
-      - name: Clean
+
+      - name: Test Clean
         shell: bash
-        working-directory: ${{github.workspace}}
-        run:
+        working-directory: ${{github.workspace}}/source
+        run: |
             make clean
             test ! -f hello.txt
             test ! -f main.o
