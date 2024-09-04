@@ -122,12 +122,15 @@ Commit everything, including the `.gitignore` file, before moving to the next se
 Our basic rule is pretty trivial. Let's introduce the first member of our toolchain.
 
 ```
+PICO_TOOLCHAIN_PATH?=~/.pico-sdk/toolchain/13_2_Rel1
 CPP=$(PICO_TOOLCHAIN_PATH)/bin/arm-none-eabi-cpp
 
 main.i: main.c
     $(CPP) main.c > main.i
 ```
 The C pre-processor (cpp) performs macro and pre-processor directive expansion. Note that we put the path to the tool binary into a variable to make it easier to specify the location if working in a different environment. Many of these tools have standard variables which you can set in your shell environment.
+
+The `PICO_TOOLCHAIN_PATH` environment variable is normally set by the VSCode plugin. You can set this variable to your `~/.profile`, `~/.bashrc`, `~/.zshrc` if you want to have access to the path elsewhere in the system. You can also specify the variable as part of invoking make, e.g. `FOO=bar make`.
 
 Try to run `make main.i`. What output do you predict if you run it a second time?
 
