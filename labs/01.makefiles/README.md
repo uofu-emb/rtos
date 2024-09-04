@@ -111,7 +111,7 @@ This will cause horrendous problems in your history, as the artifacts are consta
 
 You may think that this is a benefit - maybe someone wants a prebuilt version of the code!
 But what if I forget to commit the build artifacts  everytime, or commit an artifact that includes changes that aren't committed?
-This is why we use CI/CD! They can get the artifact from the build server, and are guaranteedwill have an up to date copy from a fresh repository.
+This is why we use CI/CD! They can get the artifact from the build server, and are guaranteed to have an up-to-date copy from a fresh repository.
 
 Create a new file called `.gitignore`, and add a line with `hello.txt`
 Now run `git status`. The build artifact is no longer listed as a new file. You will see the ignore file.
@@ -260,8 +260,7 @@ firmware.elf: $(OBJS)
 Rather than list out each .o file, we can use variables to list the files and use patterns to substitute the file names.
 `$^` is the automatic variable that contains all dependencies.
 
-We engineers are lazy, so let's find a way to .
-Define a new rule named `all` that depends on `firmware.elf`.
+We engineers are lazy, so let's find a way to define a new rule named `all` that depends on `firmware.elf`.
 Leave the recipe empty.
 Remember to add `all` to the `.PHONY` list.
 
@@ -279,51 +278,55 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-  steps:
-    - name: Clean workspace
-      run: |
-        echo "Cleaning up previous run"
-        rm -rf "${{ github.workspace }}"
-        mkdir -p "${{ github.workspace }}"
+    steps:
+      - name: Clean workspace
+        run: |
+          echo "Cleaning up previous run"
+          rm -rf "${{ github.workspace }}"
+          mkdir -p "${{ github.workspace }}"
 
-    - name: Checkout pico-sdk/develop
-      uses: actions/checkout@v2
-      with:
-        repository: raspberrypi/pico-sdk
-        ref: develop
-        path: pico-sdk
+      - name: Checkout pico-sdk/develop
+        uses: actions/checkout@v2
+        with:
+          repository: raspberrypi/pico-sdk
+          ref: develop
+          path: pico-sdk
 
-    - name: Checkout pico-sdk submodules
-      working-directory: ${{github.workspace}}/pico-sdk
-      run: git submodule update --init
+      - name: Checkout pico-sdk submodules
+        working-directory: ${{github.workspace}}/pico-sdk
+        run: git submodule update --init
 
-    - name: Say hello
-      working-directory: ${{github.workspace}}
-      run:
-          test ! -f hello.txt
-          test ! -f main.o
-          test ! -f main.i
-          test ! -f main.s
-          make hello.txt
-          test -f hello.txt
+      - uses: actions/checkout@v3
+        with:
+          path: ${{github.workspace}}/source
 
-    - name: Compile
-      shell: bash
-      working-directory: ${{github.workspace}}
-      run:
-          test ! -f firmware.elf
-          PICO_TOOLCHAIN_PATH=../pico-sdk make
-          test -f firmware.elf
-    - name: Clean
-      shell: bash
-      working-directory: ${{github.workspace}}
-      run:
-          make clean
-          test ! -f hello.txt
-          test ! -f main.o
-          test ! -f main.i
-          test ! -f main.s
-          test ! -f firmware.elf
+      - name: Say hello
+        working-directory: ${{github.workspace}}
+        run:
+            test ! -f hello.txt
+            test ! -f main.o
+            test ! -f main.i
+            test ! -f main.s
+            make hello.txt
+            test -f hello.txt
+
+      - name: Compile
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run:
+            test ! -f firmware.elf
+            PICO_TOOLCHAIN_PATH=../pico-sdk make
+            test -f firmware.elf
+      - name: Clean
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run:
+            make clean
+            test ! -f hello.txt
+            test ! -f main.o
+            test ! -f main.i
+            test ! -f main.s
+            test ! -f firmware.elf
 
 ```
 
