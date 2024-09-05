@@ -14,7 +14,14 @@ In this lab, we'll be setting up the development environment. This environment w
 Complete the following tasks before lab. **This will require a large download and long installation, so do it before lab**. At the end of this section, you should have the tools installed and a working project skeleton.
 
 ## Reading
-https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+Read the documentation about pull requests.
+
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests
+
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests
+
+https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request
+
 
 
 ## Install Visual Studio Code
@@ -207,3 +214,16 @@ https://docs.github.com/en/actions/learn-github-actions
 https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
     1. Commit your README and push.
     1. Open a pull request to merge your branch into main branch.
+
+# Pull requests.
+
+As you should have reviewed in the prelab, a (pull request)[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests] is a procedure for having your code reviewed before being merged into the main branch.
+Members of the team responsibles for maintaining the repository will (review your changes)[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests].
+This is why you do your work in a branch or a fork. Your work is done in isolation, and then brought into the "official" branch of the project (usually called _main_ or _master_).
+Once the changes are reviewed and the code is ready, the changes will be (incorporated into the main branch)[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request].
+
+For open source projects, this is a way for community members who are not part of the team to propose bug fixes and new features.
+In a corporate environment, the review process could be required as part of the coprorate policy.
+This may be legally required as part of company policy or by government regulation.
+
+In this class, you will do all your work on a branch. Once your work is ready, check the assignment page on Canvas, which will list the other team your team will be doing reviews with. You'll create a pull request on the Github website. Add all the members of the other team as reviewers. Once *all* members of the other team have approved the pull request, you'll merge the branch using the pull request page on Github. Once this is done, submit the URL to your repo on Canvas.
