@@ -28,8 +28,32 @@ https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorp
 ### Overview
 We will use the Visual Studio Code integrated development environment (IDE). Modern software development leverages many tools - the IDE integrates them into a single environment. You'll use the IDE to write, manage, build, deploy, and debug your code.
 
-We will also be heavily using the command line. The IDE automates and provides GUI shortcuts, but these are just wrappers over the underlying commands available. **Don't use the GUI when a command line or keyboard shortcut is available**.
+We will also be heavily using the command line. The IDE automates and provides GUI shortcuts, but these are just wrappers over the underlying commands available. **Don't use the GUI when a command line or keyboard shortcut is available**. You need to use some form of Unix for this course.
+
 ### Tasks
+#### Get a Unix
+Windows users can use the (Windows Subsystem for Linux)[https://learn.microsoft.com/en-us/windows/wsl/install]. Linux is the most popular open-source version. Apple's Mac OS is a descendant of the Berkeley System Distribution (BSD). The other major BSD descendants are FreeBSD and OpenBSD.
+
+##### Linux
+Linux is packaged in a distribution. (Popular distributions)[https://distrowatch.com/] include (Debian)[https://www.debian.org/], (Mint)[https://linuxmint.com/], (Ubuntu)[https://www.ubuntu.com], (Arch)[http://www.archlinux.org/], and (Fedora)[https://fedoraproject.org/]. If you aren't sure which to install, Mint is a fine choice.
+
+##### Virtual machine
+Tools such as (Virtualbox)[https://www.virtualbox.org/] allow you to create a virtual machine, where you can install Linux.
+
+##### Dual boot Linux
+You can create a separate partition on your computer to switch between booting your regular operating system and Linux.
+
+https://opensource.com/article/18/5/dual-boot-linux
+
+##### Windows Subsystem for Linux (WSL)
+WSL is a Microsoft tool that embeds a Linux environment into Windows. It's an crime against nature, but it works fine.
+
+https://learn.microsoft.com/en-us/windows/wsl/install
+
+##### Mac OS
+Apple's Mac OS from OSX forward uses the Darwin BSD kernel. You'll want to install (Homebrew)[https://brew.sh/] for package management.
+
+#### Install VSCode
 Detailed installation instructions are available in the chapters 2 and 3 in the getting started datasheet https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
 
 1. Download and install VSCode, available at the following link. https://code.visualstudio.com/
