@@ -295,7 +295,8 @@ jobs:
         with:
           release: '13.2.Rel1'
 
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
         with:
           path: ${{github.workspace}}/source
 
