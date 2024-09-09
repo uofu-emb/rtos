@@ -27,7 +27,7 @@ Read through the Renode testing docs (you don't need to read the advanced usage 
 
 https://renode.readthedocs.io/en/latest/introduction/testing.html
 
-Read through this lab manual and familiarize yourself with terms used and concepts discussed.
+Read through the rest of this lab manual and familiarize yourself with terms used and concepts discussed.
 
 ## Install the debugger firmware onto your second pico.
 
@@ -35,18 +35,11 @@ Follow the instructions in Appendix A of the [Getting Started](https://datasheet
 
 # Lab
 ## Instantiate the project
-You should have a project setup after lab 0. Create a fork of one of your repositories and work off the fork. For reference, here is a quick setup, double check everything is setup. Template files are located in this directory.
-### Activity
-1. Create a new project in VSCode following the instructions in chapter 5 of the [Getting Started](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf) guide.
-1. Copy in the .gitignore template to `.gitignore`
-1. Initialize a git repository with `git init` and commit your project.
-1. Copy in the github actions template to `.github/workflows/main.yml`
-1. Overwrite the CMakelists.txt template with our CICD version.
-1. Copy the `rpi_pico_rp2040_w.repl` and `hello_world.repc` files to your project directory.
+1. Create a new repository from this template https://github.com/uofu-emb/rtos.template
 1. Remember to commit your work as you go.
 
 ### Install Unity framework.
-We will be using the Unity test framework. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build. We will be embedding the Unity library repository into our code using a git **submodule**. Submodules take another git repository and includes the content at a *specific commit*. In C projects, this is a pattern sometimes usedfor referencing an external library. For other languages libraries are handled with a package and build manager (e.g. Java/gradle, Rust/cargo, Python/pip). A note on submodules, they are almost always the wrong solution to a problem, especially if you are using them to do code sharing with an internal library.
+We will be using the Unity test framework. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build. We will be embedding the Unity library repository into our code using a git **submodule**. Submodules take another git repository and includes the content at a *specific commit*. In C projects, this is a pattern sometimes used for referencing an external library. For other languages, libraries are handled with a package and build manager (e.g. Java/gradle, Rust/cargo, Python/pip). A note on submodules, they are almost always the wrong solution to any problem, especially if you are using them to do code sharing between repositories.
 
 ### Activity
 1. Clone the Unity repo as a **submodule**. `git submodule add https://github.com/ThrowTheSwitch/Unity.git`
@@ -65,44 +58,14 @@ We will use an opinionated project structure. Many brutal wars have been fought 
 1. Put all your tests in a directory `test`
     1. Multiple tests can be set up in subdirectories.
 
-### Activity
-1. Copy the blink.c function from this directory into your project `src` directory. We will be using this file as the foundation of the lab.
-
 ## Run tests
 Now that the code is compiling, it needs to be tested. Manually testing the system by running it and observing the behavior is often easy, but does not scale once a project grows in size and complexity. Automated testing demonstrates the behavior of your system and codifies that behavior. Any change to the system should maintain the previous behavior of the system outside the change.
 
 Remember, "if you can't measure it, you can't change it".
 
-1. Add the following to your CMakeLists.txt. `mytest` can be anything you want.
-# TODO update
-```
-include(CTest)
-add_executable(mytest test/test_unity.c ${PICO_TOOLCHAIN_PATH}/../../Unity/src/unity.c)
-target_link_libraries(mytest pico_stdlib)
-target_include_directories(mytest PRIVATE ${PICO_TOOLCHAIN_PATH}/../../Unity/src)
-
-find_program(
-  RENODE
-  renode
-)
-set(RENODE /Applications/Renode.app/Contents/MacOS/macos_run.command)
-
-set(RENODE_FLAGS
-  --disable-xwt
-  --port -2
-  --pid-file renode.pid
-  --console
-  )
-
-add_test(NAME runmytest COMMAND
-    ${RENODE}
-     ${RENODE_FLAGS}
-     --config hello_world.repc
-    )
-```
-
-1. Verify that all tests pass. run `ctest`
-1. Commit the new test file and the changes you made to cmake config
+### Activity
+1. Read throught the `test.c` example into `test` directory.
+1. Verify that all tests pass. To run the test, invoke `ctest` from the build directory.
 
 ## Working with untested code.
 ### Tactics
@@ -156,8 +119,7 @@ Sometimes the best way to understand how things work is to take them apart and b
 ### Activity:
 If you have not already done so, flash the code to your microcontroller and observe the behavior of the system.
 
-# TODO update
-Delete the calls to `k_timer_status_sync` (make sure you have committed prior to this!). Predict what you think will happen.
+Delete the calls to `vTaskStartScheduler` (make sure you have committed prior to this!). Predict what you think will happen.
 
 Compile your changes and flash the micontroller. Does the behavior match your prediction?
 
@@ -228,7 +190,7 @@ As you become familiar with how tests are written, you will start writing code i
 Note that you will write tests in this class that are more trivial that what you might do in a more realistic situation.
 
 ### Activity
-1. Find the main function, interrupt handlers, and thread entry points.
+1. Find the execution contexts: the main function, interrupt handlers, and thread entry points.
 1. Identify the behavioral code in these contexts. We will refactor this code in following activity.
 1. Find any infinite loops in the code.
 1. Identify the difference between setup and repeated execution.
@@ -252,8 +214,9 @@ Note that you will write tests in this class that are more trivial that what you
     1. We need to make sure we know what the code was before our changes.
     2. Use `git diff` or `git difftool` to compare with the previous state.
     3. If things go wrong, you can always revert back to the working state. (Use `git checkout -- file.c`)
-2. Create a new header file in the `lib/lab1/include` directory to hold the definition of your function.
-3. Create a new code file in the `lib/lab1/src` directory to hold the implementation of your code.
+2. Create a new header file in the `include` directory to hold the definition of your function.
+3. Create a new C code file in the `src` directory to hold the implementation of your code.
+    1. Add this file to the list of files in the `add_executable` statements in your CMakeLists.txt files.
 4. Take a block of code you identified in the infinite loop of your main execution context. Create a function in your new files, and move all of the code in a block into it.
 5. Put a call to the function where the code used to be.
 6. Compile the code. You will be missing includes, variables, references, outputs, etc. We will deal with this in the next activity.
@@ -296,39 +259,18 @@ Now that you have a function extracted, it is time to write the test.
 
 ### Technique and Activity
 1. Make sure your code compiles and everything is committed.
-1. Add the following lines to your `platformio.ini` file.
-```
-[env:disco_f072rb]
-platform = ststm32
-board = disco_f072rb
-framework = zephyr
-lib_deps =
-    lab1
-platform_packages =
-    platformio/tool-renode
-test_testing_command =
-    ${platformio.packages_dir}/tool-renode/renode
-    --disable-xwt
-    -e mach create "stm32f072b"
-    -e machine LoadPlatformDescription @platforms/boards/stm32f072b_discovery.repl
-    -e sysbus LoadELF @${platformio.build_dir}/${this.__env__}/firmware.elf
-    -e start
-```
     1. We'll be running our code in the Renode simulator, so we can run our tests in GitHub actions.
     1. We can also run tests on the microcontroller.
 1. Create a new file in the `test` directory.
-    1. It can have any name, but by convention it has a similar name to the file you put your code in.
-    1. This can make it easier for another person to find the test later.
+    1. It can have any name, but by convention it has a similar name to the file you put your code in. This can make it easier for another person to find the test later.
     1. Add the code template from `test.c` in this directory to the file.
     1. Your test must include a `setUp` and `tearDown` function. You can put any code in here that will be run at before and after each of test.
     1. Your tests must have a `main` function.
         1. This sets up the testing framework with the `UNITY_BEGIN` and `UNITY_END` macros.
         1. For each test, you will call the `RUN_TEST` macro.
-1.
 1. Remove the example tests and add your own.
     1. Tests by convention start with `test_` but don't need to.
     1. Each test should generally demonstrate one possible case. Having multiple tests instead of one big one makes it easier to identify what is failing.
-1. In your test, use any one of the GPIO peripherals available.
 1. Exercise the function under test and check the state of the GPIO peripherals.
 1. If you find yourself having trouble setting up the test, you have too many parameters, or a dependency is getting in the way, try refactoring the function further. Follow the same techniques from the previous activities.
 
@@ -342,11 +284,6 @@ https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsReferenc
 
 https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsCheatSheetSuitableforPrintingandPossiblyFraming.pdf
 
-### Running the test
-Run the test with this command. Because we are using the simulator, the test does not need to upload the binary.
-
-`pio test --without-uploading --environment disco_f072b`
-
 ## Not everything needs a test.
 - Don't test external libraries.
 - Some things are trivial and don't need tests. If you aren't sure, write a test.
@@ -359,6 +296,4 @@ Run the test with this command. Because we are using the simulator, the test doe
 2. Continue refactoring and adding tests until you are satisfied with the test coverage.
 
 # Examples
-The directory `demo` contains a working project structure with no dependencies on Zephyr.
-
-The directory `reference` contains a working reference implementation of the lab.
+A reference implementation is located at https://github.com/uofu-emb/rtos.02
