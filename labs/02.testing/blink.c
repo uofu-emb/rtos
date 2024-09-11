@@ -1,51 +1,31 @@
 #include <stdio.h>
-#include "FreeRTOS.h"
-#include "task.h"
 #include "pico/stdlib.h"
-#include "pico/multicore.h"
-#include "pico/cyw43_arch.h"
 
-#define MAIN_TASK_PRIORITY      ( tskIDLE_PRIORITY + 2UL )
-#define BLINK_TASK_PRIORITY     ( tskIDLE_PRIORITY + 1UL )
+#define PICO_LED_PIN 7
 
-#define MAIN_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
-#define BLINK_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
-
-int counter;
-bool led_is_on;
-
-void blink_task(__unused void *params)
-{
-    counter = 0;
-    led_is_on = false;
-    hard_assert(cyw43_arch_init() == PICO_OK);
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, false);
-    while (true) {
-	cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_is_on);
-	if (counter++ % 47)
-	    led_is_on = !led_is_on;
-        vTaskDelay(1000);
-    }
-}
-
-
-void main_task(__unused void *params)
-{
-    xTaskCreate(blink_task, "BlinkThread", BLINK_TASK_STACK_SIZE, NULL, BLINK_TASK_PRIORITY, NULL);
-    int count = 0;
-    char c;
-    while(c = getchar()) {
-	if (c <= 'z' && c >= 'a') putchar(c - 32);
-	else if (c >= 'A' && c <= 'Z') putchar(c + 32);
-	else putchar(c);
-    }
-}
-
+int led_is_on;
+int count;
 int main( void )
 {
     stdio_init_all();
-    TaskHandle_t task;
-    xTaskCreate(main_task, "MainThread", MAIN_TASK_STACK_SIZE, NULL, MAIN_TASK_PRIORITY, &task);
-    vTaskStartScheduler();
+    printf("Starting up\n");
+    led_is_on = 0;
+    count = 0;
+    char c;
+    gpio_init(PICO_LED_PIN);
+    gpio_set_dir(PICO_LED_PIN, GPIO_OUT);
+    while(c = getchar()) {
+        led_is_on = !led_is_on;
+        gpio_put(PICO_LED_PIN, led_is_on);
+        if (c <= 'z' && c >= 'a') putchar(c - 32);
+        else if (c >= 'A' && c <= 'Z') putchar(c + 32);
+        else putchar(c);
+
+        if (count++ % 42) {
+            led_is_on = !led_is_on;
+            putchar('4');
+            putchar('2');
+        }
+    }
     return 0;
 }

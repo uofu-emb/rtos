@@ -42,7 +42,7 @@ Follow the instructions in Appendix A of the [Getting Started](https://datasheet
 We will be using the Unity test framework. Library management is a pain, and not something that the pico SDK provides. We have to install the library and add references to our build. We will be embedding the Unity library repository into our code using a git **submodule**. Submodules take another git repository and includes the content at a *specific commit*. In C projects, this is a pattern sometimes used for referencing an external library. For other languages, libraries are handled with a package and build manager (e.g. Java/gradle, Rust/cargo, Python/pip). A note on submodules, they are almost always the wrong solution to any problem, especially if you are using them to do code sharing between repositories.
 
 ### Activity
-1. Clone the Unity repo as a **submodule**. `git submodule add https://github.com/ThrowTheSwitch/Unity.git` lib/unity
+1. Clone the Unity repo as a **submodule**. `git submodule add https://github.com/ThrowTheSwitch/Unity.git lib/unity`
 1. Update the submodule contents (a common problem with submodules, the submodule folder may be empty) `git submodule update --init --recursive`
 
 ## Project structure
