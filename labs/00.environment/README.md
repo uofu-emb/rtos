@@ -23,64 +23,10 @@ https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/review
 https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request
 
 
+## Tool installation
+Follow the [installation guide](../../SETUP.md) in the top directory of this repository.
 
-## Install Visual Studio Code
-### Overview
-We will use the Visual Studio Code integrated development environment (IDE). Modern software development leverages many tools - the IDE integrates them into a single environment. You'll use the IDE to write, manage, build, deploy, and debug your code.
-
-We will also be heavily using the command line. The IDE automates and provides GUI shortcuts, but these are just wrappers over the underlying commands available. **Don't use the GUI when a command line or keyboard shortcut is available**. You need to use some form of Unix for this course.
-
-### Tasks
-#### Get a Unix
-Windows users can use the (Windows Subsystem for Linux)[https://learn.microsoft.com/en-us/windows/wsl/install]. Linux is the most popular open-source version. Apple's Mac OS is a descendant of the Berkeley System Distribution (BSD). The other major BSD descendants are FreeBSD and OpenBSD.
-
-##### Linux
-Linux is packaged in a distribution. (Popular distributions)[https://distrowatch.com/] include (Debian)[https://www.debian.org/], (Mint)[https://linuxmint.com/], (Ubuntu)[https://www.ubuntu.com], (Arch)[http://www.archlinux.org/], and (Fedora)[https://fedoraproject.org/]. If you aren't sure which to install, Mint is a fine choice.
-
-##### Virtual machine
-Tools such as (Virtualbox)[https://www.virtualbox.org/] allow you to create a virtual machine, where you can install Linux.
-
-##### Dual boot Linux
-You can create a separate partition on your computer to switch between booting your regular operating system and Linux.
-
-https://opensource.com/article/18/5/dual-boot-linux
-
-##### Windows Subsystem for Linux (WSL)
-WSL is a Microsoft tool that embeds a Linux environment into Windows. It's an crime against nature, but it works fine.
-
-https://learn.microsoft.com/en-us/windows/wsl/install
-
-##### Mac OS
-Apple's Mac OS from OSX forward uses the Darwin BSD kernel. You'll want to install (Homebrew)[https://brew.sh/] for package management.
-
-#### Install VSCode
-Detailed installation instructions are available in the chapters 2 and 3 in the getting started datasheet https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
-
-1. Download and install VSCode, available at the following link. https://code.visualstudio.com/
-1. Install these plugins
-    - https://marketplace.visualstudio.com/items?itemName=raspberry-pi.raspberry-pi-pico
-    - https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
-    - https://marketplace.visualstudio.com/items?itemName=twxs.cmake
-    - https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools
-1. Download and install Renode, available at the following link https://renode.io/#downloads
-We'll be using the VSCode extension integration to setup the SDK and the build toolchain.
-
-If you want to install the SDK manually, there are instructions on https://github.com/raspberrypi/pico-sdk
-
-#### Windows specific issues
-NOTE: If you are using a windows device, install this: https://zadig.akeo.ie/
-Use this to install a driver for the RP2 USB-Device, after you have plugged in your RP2040 from the stockroom to your computer.
-
-#### Linux specific issues
-You may need to install this udev rule to allow non-root access over USB.
-
-https://github.com/raspberrypi/picotool/blob/master/udev/99-picotool.rules
-
-You may need to add your user to the dialout group to access serial devices.
-
-`sudo usermod -a -G dialout $USER`
-
-## Create a new project
+# Pico blink project
 ### Overview
 
 Build tools use a set of conventions to setup a project. This usually defines a consistent organization for source code, header, and test code. The configuration of the project, library dependencies, along with any custom build tasks, will be located in the build file. The Raspberry Pi Pico uses the CMake tool to configure and run the build process. The build file `CMakeLists.txt` is located at the root of the project. The build file will be committed to your git repository with the rest of your source code. Anyone else working on the project will be able to use the same project configuration by simply checking out the code.
@@ -88,7 +34,7 @@ Build tools use a set of conventions to setup a project. This usually defines a 
 ### Tasks
 You should be able to load the example code onto the board following the instructions.
 
-- Follow the chapter 4 introduction and section 4.1 of the getting started guide. https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
+- Follow the chapter 4 section 1 of the getting started guide. https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
 
 You can build the project using the GUI as outlined in the documentation. We will explore the command line in the next lab (see Appendix C).
 
@@ -97,11 +43,9 @@ You can build the project using the GUI as outlined in the documentation. We wil
 ## Overview
 Now that we have our project, let's get it into source control.
 ## Tasks
-1. Create an ssh key for authentication with github
-    1. Generate: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-    1. Add to your account: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 1. Create repository on github
     1. Do *not* initialize the repository with a README, gitignore, or license.
+    1. You only need one repository for your group.
 1. Initialize the local repository.
     1. From your project directory, run `git init`. This sets up the repository metadata.
     1. Create a file named `.gitignore` to tell git not to track IDE and build files (see below for example contents)
