@@ -1,0 +1,509 @@
+/dts-v1/;
+
+/ {
+	#address-cells = < 0x1 >;
+	#size-cells = < 0x1 >;
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,flash-controller = &ssi;
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,code-partition = &code_partition;
+	};
+	aliases {
+		die-temp0 = &die_temp;
+		rtc = &rtc;
+		watchdog0 = &wdt0;
+		led0 = &led0;
+		pwm-led0 = &pwm_led0;
+	};
+	soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+		compatible = "raspberrypi,rp2040", "simple-bus";
+		interrupt-parent = < &nvic >;
+		ranges;
+		nvic: interrupt-controller@e000e100 {
+			#address-cells = < 0x1 >;
+			compatible = "arm,v6m-nvic";
+			reg = < 0xe000e100 0xc00 >;
+			interrupt-controller;
+			#interrupt-cells = < 0x2 >;
+			arm,num-irq-priority-bits = < 0x2 >;
+			phandle = < 0x1 >;
+		};
+		systick: timer@e000e010 {
+			compatible = "arm,armv6m-systick";
+			reg = < 0xe000e010 0x10 >;
+		};
+		sram0: memory@20000000 {
+			compatible = "mmio-sram";
+			reg = < 0x20000000 0x42000 >;
+		};
+		ssi: flash-controller@18000000 {
+			compatible = "raspberrypi,pico-flash-controller";
+			reg = < 0x18000000 0xfc >;
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			flash0: flash@10000000 {
+				compatible = "soc-nv-flash";
+				write-block-size = < 0x1 >;
+				erase-block-size = < 0x1000 >;
+				reg = < 0x10000000 0x200000 >;
+				partitions {
+					compatible = "fixed-partitions";
+					#address-cells = < 0x1 >;
+					#size-cells = < 0x1 >;
+					second_stage_bootloader: partition@0 {
+						label = "second_stage_bootloader";
+						reg = < 0x0 0x100 >;
+						read-only;
+					};
+					code_partition: partition@100 {
+						label = "code-partition";
+						reg = < 0x100 0x1fff00 >;
+						read-only;
+					};
+				};
+			};
+		};
+		reset: reset-controller@4000c000 {
+			compatible = "raspberrypi,pico-reset";
+			reg = < 0x4000c000 0x1000 >;
+			reg-width = < 0x4 >;
+			active-low = < 0x0 >;
+			#reset-cells = < 0x1 >;
+			phandle = < 0x15 >;
+		};
+		clocks: clock-controller@40008000 {
+			compatible = "raspberrypi,pico-clock-controller";
+			reg = < 0x40008000 0x1000 0x40024000 0x1000 0x40028000 0x1000 0x4002c000 0x1000 0x40060000 0x1000 >;
+			reg-names = "clocks", "xosc", "pll_sys", "pll_usb", "rosc";
+			#clock-cells = < 0x1 >;
+			status = "okay";
+			clocks = < &clk_gpout0 >, < &clk_gpout1 >, < &clk_gpout2 >, < &clk_gpout3 >, < &clk_ref >, < &clk_sys >, < &clk_peri >, < &clk_usb >, < &clk_adc >, < &clk_rtc >, < &pll_sys >, < &pll_usb >, < &xosc >, < &rosc >, < &rosc_ph >, < &gpin0 >, < &gpin1 >;
+			clock-names = "clk_gpout0", "clk_gpout1", "clk_gpout2", "clk_gpout3", "clk_ref", "clk_sys", "clk_peri", "clk_usb", "clk_adc", "clk_rtc", "pll_sys", "pll_usb", "xosc", "rosc", "rosc_ph", "gpin0", "gpin1";
+			pinctrl-0 = < &clocks_default >;
+			pinctrl-names = "default";
+			phandle = < 0x14 >;
+		};
+		gpio0: gpio@40014000 {
+			compatible = "raspberrypi,pico-gpio";
+			reg = < 0x40014000 0x1000 >;
+			interrupts = < 0xd 0x3 >;
+			gpio-controller;
+			#gpio-cells = < 0x2 >;
+			status = "okay";
+			ngpios = < 0x1e >;
+			phandle = < 0x1d >;
+		};
+		uart0: pico_serial: uart@40034000 {
+			compatible = "raspberrypi,pico-uart", "arm,pl011";
+			reg = < 0x40034000 0x1000 >;
+			clocks = < &clocks 0x6 >;
+			resets = < &reset 0x16 >;
+			interrupts = < 0x14 0x3 >;
+			interrupt-names = "uart0";
+			status = "okay";
+			current-speed = < 0x1c200 >;
+			pinctrl-0 = < &uart0_default >;
+			pinctrl-names = "default";
+		};
+		uart1: uart@40038000 {
+			compatible = "raspberrypi,pico-uart", "arm,pl011";
+			reg = < 0x40038000 0x1000 >;
+			clocks = < &clocks 0x6 >;
+			resets = < &reset 0x17 >;
+			interrupts = < 0x15 0x3 >;
+			interrupt-names = "uart1";
+			status = "disabled";
+		};
+		spi0: pico_spi: spi@4003c000 {
+			compatible = "raspberrypi,pico-spi", "arm,pl022";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x4003c000 0x1000 >;
+			clocks = < &clocks 0x6 >;
+			resets = < &reset 0x10 >;
+			interrupts = < 0x12 0x3 >;
+			interrupt-names = "spi0";
+			status = "okay";
+			clock-frequency = < 0x7a1200 >;
+			pinctrl-0 = < &spi0_default >;
+			pinctrl-names = "default";
+		};
+		spi1: spi@40040000 {
+			compatible = "raspberrypi,pico-spi", "arm,pl022";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40040000 0x1000 >;
+			resets = < &reset 0x11 >;
+			clocks = < &clocks 0x6 >;
+			interrupts = < 0x13 0x3 >;
+			interrupt-names = "spi1";
+			status = "disabled";
+		};
+		adc: adc@4004c000 {
+			compatible = "raspberrypi,pico-adc";
+			reg = < 0x4004c000 0x1000 >;
+			resets = < &reset 0x0 >;
+			clocks = < &clocks 0x8 >;
+			interrupts = < 0x16 0x3 >;
+			interrupt-names = "adc0";
+			status = "okay";
+			#io-channel-cells = < 0x1 >;
+			pinctrl-0 = < &adc_default >;
+			pinctrl-names = "default";
+			phandle = < 0x1c >;
+		};
+		i2c0: pico_i2c0: i2c@40044000 {
+			compatible = "raspberrypi,pico-i2c", "snps,designware-i2c";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40044000 0x1000 >;
+			resets = < &reset 0x3 >;
+			clocks = < &clocks 0x5 >;
+			interrupts = < 0x17 0x3 >;
+			interrupt-names = "i2c0";
+			status = "okay";
+			clock-frequency = < 0x186a0 >;
+			pinctrl-0 = < &i2c0_default >;
+			pinctrl-names = "default";
+		};
+		i2c1: pico_i2c1: i2c@40048000 {
+			compatible = "raspberrypi,pico-i2c", "snps,designware-i2c";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40048000 0x1000 >;
+			resets = < &reset 0x4 >;
+			clocks = < &clocks 0x5 >;
+			interrupts = < 0x18 0x3 >;
+			interrupt-names = "i2c1";
+			status = "disabled";
+			pinctrl-0 = < &i2c1_default >;
+			pinctrl-names = "default";
+			clock-frequency = < 0x61a80 >;
+		};
+		wdt0: watchdog@40058000 {
+			compatible = "raspberrypi,pico-watchdog";
+			reg = < 0x40058000 0x1000 >;
+			clocks = < &clocks 0x4 >;
+			status = "okay";
+		};
+		usbd: zephyr_udc0: usbd@50100000 {
+			compatible = "raspberrypi,pico-usbd";
+			reg = < 0x50100000 0x10000 >;
+			resets = < &reset 0x18 >;
+			clocks = < &clocks 0x7 >;
+			interrupts = < 0x5 0x3 >;
+			interrupt-names = "usbctrl";
+			num-bidir-endpoints = < 0x10 >;
+			status = "okay";
+		};
+		pwm: pwm@40050000 {
+			compatible = "raspberrypi,pico-pwm";
+			reg = < 0x40050000 0x1000 >;
+			resets = < &reset 0xe >;
+			clocks = < &clocks 0x5 >;
+			interrupts = < 0x4 0x3 >;
+			interrupt-names = "PWM_IRQ_WRAP";
+			status = "disabled";
+			#pwm-cells = < 0x3 >;
+			pinctrl-0 = < &pwm_ch4b_default >;
+			pinctrl-names = "default";
+			divider-int-0 = < 0xff >;
+			phandle = < 0x1e >;
+		};
+		timer: timer@40054000 {
+			compatible = "raspberrypi,pico-timer";
+			reg = < 0x40054000 0x1000 >;
+			resets = < &reset 0x15 >;
+			clocks = < &clocks 0x4 >;
+			interrupts = < 0x0 0x3 >, < 0x1 0x3 >, < 0x2 0x3 >, < 0x3 0x3 >;
+			interrupt-names = "TIMER_IRQ_0", "TIMER_IRQ_1", "TIMER_IRQ_2", "TIMER_IRQ_3";
+			status = "okay";
+		};
+		dma: dma@50000000 {
+			compatible = "raspberrypi,pico-dma";
+			reg = < 0x50000000 0x10000 >;
+			resets = < &reset 0x2 >;
+			clocks = < &clocks 0x5 >;
+			interrupts = < 0xb 0x3 >, < 0xc 0x3 >;
+			interrupt-names = "dma0", "dma1";
+			dma-channels = < 0xc >;
+			status = "disabled";
+			#dma-cells = < 0x3 >;
+		};
+		vreg: vreg@40064000 {
+			compatible = "raspberrypi,core-supply-regulator";
+			reg = < 0x40064000 0x1 >;
+			status = "okay";
+			raspberrypi,brown-out-detection;
+			raspberrypi,brown-out-threshold = < 0xd1f60 >;
+			regulator-always-on;
+			regulator-allowed-modes = < 0x0 >;
+		};
+		pio0: pio@50200000 {
+			compatible = "raspberrypi,pico-pio";
+			reg = < 0x50200000 0x1000 >;
+			clocks = < &clocks 0x5 >;
+			resets = < &reset 0xa >;
+			status = "disabled";
+		};
+		pio1: pio@50300000 {
+			compatible = "raspberrypi,pico-pio";
+			reg = < 0x50300000 0x1000 >;
+			clocks = < &clocks 0x5 >;
+			resets = < &reset 0xb >;
+			status = "disabled";
+		};
+		rtc: rtc@4005c000 {
+			compatible = "raspberrypi,pico-rtc";
+			reg = < 0x4005c000 0x1000 >;
+			interrupts = < 0x19 0x3 >;
+			interrupt-names = "rtc";
+			resets = < &reset 0xf >;
+			alarms-count = < 0x1 >;
+			status = "okay";
+			clocks = < &clocks 0x9 >;
+		};
+	};
+	cpus {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		cpu0: cpu@0 {
+			compatible = "arm,cortex-m0+";
+			reg = < 0x0 >;
+		};
+		cpu1: cpu@1 {
+			compatible = "arm,cortex-m0+";
+			reg = < 0x1 >;
+		};
+	};
+	clocks {
+		clk_gpout0: clk-gpout0 {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_sys >;
+			clock-names = "pll_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			#address-cells = < 0x0 >;
+			phandle = < 0x2 >;
+		};
+		clk_gpout1: clk-gpout1 {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_sys >;
+			clock-names = "pll_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x3 >;
+		};
+		clk_gpout2: clk-gpout2 {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_sys >;
+			clock-names = "pll_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x4 >;
+		};
+		clk_gpout3: clk-gpout3 {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_sys >;
+			clock-names = "pll_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x5 >;
+		};
+		clk_ref: clk-ref {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &xosc >;
+			clock-names = "xosc";
+			clock-frequency = < 0xb71b00 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x6 >;
+		};
+		clk_sys: clk-sys {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_sys >;
+			clock-names = "pll_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x7 >;
+		};
+		clk_usb: clk-usb {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_usb >;
+			clock-names = "pll_usb";
+			clock-frequency = < 0x2dc6c00 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x9 >;
+		};
+		clk_adc: clk-adc {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_usb >;
+			clock-names = "pll_usb";
+			clock-frequency = < 0x2dc6c00 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xa >;
+		};
+		clk_rtc: clk-rtc {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &pll_usb >;
+			clock-names = "pll_usb";
+			clock-frequency = < 0xb71b >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xb >;
+		};
+		clk_peri: clk-peri {
+			compatible = "raspberrypi,pico-clock";
+			clocks = < &clk_sys >;
+			clock-names = "clk_sys";
+			clock-frequency = < 0x7735940 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x8 >;
+		};
+		pll_sys: pll-sys {
+			compatible = "raspberrypi,pico-pll";
+			clocks = < &xosc >;
+			clock-names = "xosc";
+			clock-div = < 0x1 >;
+			fb-div = < 0x7d >;
+			post-div1 = < 0x6 >;
+			post-div2 = < 0x2 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xc >;
+		};
+		pll_usb: pll-usb {
+			compatible = "raspberrypi,pico-pll";
+			clocks = < &xosc >;
+			clock-names = "xosc";
+			clock-div = < 0x1 >;
+			fb-div = < 0x64 >;
+			post-div1 = < 0x5 >;
+			post-div2 = < 0x5 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xd >;
+		};
+		rosc: rosc {
+			compatible = "raspberrypi,pico-rosc";
+			clock-frequency = < 0x632ea0 >;
+			range = < 0xaa0 >;
+			stage-drive-strength = < 0x0 >, < 0x0 >, < 0x0 >, < 0x0 >, < 0x0 >, < 0x0 >, < 0x0 >, < 0x0 >;
+			clock-div = < 0x10 >;
+			phase = < 0x0 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xf >;
+		};
+		rosc_ph: rosc-ph {
+			compatible = "raspberrypi,pico-clock";
+			clock-frequency = < 0x632ea0 >;
+			clocks = < &rosc >;
+			clock-names = "rosc";
+			#clock-cells = < 0x0 >;
+			phandle = < 0x10 >;
+		};
+		xosc: xosc {
+			compatible = "raspberrypi,pico-clock";
+			clock-frequency = < 0xb71b00 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0xe >;
+		};
+		gpin0: gpin0 {
+			compatible = "raspberrypi,pico-clock";
+			status = "disabled";
+			clock-frequency = < 0x0 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x11 >;
+		};
+		gpin1: gpin1 {
+			compatible = "raspberrypi,pico-clock";
+			status = "disabled";
+			clock-frequency = < 0x0 >;
+			#clock-cells = < 0x0 >;
+			phandle = < 0x12 >;
+		};
+	};
+	pinctrl: pin-controller {
+		compatible = "raspberrypi,pico-pinctrl";
+		uart0_default: uart0_default {
+			phandle = < 0x16 >;
+			group1 {
+				pinmux = < 0x2 >;
+			};
+			group2 {
+				pinmux = < 0x12 >;
+				input-enable;
+			};
+		};
+		i2c0_default: i2c0_default {
+			phandle = < 0x19 >;
+			group1 {
+				pinmux = < 0x43 >, < 0x53 >;
+				input-enable;
+				input-schmitt-enable;
+			};
+		};
+		i2c1_default: i2c1_default {
+			phandle = < 0x1a >;
+			group1 {
+				pinmux = < 0x63 >, < 0x73 >;
+				input-enable;
+				input-schmitt-enable;
+			};
+		};
+		spi0_default: spi0_default {
+			phandle = < 0x17 >;
+			group1 {
+				pinmux = < 0x111 >, < 0x121 >, < 0x131 >;
+			};
+			group2 {
+				pinmux = < 0x101 >;
+				input-enable;
+			};
+		};
+		pwm_ch4b_default: pwm_ch4b_default {
+			phandle = < 0x1b >;
+			group1 {
+				pinmux = < 0x194 >;
+			};
+		};
+		adc_default: adc_default {
+			phandle = < 0x18 >;
+			group1 {
+				pinmux = < 0x1af >, < 0x1bf >, < 0x1cf >, < 0x1df >;
+				input-enable;
+			};
+		};
+		clocks_default: clocks_default {
+			phandle = < 0x13 >;
+		};
+	};
+	die_temp: dietemp {
+		compatible = "raspberrypi,pico-temp";
+		io-channels = < &adc 0x4 >;
+		status = "disabled";
+	};
+	pico_header: connector {
+		compatible = "raspberrypi,pico-header";
+		#gpio-cells = < 0x2 >;
+		gpio-map-mask = < 0xffffffff 0xffffffc0 >;
+		gpio-map-pass-thru = < 0x0 0x3f >;
+		gpio-map = < 0x0 0x0 &gpio0 0x0 0x0 >, < 0x1 0x0 &gpio0 0x1 0x0 >, < 0x2 0x0 &gpio0 0x2 0x0 >, < 0x3 0x0 &gpio0 0x3 0x0 >, < 0x4 0x0 &gpio0 0x4 0x0 >, < 0x5 0x0 &gpio0 0x5 0x0 >, < 0x6 0x0 &gpio0 0x6 0x0 >, < 0x7 0x0 &gpio0 0x7 0x0 >, < 0x8 0x0 &gpio0 0x8 0x0 >, < 0x9 0x0 &gpio0 0x9 0x0 >, < 0xa 0x0 &gpio0 0xa 0x0 >, < 0xb 0x0 &gpio0 0xb 0x0 >, < 0xc 0x0 &gpio0 0xc 0x0 >, < 0xd 0x0 &gpio0 0xd 0x0 >, < 0xe 0x0 &gpio0 0xe 0x0 >, < 0xf 0x0 &gpio0 0xf 0x0 >, < 0x10 0x0 &gpio0 0x10 0x0 >, < 0x11 0x0 &gpio0 0x11 0x0 >, < 0x12 0x0 &gpio0 0x12 0x0 >, < 0x13 0x0 &gpio0 0x13 0x0 >, < 0x14 0x0 &gpio0 0x14 0x0 >, < 0x15 0x0 &gpio0 0x15 0x0 >, < 0x16 0x0 &gpio0 0x16 0x0 >, < 0x1a 0x0 &gpio0 0x1a 0x0 >, < 0x1b 0x0 &gpio0 0x1b 0x0 >, < 0x1c 0x0 &gpio0 0x1c 0x0 >;
+	};
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = < &gpio0 0x19 0x0 >;
+			label = "LED";
+		};
+	};
+	pwm_leds {
+		compatible = "pwm-leds";
+		status = "disabled";
+		pwm_led0: pwm_led_0 {
+			pwms = < &pwm 0x9 0x1312d00 0x0 >;
+			label = "PWM_LED";
+		};
+	};
+};
