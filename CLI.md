@@ -62,7 +62,7 @@ Using the command line will be slow at first. You will be tempted to reach for t
 - C-n: go to the **n**ext command in history
 - C-p: go to **p**revious command in history
 - C-r: **r**everse search back through history
-
+- M-.: cycle through previous arguments (I got nothing for a mnemonic)
 ### Text navigation
 
 - C-f: move cursor **f**orward one character
