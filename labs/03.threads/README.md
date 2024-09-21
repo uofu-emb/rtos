@@ -1,40 +1,42 @@
 # Lab 3 Threads and shared state.
 # Learning objectives:
-Setup the operating system.
-Setup multiple threads.
-Identify shared state and race conditions.
-Protect critical sections.
-Write unit tests.
+* Setup the operating system.
+* Setup multiple threads.
+* Identify shared state and race conditions.
+* Protect critical sections.
+* Write unit tests.
 
 # Pre-lab
 ## Readings
-Read the Zephyr thread, semaphore, and mutex documentation (You don't need to read the API Reference section)
+Read the FreeRTOS thread, semaphore, and mutex documentation (you don't need to read the scheduling, queue, or co-routine sections, we'll cover scheduling and queues in later labs).
 
-https://docs.zephyrproject.org/2.7.5/reference/kernel/threads/index.html
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/01-Tasks-and-co-routines/00-Tasks-and-co-routines
 
-https://docs.zephyrproject.org/2.7.5/reference/kernel/synchronization/semaphores.html
-
-https://docs.zephyrproject.org/2.7.5/reference/kernel/synchronization/mutexes.html
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/02-Queues-mutexes-and-semaphores/02-Binary-semaphores
 
 Read sections 11.1 and 11.2 from Lee & Seshia.
 
 https://ptolemy.berkeley.edu/books/leeseshia/releases/LeeSeshia_DigitalV2_2.pdf
 
+Skim the API reference documentation to get an idea of what functions are available.
+
+https://www.freertos.org/Documentation/02-Kernel/04-API-references/01-Task-creation/00-TaskHandle
+
 ## Background.
 This is an overview of the basic concepts that will be used.
-#### Threads
-A **thread** is an __execution context__ managed by the operating system. The normal execution contexts for an embedded system running on bare metal are the main function execution and interrupt handlers. Threads have more in common with the main function than with interrupts - they typically run forever in a lop, and don't preempt the system in reaction to some event. The main function execution context is often called the __main thread__.
+#### Threads/tasks
+A **thread** or **task** is an __execution context__ managed by the operating system. FreeRTOS calls them tasks. Different libraries will use one term or the other (or both), and we'll be using them interchangeably in this class.  The normal execution contexts for an embedded system running on bare metal are the main function execution and interrupt handlers. Threads have more in common with the main function than with interrupts - they typically run forever in a lop, and don't preempt the system in reaction to some event. The main function execution context is often called the __main thread__.
 
-In Zephyr, the structure that represents a thread is k_thread.
+In FreeRTOS, the structure that represents a thread is `TaskHandle_t`.
 
 #### Semaphores and Mutexes
-Semaphores are inter-context signalling mechanisms. There are many possible ways to use them - in our case we are using them as a way to create mutually exclusive (__mutex__) access around a shared state or resource. This is often simply called a __lock__.
+Semaphores are often used as inter-context signalling mechanisms. There are many possible ways to use them - in our case we are using them as a way to create mutually exclusive (__mutex__) access around a shared state or resource. This is often simply called a __lock__.
 
-You'll often hear the terms mutex, lock, and semaphore used interchangeably. In Zephyr, a k_semaphore and a k_mutex are separate types with subtle difference in behavior. A Zephyr mutex is __reentrant__, which means a thread can take the mutex mutiple times (as long as it gives it the same number of times). It also manipulates priorities of the schedule. It should __not__ be used in an ISR. We'll use semaphores in this lab.
+You'll often hear the terms mutex, lock, and semaphore used interchangeably. In FreeRTOS, a k_semaphore and a k_mutex are separate types with subtle difference in behavior. A FreeRTOS mutex is __reentrant__, which means a thread can take the mutex mutiple times (as long as it gives it the same number of times). It also manipulates priorities of the schedule. It should __not__ be used in an ISR. We'll use semaphores in this lab.
 
 Semaphores have a count, which represents the available resources. Semaphores have two operations, incrementing or decrementing the count.
 The operations are traditionally denoted as P and V, Dijkstra's earliest paper on the subject gives the Dutch terms __passering__ ("passing") as the meaning for P, and __vrijgave__ ("release") as the meaning for V.
-Alternate terms include down/up, wait/signal, acquire/release, and procur/vacate. In the Zephyr OS library the operation is **take** and **give**.
+Alternate terms include down/up, wait/signal, acquire/release, and procur/vacate. In the FreeRTOS OS library the operation is **take** and **give**.
 
 When a process wants access to the resource(s), it attempts to __take__ the resource. If the count is zero, the process will need to wait until a resource is available. If the count is greater than zero, there are available resources, and the counter is decremented.  When the process is finished with the resource, it __gives__ the resource back, decrementing the counter.
 
