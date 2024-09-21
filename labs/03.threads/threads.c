@@ -1,57 +1,53 @@
 #include <stdio.h>
-#include <zephyr.h>
-#include <arch/cpu.h>
-#include <sys/printk.h>
+#include <FreeRTOS.h>
+#include <semphr.h>
+#include <task.h>
+#include <pico/stdlib.h>
+#include <pico/multicore.h>
+#include <pico/cyw43_arch.h>
 
-#define STACKSIZE 2000
-#define SLEEPTIME 1000
+#define MAIN_TASK_PRIORITY      ( tskIDLE_PRIORITY + 1UL )
+#define MAIN_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
-struct k_thread coop_thread;
-K_THREAD_STACK_DEFINE(coop_stack, STACKSIZE);
+#define SIDE_TASK_PRIORITY      ( tskIDLE_PRIORITY + 1UL )
+#define SIDE_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
-struct k_sem semaphore;
+SemaphoreHandle_t semaphore;
+
 int counter;
-void thread_entry(void)
-{
-	struct k_timer timer;
-	k_timer_init(&timer, NULL, NULL);
-    k_timer_start(&timer, K_MSEC(SLEEPTIME/2), K_NO_WAIT);
-    k_timer_status_sync(&timer);
+int on;
 
+void side_thread(void *params)
+{
 	while (1) {
-        *counter++;
-		printk("hello world from %s! Count %d\n", "thread", *counter);
-		k_timer_start(&timer, K_MSEC(SLEEPTIME), K_NO_WAIT);
-		k_timer_status_sync(&timer);
+        vTaskDelay(100);
+        counter += counter + 1;
+		printf("hello world from %s! Count %d\n", "thread", counter);
+	}
+}
+
+void main_thread(void *params)
+{
+	while (1) {
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
+        vTaskDelay(100);
+		printf("hello world from %s! Count %d\n", "main", counter++);
+        on = !on;
 	}
 }
 
 int main(void)
 {
+    stdio_init_all();
+    hard_assert(cyw43_arch_init() == PICO_OK);
+    on = false;
     counter = 0;
-    k_sem_init(&semaphore, 1, 1);
-    k_thread_create(&coop_thread,
-                    coop_stack,
-                    STACKSIZE,
-                    (k_thread_entry_t) thread_entry,
-                    NULL,
-                    NULL,
-                    NULL,
-                    K_PRIO_COOP(7),
-                    0,
-                    K_NO_WAIT);
-
-	struct k_timer timer;
-	k_timer_init(&timer, NULL, NULL);
-
-	while (1) {
-        k_sem_take(&semaphore, K_FOREVER);
-        counter = counter + 1;
-		printk("hello world from %s! Count %d\n", "main", counter);
-		k_timer_start(&timer, K_MSEC(SLEEPTIME), K_NO_WAIT);
-		k_timer_status_sync(&timer);
-        k_sem_give(&semaphore);
-	}
-
+    TaskHandle_t main, side;
+    semaphore = xSemaphoreCreateCounting(1, 1);
+    xTaskCreate(main_thread, "MainThread",
+                MAIN_TASK_STACK_SIZE, NULL, MAIN_TASK_PRIORITY, &main);
+    xTaskCreate(side_thread, "SideThread",
+                SIDE_TASK_STACK_SIZE, NULL, SIDE_TASK_PRIORITY, &side);
+    vTaskStartScheduler();
 	return 0;
 }
