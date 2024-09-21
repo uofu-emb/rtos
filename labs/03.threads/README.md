@@ -22,6 +22,12 @@ Skim the API reference documentation to get an idea of what functions are availa
 
 https://www.freertos.org/Documentation/02-Kernel/04-API-references/01-Task-creation/00-TaskHandle
 
+# Additional reading
+
+Before the second day of lab, read sections 1-3 of this paper.
+
+https://www.sciencedirect.com/science/article/pii/S1071581907000456
+
 ## Background.
 This is an overview of the basic concepts that will be used.
 #### Threads/tasks
