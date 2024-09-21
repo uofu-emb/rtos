@@ -38,10 +38,10 @@ In FreeRTOS, the structure that represents a thread is `TaskHandle_t`.
 #### Semaphores and Mutexes
 Semaphores are often used as inter-context signalling mechanisms. There are many possible ways to use them - in our case we are using them as a way to create mutually exclusive (__mutex__) access around a shared state or resource. This is often simply called a __lock__.
 
-You'll often hear the terms mutex, lock, and semaphore used interchangeably. In FreeRTOS, a k_semaphore and a k_mutex are separate types with subtle difference in behavior. A FreeRTOS mutex is __reentrant__, which means a thread can take the mutex mutiple times (as long as it gives it the same number of times). It also manipulates priorities of the schedule. It should __not__ be used in an ISR. We'll use semaphores in this lab.
+You'll often hear the terms mutex, lock, and semaphore used interchangeably. In FreeRTOS, semaphore and mutex are separate types with subtle difference in behavior. A FreeRTOS mutex is a semaphore that also manipulates priorities of the schedule. We'll use semaphores in this lab.
 
 Semaphores have a count, which represents the available resources. Semaphores have two operations, incrementing or decrementing the count.
-The operations are traditionally denoted as P and V, Dijkstra's earliest paper on the subject gives the Dutch terms __passering__ ("passing") as the meaning for P, and __vrijgave__ ("release") as the meaning for V.
+The operations are traditionally denoted as P and V; Dijkstra's earliest paper on the subject gives the Dutch terms __passering__ ("passing") as the meaning for P, and __vrijgave__ ("release") as the meaning for V.
 Alternate terms include down/up, wait/signal, acquire/release, and procur/vacate. In the FreeRTOS OS library the operation is **take** and **give**.
 
 When a process wants access to the resource(s), it attempts to __take__ the resource. If the count is zero, the process will need to wait until a resource is available. If the count is greater than zero, there are available resources, and the counter is decremented.  When the process is finished with the resource, it __gives__ the resource back, decrementing the counter.
@@ -49,7 +49,7 @@ When a process wants access to the resource(s), it attempts to __take__ the reso
 The operating system handles the internal concerns of atomicity, tracking counter value, as well as blocking and waiting for availability.
 
 ## Shared state
-The execution contexts in this program both use two shared resources. The first is __shared state__, a global variable `counter` containing a count. The second is a shared system device, the standard IO `printk` function and its underlying serial output. These resources are not __thread-safe__, and cannot be accessed by more than one thread at a time. Anytime we access a shared resource we must do so in a mutually exclusive way.
+The execution contexts in this program both use two shared resources. The first is __shared state__, a global variable `counter` containing a count. The second is a shared system device, the standard IO `printf` function and its underlying serial output. These resources are not __thread-safe__, and cannot be accessed by more than one thread at a time. Anytime we access a shared resource we must do so in a mutually exclusive way.
 
 ## Critical sections
 A __critical section__ refers to a block of code that **must** be executed mutually exclusive with other execution contexts that share resources.
@@ -62,11 +62,11 @@ A __race condition__ is a scenario in which two threads have behavior that depen
 ### You won't believe this one weird style trick
 In C, you can always create a block by wrapping code using curly braces. We can use this as a way to visually distinguish and organize our critical sections. Failing to unlock or release a resource is a common problem, so we want to be able to quickly verify that every take has a matching give.
 ```
-        k_sem_take(&semaphore, K_FOREVER);
+        xSemaphoreTake(&semaphore, K_FOREVER);
         {
             counter = counter + 1;
         }
-        k_sem_give(&semaphore);
+        xSemaphoreGive(&semaphore);
 ```
 This creates a visual distinction of what is "inside" vs "outside" of the context of the lock. We already use braces and indentation to distinguish conditional and looping constructs, so this is a natural extension. This is a first class pattern in Python for example, using `with` blocks to provide a managed context for an open resource.
 
@@ -82,7 +82,6 @@ I've never seen anyone else do this but me, but I think it is a good way to orga
 5. Identify the semaphore.
 6. Predict the behavior of the program.
 7. Run the program and compare the output to your prediction.
-    1. The easiest way to do this is to copy the file into `test`, remove the `--disable-xwt` argument in platform.io and run the `pio test` command.
 
 ### Activity 1
 1. Are all uses of the shared resources in protected critical sections? Make any modifications necessary to protect the critical sections.
@@ -101,8 +100,8 @@ Testing threaded coded is hard. Our test methodology so far relies on one execut
 1. Write a unit test for the thread code. Remember to separate functionality from execution context concerns, timing, and looping.
 1. You'll need to make some modifications to the code. Hints:
     1. You don't need to test execution in a thread, but you should test the behavior of the lock and the side effect.
-    1. k_semaphore_take includes a timeout on waiting for the semaphore.
-    1. k_semaphore_take returns a status code, don't forget to check it.
+    1. xSemaphoreTake includes a timeout on waiting for the semaphore.
+    1. xSemaphoreTake returns a status code, don't forget to check it.
 1. Don't forget to commit as you go.
 
 # Deadlock.
@@ -115,9 +114,8 @@ One thread has lock A, and is waiting for a lock B. The other thread holds lock 
 ### Activity 4
 1. Write code that creates this situation.
 2. Write a test that shows this code will lock.
-    1. You'll need to have your test wait for a short period of time, check the state of the threads, and then kill them with k_thread_abort.
-    1. Hint: you might find it useful to pass semaphores or other data into the thread with the three available p1, p2, and p3 general parameters passed to the thread entry function.
-3. https://docs.zephyrproject.org/2.7.5/reference/timing_functions/index.html
+    1. You'll need to have your test wait for a short period of time, suspend the task with `vTaskSuspend`, check the state of the threads, and then kill them with `vTaskDelete`.
+    1. Hint: you might find it useful to pass semaphores or other data into the thread with the  `pvParameters` pointer passed to the thread entry function. If you need to group multiple pieces of data together, that's why we have structs!
 
 ## Case 2, the orphaned lock.
 A thread acquires a lock but fails to properly release it.
@@ -125,13 +123,13 @@ A thread acquires a lock but fails to properly release it.
 void orphaned_lock(void)
 {
     while (1) {
-        k_semaphore_take(&semaphore, K_FOREVER);
+        xSemaphoreTake(&semaphore, K_FOREVER);
         counter++;
         if (counter % 2) {
             continue;
         }
         printk("Count %d\n", counter);
-        k_sem_give(&semaphore);
+        xSemaphoreGive(&semaphore);
     }
 }
 ```
@@ -141,3 +139,6 @@ void orphaned_lock(void)
     1. Recall your test will need to kill the deadlocked threads before it can complete.
 3. Create a new version of the code that will not deadlock.
 4. Write a test showing the thread will not deadlock.
+
+# Reference implementation
+A working reference implementation is available here https://github.com/uofu-emb/rtos.03
