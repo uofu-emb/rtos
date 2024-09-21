@@ -4,13 +4,14 @@ This is a quick tips and tricks guide to using the command line.
 # Basic terminology.
 The filesystem has a number of conventions for file names.
 
-* Paths are separated by forward slash "/".
-* "." means the current directory.
-* ".." means the directory above the current one.
-* "~" is your home directory.
-* File names that begin with a period "." are hidden by default.
+* Paths are separated by forward slash `/`.
+* `.` means the current directory.
+* `..` means the directory above the current one.
+* `~` is your home directory.
+* File names that begin with a period `.` are hidden by default.
+* `*` is a glob, which you can use as a wildcard in paths. `**` is a recursive glob (descends multiple levels).
 
-The "shell" is the program you interact with, where you type commands. The "terminal emulator" is the window that you launch in your window manager. "Terminal" is used generally to refer to whole thing.
+The "shell" is the program you interact with, where you type commands. The "terminal emulator" is the window that you launch in your window manager. "Terminal" is used generally to refer to whole thing. Most Linux distributions use `bash` as the default login shell. OSX is starting to use `zsh`. This guide references bash config `.bashrc`, but the same applies to the config file for zsh confige `.zshrc`.
 
 # "Meta" key.
 [Historical terminology](https://en.wikipedia.org/wiki/Space-cadet_keyboard) is to call the "Option" key on a standard keyboard "Meta", and the "Windows" or "Command" key "Super". "Control" is still "Control".
@@ -53,7 +54,8 @@ The command line can seem slow. Typing out everything *is* slow. The folks who d
 
 Previous commands you've executed are still available. If you need to repeat a command or fix a mistake, you can use "C-p" or the up arrow to go back through history. If you need to rerun a previous command further back in history, use "C-r" to do a reverse search back through history.
 
-## Efficient navigation
+
+# Efficient navigation
 The key to efficiency is to minimize movement. Every time you take your hands off the keyboard, you slow yourself down. If you reach over to the mouse, the arrow keys, or the navigation keys, you are wasting time. Standard command line tools support the following key shortcuts (among many others). These are also available in the editor Emacs, which along with vim are the gold standard for text editing in Unix environments. The same principle applies in other programs you use, especially your IDE. Learn the keyboard shortcuts!
 
 Using the command line will be slow at first. You will be tempted to reach for the arrow keys or the mouse. Deliberate practice is required, so take the time to learn the habits you need.
@@ -85,3 +87,53 @@ Using the command line will be slow at first. You will be tempted to reach for t
 ### Process management
 
 - C-c **c**ancels the current process
+
+# Aliases
+## Shell aliases
+You can create aliases to common commands to simplify your workflow. In any shell session, you can create an alias for any command.
+```
+alias piconfig='cmake -B build -S .'
+alias pibuild='cmake --build build
+alias piflash='picotool -f build/src/something.elf'
+alias g=git
+alias py=python3
+```
+
+If you want to use an alias across sessions, you can add them to your `~/.profile` or `~/.bashrc` file.
+
+## Git aliases
+You can create aliases for git as well.
+
+In `~/.gitconfig` you can put aliases (among other useful config). In my configuration I have the following aliases.
+```
+[pretty]
+    treeline= %C(bold blue)%h%C(reset) %C(yellow)%ai%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)
+
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    mt = mergetool
+    dt = difftool
+    rb = rebase
+    mg = merge
+    sm = submodule
+    praise = blame
+    tree = log --graph --all --abbrev-commit --decorate --pretty=treeline
+    treehere = log --graph --abbrev-commit --decorate --pretty=treeline
+    root = rev-parse --show-toplevel
+```
+
+On my terminal, with shell and git aliases I run `git status` with `g st`.
+
+# Put your config in source control!
+Everything goes in source control, even your config. Create a folder (I use `.dotfiles`) to store all your configuration (the "dot files"). From your home directory, create symlinks to the config (e.g. `ln -s .dotfiles/.bashrc`). Whenever you setup on a new computer, you just have to clone your config and link. Config changes are easy to move between machines.
+Just don't forget to commit and push when you make changes.
+
+# Scripting
+The real power of the shell is that you work in a full programming environment! Common constructs like loops, variables, conditionals, and more are at your fingertips. You can put a set of commands into a script file for repeated execution. The syntax may be a bit different from what you find in C, but isn't too hard to pick up. You don't need to learn it all at once - as you need to use a feature, look up the syntax.
+
+[Bash beginners guide](https://tldp.org/LDP/Bash-Beginners-Guide/html/index.html)
+
+[The bash manual](https://www.gnu.org/software/bash/manual/bash.html)
