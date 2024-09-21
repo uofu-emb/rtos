@@ -16,7 +16,9 @@ This builds all binaries, including test binaries.
 
 ## Flash
 Flash the compiled ELF binary to the microcontroller.
-```picotool load build/src/myproject.elf```
+```picotool load -f build/src/myproject.elf```
+
+If you specify the `-f` flag, it should switch the device back into BOOTSELECT mode without needing to be unplugged and plugged back in. This won't work if you currently have a serial connection attached.
 
 You can also use the custom `flash` or `flash_test` target defined in the CMakeLists.txt from the class template.
 ```cmake --build build --target flash```
