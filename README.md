@@ -131,8 +131,6 @@ Labs are broken into several components. You must complete all components of the
 - Code review
     - When all activities are complete, the team will create a pull request (PR). Each team will be paired with another team. Each team will be responsible for doing code review for the other team. In order to pass the code review, all unit tests must pass. The reviewers should verify the code  completes all the requirements of the lab. The team should also review for style, organization, and clarity. If changes are necessary, the team can make the changes and resubmit for review.
     - In order to complete the lab, students must pass their own code review. They must also complete their assigned review. One unavoidable problem of the review process is that control is given to another party during review. It is the team's responsibility to ensure the reviewing team finishes the review. Badgering your colleague to finish reviewing your PR is a fact of life in industry practice. If needed, the instructor can help resolve any conflicts.
-## Project to synthesize concepts
-The class will work together on a large project to apply the concepts learned in the course. Small groups will take on tasks that contribute towards the final product. Students will work on multiple tasks and teams over the course of the project.
 
 # Course Schedule
 | Day      | Lab                                      | Discussion                                                    |
@@ -140,35 +138,35 @@ The class will work together on a large project to apply the concepts learned in
 | Aug. 19  |                                          | Course syllabus, assign case study presentations. Git review. |
 | Aug. 21  |                                          | Pull requests                                                 |
 | Aug. 26  | Lab 0 hello world!                       | Real Time OS features, bare metal comparison.                 |
-| Aug. 28  | Lab 1 Makefiles                          | Makefile basics                                               |
+| Aug. 28  | Lab 0 con't                              |                                                               |
 | Sept. 2  | Labor Day                                | Relax                                                         |
-| Sept. 4  | Lab 2 Testing techniques                 | Testing techniques                                            |
-| Sept. 9  | Lab 2 con't                              | refactoring                                                   |
-| Sept. 11 | Lab 2 con't                              | writing for testability                                       |
-| Sept. 16 | Lab 3 Tasks, Semaphores, Synchronization | Shared state,                                                 |
-| Sept. 18 | Lab 3 con't                              | race conditions, deadlock                                     |
-| Sept. 23 | Lab 4 Interprocess communication         | Communication patterns                                        |
-| Sept. 25 | Lab 4 con't                              | Queues and backpressure                                       |
-| Sept. 30 | Lab 8 CAN Bus                            | Networking                                                    |
-| Oct. 2   | Lab 8 con't                              | real-time communication                                       |
+| Sept. 4  | Lab 1 Makefiles                          | Makefile basics                                               |
+| Sept. 9  | Lab 2 Testing techniques                 | Testing techniques                                            |
+| Sept. 11 | Lab 2 con't                              | refactoring                                                   |
+| Sept. 16 | Lab 2 con't                              |                                                               |
+| Sept. 18 | Lab 2 con't                              |                                                               |
+| Sept. 23 | Lab 3 Tasks, Semaphores, Synchronization | Shared state,                                                 |
+| Sept. 25 | Lab 3 con't                              | race conditions, deadlock                                     |
+| Sept. 30 | Lab 4 Interprocess communication         | Communication patterns                                        |
+| Oct. 2   | Lab 4 con't                              | Queues and backpressure                                       |
 | Oct. 7   | fall break                               |                                                               |
 | Oct. 9   | fall break                               |                                                               |
 | Oct. 14  | Lab 9 Formal verification                | Model checking                                                |
 | Oct. 16  | Lab 9 con't                              |                                                               |
 | Oct. 21  | Lab 5 Real-time systems                  | Real Time requirements                                        |
 | Oct. 23  | Lab 5 con't                              | Priority inversion                                            |
-| Oct. 28  | Lab 10 Power                             | Measuring and estimating power                                |
-| Oct. 30  | Lab 10 con't                             |                                                               |
+| Oct. 28  | Lab 8 CAN Bus                            | Networking                                                    |
+| Oct. 30  | Lab 8 con't                              | real-time communication                                       |
 | Nov. 4   | Lab 6 Scheduling                         | Scheduling algorithms                                         |
 | Nov. 6   | Lab 6 con't                              | Prioritization                                                |
-| Nov. 11  | Lab 11 Bluetooth                         | Radio technologies                                            |
-| Nov. 13  | Lab 11 con't                             |                                                               |
+| Nov. 11  | Lab 10 Power                             | Measuring and estimating power                                |
+| Nov. 13  | Lab 10 con't                             |                                                               |
 | Nov. 18  | Lab 7 Error Handling                     | Safety, reliability, and risk                                 |
 | Nov. 20  | Lab 7 con't                              | Networking fallacies                                          |
-| Nov. 25  | Lab 12 SMP                               | Context switching vs symmetric multiprocessing                |
-| Nov. 27  | Thanksgiving Eve                         |                                                               |
-| Dec. 2   | Lab 12 con't                             | Designing for concurrency                                     |
-| Dec. 4   | Lab 12 con't                             |                                                               |
+| Nov. 25  | Lab 11 Bluetooth                         | Radio technologies                                            |
+| Nov. 27  | Thanksgiving Eve                         | Many folks will be travelling. Class time is still available. |
+| Dec. 2   | Lab 11 con't                             |                                                               |
+| Dec. 4   | Lab 11 con't                             |                                                               |
 
 Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
 
