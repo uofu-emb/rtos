@@ -2,17 +2,16 @@
 In this lab, we'll get an introduction to the concept of system modeling and formal verification.
 
 # Learning objectives
-Model systems with finite state machines (FSM).
-Evaluate correctness of a model.
-Apply model checking tools.
+1. Model systems with finite state machines (FSM).
+1. Describe invariant properties of a system.
+1. Evaluate correctness of a model.
+1. Understand limitations and benefits of model checking.
 
 # Prelab
 ## First session.
-Read sections 3.1-3.3 and 3.6 in Lee & Seshia.
-Read section 14.1 and 14.2 in Lee & Seshia
-
-1. Draw a finite state machine for the train crossing problem given below.
-1. You should have a complete diagram **ready for class**.
+1. Read sections 3.1-3.3 and 3.6 in Lee & Seshia.
+1. Read section 14.1 and 14.2 in Lee & Seshia
+1. Draw a finite state machine for the train crossing problem given below. You should have a complete diagram **ready for class**.
 
 * Do not create an extended state machine, we want to restrict our analysis to an exclusively finite system.
 * Don't use a semaphore, encode multiple train interactions as distinct states.
@@ -28,7 +27,7 @@ To render a graph just run `dot mygraph.dot -Tpdf -o mygraph.pdf`
 Implement a FSM for a safety warning system to prevent crossings while a train is approaching and until it has passed.
 
 * There are two tracks, one going north and the other south. Trains on each track only run in one direction.
-* Each track has proximity two sensors __approach__ and __depart__, placed on the tracks before and after the crossing respectively.
+* Each track has two proximity sensors __approach__ and __depart__, placed on the tracks before and after the crossing respectively.
     * The two __aproach__ sensors emit the events **northbound_approach** and **southbound_approach** when the first car of the train crosses the sensor (leading edge).
     * The two __depart__ sensors emit the events **northbound_depart** and **southbound_depart** when the last car of the train crosses the sensor (trailing edge).
 * The system has an audible alarm, which can be in the state __on__ or __off__, and a barrier that is in either __lowered__ or __raised__ state to block the crossing.
@@ -39,10 +38,10 @@ Implement a FSM for a safety warning system to prevent crossings while a train i
     1. The alarm continues to sound and the barrier remains lowered while a train is present.
     1. When no train is present the barrier raises.
     1. After 10 seconds the alarm stops.
-```
+
 
 ## Second session.
-Read sections 15 in Lee & Seshia
+1. Read sections 15 in Lee & Seshia
 
 # Lab
 We will be mostly writing documentation for a system in this lab.
@@ -59,19 +58,20 @@ Remember to commit your work regularly.
 Example invariants:
 * "An approach signal will always precede a depart signal"
 * "The power will never be interrupted"
+* "Trains on each track only run in one direction."
 ## Varying invariants
 Answer the question: does there exist a sequence of events, such that an invariant is not longer true?
 
-1. Evaluate the (example FSM)[example.pdf].
-1. Write down your counter-example.
+1. Evaluate the [example FSM](example.pdf).
+1. Find a counter-example sequence that makes an invariant false. Write it down.
 
 Proving that a system violates an invariant is simple - just provide a counter example.
-Proving the opposite is incredibly difficult. You must either exhaustively demonstrate all possible inputs, or mathematically prove the invariants.
+Proving the opposite is incredibly difficult. You must either exhaustively demonstrate all possible inputs, or otherwise mathematically prove the invariants.
 
 You may recall when I graded this question on the final last semester that I graded the exam using exactly this method.
 I started at the beginning, and provided a series of events I knew tended to break models.
 Once the machine was in an unsafe state, it was marked "safety hazard".
-If I failed to find a violation. it was marked "probably safe".
+If I failed to find a violation, it was marked "probably safe".
 Note the "probably"! Just because I could not find a counter example does not prove anything.
 Some models got marked "technically safe", because any possible sequence immediately got the model stuck with the arms down.
 Not very useful, but did not create a safety hazard!
@@ -117,10 +117,10 @@ How would you go about proving that your model is correct?
 
 ## Specification vs. implementation
 1. Start drawing an FSM using the table you just made.
-1. Label each FSN state with the number in the table.
+1. Label each FSM state with the number in the table.
     1. Some FSM states may have multiple table numbers.
 1. If an event violates an invariant that represents an impossible event or operating assumption, leave it off your machine.
-    1. It's important to account for behavior that could occur outside your expectations, but we need to maintain a level of abstraction.
+    1. It's important to account for behavior that could occur outside your expectations, but we need to maintain a level of abstraction. Getting struck by lightning is possible, but not something you plan for.
 
 Is your new FSM equivalent to the FSMs from the previously steps?
 # Model checking
