@@ -1,0 +1,10 @@
+digraph {
+    idle[label="idle"];
+    idle -> arriving[label="nb_approach or sb_approach"];
+    arriving[label="ringing, arms up"];
+    arriving -> closed[label="elapsed"];
+    closed[label="ringing, arms down"];
+    closed -> departing[label="nb_depart or sb_depart"];
+    departing[label="ringing, arms_up"];
+    departing -> idle[label="elapsed"];
+}
