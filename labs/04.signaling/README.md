@@ -1,19 +1,23 @@
 # Learning objectives.
-Use queues as an inter-process interface
-Use semaphores to signal between processes.
+* Use queues as an inter-process interface
+* Use semaphores to signal between processes.
 
 # Pre-lab
 In this lab we'll use communication abstractions to transfer data between execution contexts.
 
 ## Readings
-Lee & Seshia 11.3.
+Read Lee & Seshia 11.3.
 
-Read the documention to get an overview of what data passing structures are available in Zephyr.
+Read the documention to get an overview of what data passing structures are available in FreeRTOS.
 
-https://docs.zephyrproject.org/2.7.5/reference/kernel/index.html#data-passing
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/02-Queues-mutexes-and-semaphores/01-Queues
 
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/04-Stream-and-message-buffers/01-RTOS-stream-and-message-buffers
 
-https://docs.zephyrproject.org/2.7.5/reference/kernel/data_passing/message_queues.html
+Review the API documentation to get a feel for what functions are available.
+
+https://www.freertos.org/Documentation/02-Kernel/04-API-references/06-Queues/00-QueueManagement
+
 ## Signalling
 We've used sempaphores to do locking. We can also use them to signal between processes.
 
