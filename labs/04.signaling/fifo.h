@@ -1,5 +1,6 @@
-#include <zephyr.h>
-#include <stdio.h>
+#pragma once
+#include <FreeRTOS.h>
+#include <queue.h>
 
 struct request_msg {
     int32_t input;
@@ -7,4 +8,4 @@ struct request_msg {
     uint32_t handled_by;
 };
 
-void fifo_worker_handler(struct k_msgq *requests, struct k_msgq *results, int id);
+void fifo_worker_handler(QueueHandle_t requests, QueueHandle_t results, int id);

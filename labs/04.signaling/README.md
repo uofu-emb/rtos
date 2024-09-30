@@ -23,18 +23,18 @@ We've used sempaphores to do locking. We can also use them to signal between pro
 
 ```
 int data;
-struct k_semaphore *
+struct SemaphoreHandle_t;
 
 void wait_for_ready(void)
 {
-    k_sem_take(ready, K_FOREVER);
+    xSemaphoreTake(ready, portMAX_DELAY);
     do_thing(data);
 }
 
 int mark_ready(int value)
 {
     data = 42;
-    k_sem_give(ready);
+    xSemaphoreGive(ready);
 }
 ```
 
@@ -66,6 +66,7 @@ For the first example, we'll use semaphores to synchronize passing off data to a
 ### Activity
 1. Create a new project.
 1. Copy into your project the test_signal.c test, and the signaling.h header.
+1. There is also a CMakeLists.txt configuration which sets up multiple test executables you should look at.
 1. Implement the worker handler and the request functions, matching the signature specified in the header file.
 1. Your worker should return the input + five
 
