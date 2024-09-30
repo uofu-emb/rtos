@@ -42,9 +42,9 @@ Note the default state of the semaphore is _taken_, and it only becomes given wh
 
 ## Message passing
 ### Available data types.
-https://docs.zephyrproject.org/2.7.5/reference/kernel/index.html#data-passing
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/03-Direct-to-task-notifications/06-Inter-Task-Communication
 
-Many of these data structures are applicable for purposes other that communciation. For example a stack is a familiar feature of threads, and queues are common data storage. Many have very similar behavior - the underlying structure may be implemented using another of one of these structures.
+Many of these data structures are applicable for purposes other than communciation. For example a stack is a familiar feature of threads, and queues are common data storage. Many have very similar behavior - the underlying structure may be implemented using another of one of these structures.
 
 The structure behaviors fit into two broad categories: first-in/first-out (FIFO) and last-in/first-out (LIFO). This defines the ordering between items added to the structure and items removed from the structure. Two of the structures are even named FIFO annd LIFO, so be careful when you distinguish between category and the OS type.
 
@@ -55,7 +55,7 @@ The distinction between each of these structures is largely:
 * the behavior if the structure runs out of space.
 * functionality available to the caller, for example blocking on receiving an item and atomicity.
 
-In this lab we'll use a message queue k_msgq, which is a FIFO structure. It has a fixed width data type and internal storage. This simplifies the need to manage memory like in the case of the k_fifo
+In this lab we'll use a message queue. Queues in FreeRTOS can be used as FIFO or LIFO by using xQueueSendToBack or xQueueSendToFront, respectively. It has a fixed width data type and internal storage. This simplifies the need to manage memory.
 
 ## Message passing vs shared state
 One advantage of data passing is that the _producer_ side is decoupled from the _consumer_ side. Data flows in one direction, and the producer has little need to know the details of the consumer implementation. With a queue used, the producer doesn't need to wait for the consumer (bound by the storage available in the structure).
