@@ -77,3 +77,6 @@ In the previous example, we were limited to a single worker. In the second examp
 1. Copy into your project the test_fifo.c test.
 1. Implement the worker handler and the supervisor functions, matching the signature specified in the header file.
 1. Your worker should return the input + five
+
+# Reference implementation
+A complete solution is locate at https://github.com/uofu-emb/rtos.04
