@@ -27,8 +27,9 @@ To render a graph just run `dot mygraph.dot -Tpdf -o mygraph.pdf`
 Implement a FSM for a safety warning system to prevent crossings while a train is approaching and until it has passed.
 
 * There are two tracks, one going north and the other south. Trains on each track only run in one direction.
+* The tracks meet at a crossing.
 * Each track has two proximity sensors __approach__ and __depart__, placed on the tracks before and after the crossing respectively.
-    * The two __aproach__ sensors emit the events **northbound_approach** and **southbound_approach** when the first car of the train crosses the sensor (leading edge).
+    * The two __approach__ sensors emit the events **northbound_approach** and **southbound_approach** when the first car of the train crosses the sensor (leading edge).
     * The two __depart__ sensors emit the events **northbound_depart** and **southbound_depart** when the last car of the train crosses the sensor (trailing edge).
 * The system has an audible alarm, which can be in the state __on__ or __off__, and a barrier that is in either __lowered__ or __raised__ state to block the crossing.
 * A timer emits an event **elasped** 10 seconds after the alarm starts ringing.
@@ -41,7 +42,7 @@ Implement a FSM for a safety warning system to prevent crossings while a train i
 
 
 ## Second session.
-1. Read sections 15 in Lee & Seshia
+1. Read section 15 in Lee & Seshia
 
 # Lab
 We will be mostly writing documentation for a system in this lab.
@@ -140,7 +141,7 @@ Priyank Kalla teaches a course on verification focusing on hardware logic.
 ECE6715 Verification of Digital Circuits (Fall)
 
 Ben Greenman teachs a course on formal verification of software.
-CS6100 Formal Methods (Spring)
+CS6110 Software Verification (Spring)
 
 Both classes are highly recommended.
 
