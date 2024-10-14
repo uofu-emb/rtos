@@ -86,8 +86,8 @@ Not very useful, but did not create a safety hazard!
 How would you go about proving that your model is correct?
 
 1. Fill in this table (you can copy the markdown into your docs).
-1. The first four variables are booleans, you should have 16 possible states.
-1. Start a numbered list of invariants, starting with 16. Add invariants as needed.
+1. The first four variables (after `number`) are booleans, you should have 16 possible states.
+1. Create your own list of invariants. Use the second table below; start the `number` column at number 16 (because the `number` column of the first table ends at `15`). Add more invariants as needed.
 1. For each row, mark "safety_hazard" with the number of the invariant it violates or leave it blank.
 1. For each row, write down the number of the state your system will transition to on that event.
    1. If an event violates an invariant (e.g. event not allowed in that state), write down the number of the invariant.
