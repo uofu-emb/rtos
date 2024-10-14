@@ -92,6 +92,8 @@ How would you go about proving that your model is correct?
 1. For each row, write down the number of the state your system will transition to on that event.
    1. If an event violates an invariant (e.g. event not allowed in that state), write down the number of the invariant.
    1. If an event has no effect, you can stay in the same state.
+  
+**Update Oct 14** the `ringing` column should be something like "time elapsed" to reflect the 10-second delay. That way, it is an event related to the `alarm_on` state of the world (instead of being redundant).
 
 | number | arms_down | alarm_on | northbound_present | southbound_present | north_approach | south_approach | north_depart | south_depart | ringing | safety_hazard |
 |--------|-----------|----------|--------------------|--------------------|----------------|----------------|--------------|--------------|---------|---------------|
