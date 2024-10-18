@@ -1,4 +1,4 @@
-# Lab 7. Networking
+# Lab 8 Networking
 ## Learning objectives:
 
 * Use the CAN bus to share data between nodes.
