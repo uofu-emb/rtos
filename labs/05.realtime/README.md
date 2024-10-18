@@ -1,4 +1,4 @@
-g# Lab 5
+# Lab 5
 # Learning objectives
 * Describe key concepts in time keeping.
 * Measure the accuracy in a clock source.
@@ -8,20 +8,16 @@ g# Lab 5
 * Recognize the complications of time syncronization between systems.
 * Fear the year 2038.
 * Create temporal accuracy and precision requirements for a system.
+* Practice your oscilloscope skills.
 
 # Pre-lab
 ## Readings
-Read this section of the Zephyr documentation regarding time concepts.
+Read this section of the Zephyr documentation regarding time concepts (you can ignore any references to Zephyr APIs).
 
 https://docs.zephyrproject.org/2.7.5/reference/misc/timeutil.html#timeutil-concepts
 
-Read this section of the Zephyr documentation regarding system time
 
-https://docs.zephyrproject.org/2.7.5/reference/kernel/timing/timers.html
-
-Review chapter 25 on the RTC available in the STM32. Compare with the general purpose timers in chapter 18.
-
-https://www.st.com/resource/en/reference_manual/rm0091-stm32f0x1stm32f0x2stm32f0x8-advanced-armbased-32bit-mcus-stmicroelectronics.pdf
+Review chapter 4.8 on the RTC in the [Pico datasheet](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf). Compare with the general purpose timers in chapter 4.6..
 
 Read this introduction to the year 2038 and be properly terrified.
 
@@ -33,12 +29,14 @@ https://www.digikey.com/en/articles/enabling-timekeeping-function-and-prolonging
 
 Read this section of the docs to get a feel for how the OS switches contexts.
 
-https://docs.zephyrproject.org/2.7.5/guides/arch/arm_cortex_m.html#os-features
+https://www.freertos.org/Documentation/02-Kernel/05-RTOS-implementation-tutorial/02-Building-blocks/03-The-RTOS-tick
 
-https://docs.zephyrproject.org/2.7.5/guides/porting/arch.html?highlight=systick#thread-context-switching
+https://www.freertos.org/Documentation/02-Kernel/05-RTOS-implementation-tutorial/02-Building-blocks/09-Saving-the-RTOS-task-context
+
+https://www.freertos.org/Documentation/02-Kernel/05-RTOS-implementation-tutorial/02-Building-blocks/10-Restoring-the-context
 
 ## Terms
-Familiarize yourself with these terms from the readings or .
+Familiarize yourself with these terms from the readings.
 
 * Using time
     * Instant
@@ -74,18 +72,17 @@ Familiarize yourself with these terms from the readings or .
 Copy in the source code for each of the files in the directory.
 
 The files are:
-* `sleep.c` : a loop with a delay using `k_sleep`.
-* `kernel.c`: a loop with a delay using `k_timer`
+* `sleep.c` : a loop with a delay using a thread sleep.
 * `rtc.c`: an alarm interrupt from the RTC
-* `busy.c`: a loop with a delay using `k_busy_wait`
+* `busy.c`: a loop with a delay using a busy wait loop.
 
 1. For each of the cases, use an oscilloscope to measure jitter and drift of the time keeping method.
    1. Read through the code, see what it does.
-   1. Load the code onto your board (e.g. `pio run -t upload -e sleep`)
+   1. Load the code onto your board
    1. Measure the jitter (see instructions below)
-   1. Once you are finished, modify the code - introduce a k_busy_wait call after the GPIO is toggled.
-       1.Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).
-       1. Measure the jitter with several delay values. Make sure to go up to a large value, such as would come from reading 1KB of data
+   1. Once you are finished, modify the code - introduce a busy wait loop after the GPIO is toggled.
+       1. Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).
+       1. Measure the jitter. Make sure to block execute for a long enough time, such as would come from reading 1KB of data or doing some nasty computation.
 1. Measure the jitter of the Agilent function generator operating at the same frequency for comparison.
 
 ### Measuring jitter with the R&S RTM3004
@@ -140,3 +137,6 @@ Measure the latency of an interrupt handler.
 1. Create a new thread that reads messages from the queue and toggles the output pin when a message is received.
 1. Measure the latency again.
 1. Add a busy wait delay to the message handler. (Put the delay before the toggle)
+
+# Reference implementation
+A working reference implementation is available here https://github.com/uofu-emb/rtos.05
