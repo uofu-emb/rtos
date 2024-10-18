@@ -14,9 +14,6 @@
 
 # Prelab
 ## Readings
-Review the CAN API docs.
-
-https://docs.zephyrproject.org/2.7.5/reference/networking/can_api.html
 
 The Wikipedia article is quite comprehensive.
 
@@ -30,19 +27,16 @@ Read this paper.
 
 https://www.researchgate.net/publication/322500050_Fallacies_of_Distributed_Computing_Explained
 
-Read this article
+Read these articles
 
 https://www.dnsstuff.com/what-is-network-topology
 
-# Lab
-Add the following configuration to prj.conf
+https://aws.amazon.com/what-is/osi-model/
 
-```
-CONFIG_CAN=y
-CONFIG_CAN_INIT_PRIORITY=80
-CONFIG_CAN_MAX_FILTER=5
-```
-Note that the CAN device is "CAN_1" on the discovery board.
+
+
+# Lab
+
 
 ## Activity 0
 This activity will establish sending and receiving messages.
