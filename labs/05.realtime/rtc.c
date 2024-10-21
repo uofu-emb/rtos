@@ -12,7 +12,6 @@
 #include <pico/cyw43_arch.h>
 
 static volatile bool fired = false;
-
 datetime_t alarm = {
     .year  = -1,
     .month = -1,
@@ -22,14 +21,13 @@ datetime_t alarm = {
     .min   = -1,
     .sec   = 0
 };
-
 int toggle = 0;
 static void alarm_callback(void) {
     toggle = !toggle;
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, toggle);
-    /* alarm.sec += 1; */
-    /* printf("Fired!\n"); */
-    /* rtc_set_alarm(&alarm, &alarm_callback); */
+    printf("Fired!\n");
+    alarm.sec = (alarm.sec + 1) % 60;
+    rtc_set_alarm(&alarm, alarm_callback);
 }
 
 int main() {
@@ -47,12 +45,15 @@ int main() {
         .sec   = 50
     };
 
+    hard_assert(cyw43_arch_init() == PICO_OK);
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, toggle);
     // Start the RTC
     rtc_init();
     rtc_set_datetime(&t);
-    rtc_set_alarm(&alarm, &alarm_callback);
+    rtc_set_alarm(&alarm, alarm_callback);
+
 
     // Alarm will keep firing forever
-    while(1) __wfi();
+    while(1) __nop();
     return 0;
 }

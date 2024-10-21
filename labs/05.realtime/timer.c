@@ -21,6 +21,7 @@ int main(void)
     // the last callback
     repeating_timer_t timer;
     gpio_init(OUT_PIN);
+    gpio_set_dir(OUT_PIN, GPIO_OUT);
     gpio_put(OUT_PIN, toggle);
 
     add_repeating_timer_ms(-DELAY_MS, timer_callback, NULL, &timer);

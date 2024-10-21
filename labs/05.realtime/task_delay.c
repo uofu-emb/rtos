@@ -17,6 +17,7 @@ int main(void)
 {
     stdio_init_all();
     gpio_init(OUT_PIN);
+    gpio_set_dir(OUT_PIN, GPIO_OUT);
     const char *rtos_name = "FreeRTOS";
     TaskHandle_t task;
     xTaskCreate(main_task, "MainThread",
