@@ -72,17 +72,17 @@ Familiarize yourself with these terms from the readings.
 Copy in the source code for each of the files in the directory.
 
 The files are:
-* `sleep.c` : a loop with a delay using a thread sleep.
-* `rtc.c`: an alarm interrupt from the RTC
-* `busy.c`: a loop with a delay using a busy wait loop.
+* `delay.c` : a loop with a delay using a thread sleep.
+* `timer.c`: an timer interrupt.
+* `sleep.c`: a loop with a sleep delay.
 
 1. For each of the cases, use an oscilloscope to measure jitter and drift of the time keeping method.
    1. Read through the code, see what it does.
    1. Load the code onto your board
-   1. Measure the jitter (see instructions below)
+   1. Measure the accuracy of the timekeeping (see instructions below)
    1. Once you are finished, modify the code - introduce a busy wait loop after the GPIO is toggled.
        1. Busy wait sets the processor in a tight loop (usually a counter loop with a noop body).
-       1. Measure the jitter. Make sure to block execute for a long enough time, such as would come from reading 1KB of data or doing some nasty computation.
+       1. Measure the accuracy. Make sure to block execute for a long enough time, such as would come from reading 1KB of data or doing some nasty computation.
 1. Measure the jitter of the Agilent function generator operating at the same frequency for comparison.
 
 ### Measuring jitter with the R&S RTM3004
