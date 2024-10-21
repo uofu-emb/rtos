@@ -72,7 +72,7 @@ Familiarize yourself with these terms from the readings.
 Copy in the source code for each of the files in the directory.
 
 The files are:
-* `delay.c` : a loop with a delay using a thread sleep.
+* `task_delay.c` : a loop with a delay using a thread sleep.
 * `timer.c`: an timer interrupt.
 * `sleep.c`: a loop with a sleep delay.
 
@@ -127,7 +127,7 @@ Measure the latency of an interrupt handler.
 1. Review and run the code `gpio_interrupt.c`
 1. Attach the Sync output from the signal generator to the oscilloscope and use as the trigger.
 1. Drive the board with the signal generator output on pin A1.
-   1. **Make sure to check the output voltages on the oscilloscope before attaching it to your board or you'll let the magic smoke out!** Set amplitude HiLevel to 3.3V, LoLevel to 0.0 V.
+   1. **Make sure to check the output voltages with the oscilloscope before attaching it to your board or you'll let the magic smoke out!** Set amplitude HiLevel to 3.3V, LoLevel to 0.0 V.
 1. Measure the delay between the sync signal and the output from the board.
 1. Increase the delay using a busy wait loop as before. (Put the delay before the toggle)
 
