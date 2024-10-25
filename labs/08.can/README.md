@@ -14,6 +14,9 @@
 
 # Prelab
 ## Readings
+Review the CAN API docs.
+
+https://github.com/KevinOConnor/can2040/blob/master/docs/API.md
 
 The Wikipedia article is quite comprehensive.
 
@@ -33,10 +36,13 @@ https://www.dnsstuff.com/what-is-network-topology
 
 https://aws.amazon.com/what-is/osi-model/
 
-
-
 # Lab
+Add the CAN library submodule https://github.com/KevinOConnor/can2040
 
+Many microcontrollers include dedicated CAN hardware peripherals, but the Pico does not.
+The Pico has a neat feature called programmable I/O (PIO), which allows you to implement high efficiency state machines in hardware.
+It can be used to implement peripherals that don't have a dedicated hardware peripheral.
+This open-source library implements a CAN controller using the PIO system.
 
 ## Activity 0
 This activity will establish sending and receiving messages.
