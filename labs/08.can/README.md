@@ -37,7 +37,7 @@ https://www.dnsstuff.com/what-is-network-topology
 https://aws.amazon.com/what-is/osi-model/
 
 # Lab
-Add the CAN library submodule https://github.com/KevinOConnor/can2040
+Add the CAN library submodule (note this is a fork with some fixes)  https://github.com/uofu-emb/can2040
 
 Many microcontrollers include dedicated CAN hardware peripherals, but the Pico does not.
 The Pico has a neat feature called programmable I/O (PIO), which allows you to implement high efficiency state machines in hardware.
