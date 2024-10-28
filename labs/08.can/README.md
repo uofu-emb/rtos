@@ -38,6 +38,7 @@ https://aws.amazon.com/what-is/osi-model/
 
 # Lab
 Add the CAN library submodule (note this is a fork with some fixes)  https://github.com/uofu-emb/can2040
+There is a can2040.cmake file which you can include in your CMakelists.txt which exports a library can2040 you will add to your dependency list.
 
 Many microcontrollers include dedicated CAN hardware peripherals, but the Pico does not.
 The Pico has a neat feature called programmable I/O (PIO), which allows you to implement high efficiency state machines in hardware.
@@ -103,3 +104,6 @@ This activity will observe bus contention from a babbling node. "In a Controller
 1. Observe how often the lower priority message is actually transmitted and received.
 1. Introduce a short busy wait delay into the babbling node, slowly increase the duration until you observe the other messages consistently received.
 1. Document your observations in your repository.
+
+# Reference implementation
+Scaffold implementation of the lab is https://github.com/uofu-emb/rtos.8
