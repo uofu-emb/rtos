@@ -15,24 +15,19 @@ Watch this video about producer/consumer throughput.
 
 https://www.youtube.com/watch?v=AnHiAWlrYQc&ab_channel=ParamountPlus
 
+Review these sections of the documentation
+
+https://www.freertos.org/Documentation/01-FreeRTOS-quick-start/01-Beginners-guide/01-RTOS-fundamentals
+
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/01-Tasks-and-co-routines/03-Task-priorities
+
+https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/01-Tasks-and-co-routines/04-Task-scheduling
+
+Read chapter 12 in Lee & Seshia.
+
 Read sections 6.1 and 6.3 of this chapter.
 
 https://www.sciencedirect.com/science/article/pii/B9780123749574000153#s0145
-
-Read this section of the documentation
-
-https://docs.zephyrproject.org/2.7.5/reference/kernel/scheduling/index.html
-
-### Questions
-What are reschedule points?
-
-What is the difference between a preemptive and cooperative slicing?
-
-Give an example of a hard real-time requirement. What are the consequences of missing the deadline?
-
-Give an example of a soft real-time requirement. What are the consequences of missing the deadline?
-
-How could you use cooperative threads to implement mutually exclusion without the need for a kernel object, such as a semaphore.
 
 ## Lab
 
