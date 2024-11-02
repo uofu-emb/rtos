@@ -106,4 +106,4 @@ This activity will observe bus contention from a babbling node. "In a Controller
 1. Document your observations in your repository.
 
 # Reference implementation
-Scaffold implementation of the lab is https://github.com/uofu-emb/rtos.8
+Scaffold implementation of the lab is https://github.com/uofu-emb/rtos.08
