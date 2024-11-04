@@ -47,7 +47,7 @@ https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityAssertionsReferenc
 Induce priority inversion.
 
 1. create two preemptable threads (and a supervisor to manage them).
-1. create a semaphore shared between the two. Create it with xSemaphoreCreateBoolean
+1. create a semaphore shared between the two. Create it with xSemaphoreCreateBinary.
 1. set one thread to higher priority. set it to delay start.
 1. have the lower priority thread acquire the semphore first.
 1. Predict the behavior of the system.
