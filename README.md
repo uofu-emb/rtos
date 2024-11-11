@@ -54,13 +54,13 @@ Office Location:  SMBB 3750
 | Oct. 30  | Lab 8 con't                              | real-time communication                                       |
 | Nov. 4   | Lab 6 Scheduling                         | Scheduling algorithms                                         |
 | Nov. 6   | Lab 6 con't                              | Prioritization                                                |
-| Nov. 11  | Lab 10 Power                             | Measuring and estimating power                                |
-| Nov. 13  | Lab 10 con't                             |                                                               |
-| Nov. 18  | Lab 7 Error Handling                     | Safety, reliability, and risk                                 |
-| Nov. 20  | Lab 7 con't                              | Networking fallacies                                          |
+| Nov. 11  | Lab 6 con't                              | extra time for lab 6                                          |
+| Nov. 13  | Lab 8 con't                              | finish lab 8                                                  |
+| Nov. 18  | Lab 10 Power                             | Measuring and estimating power                                |
+| Nov. 20  | Lab 10 con't                             |                                                               |
 | Nov. 25  | Lab 11 Bluetooth                         | Radio technologies                                            |
 | Nov. 27  | Thanksgiving Eve                         | Many folks will be travelling. Class time is still available. |
-| Dec. 2   | Lab 11 con't                             |                                                               |
+| Dec. 2   | Lab 11 con't                             | Safety, reliability, and risk                                 |
 | Dec. 4   | Lab 11 con't                             |                                                               |
 
 Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
