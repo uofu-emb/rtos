@@ -78,7 +78,8 @@ If you want a serial connection, you need to use the UART pins rather than USB a
 1. Run a busy loop to get 100% CPU utilization
     1. Place `#pragma GCC optimize ("O0")` at the top of the file to disable compiler optimizations.
     1. Run a tight loop like the one below. Multiplication typically requires large amounts of silicon, and adders with a full carry chain causes lots of activity. I don't know if these will be the worst instructions for energy usage, but this should be a decent place to start.
-    ```
+
+```
 while(1) {
  uint32_t k;
  for (int i = 0; i < 30) {
@@ -88,6 +89,7 @@ while(1) {
   }
 }
 ```
+
 1. Set up an interrupt to toggle a GPIO in response to an external signal (like in lab 5).
     1. In the main loop to invoke the wait for interrupt instruction.
     1. Drive the interrupt pin with the signal generator.
