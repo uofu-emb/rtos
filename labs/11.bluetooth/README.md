@@ -67,7 +67,9 @@ Our device uses a generic name when advertising. We need to distinguish ourselve
 
 ### Background
 
-Clone the bluetooth branch of the rtos.template repo. This contains the FreeRTOS setup and a basic GATT server implementation. The template starts with code from the pico-example and btstack repos.
+Fork the bluetooth template repo https://github.com/uofu-emb/rtos.bt.
+This contains the FreeRTOS setup and a basic GATT server implementation.
+The template starts with simplified code from the pico-example and btstack repos.
 
 https://bluekitchen-gmbh.com/btstack/#examples/examples/#gatt-server-heartbeat-counter-over-gatt
 
@@ -146,3 +148,7 @@ You can use the raw id, or the corresponding constants are defined in bluetooth_
 1. In the `att_read_callback`, return the data if the handle is the temperature value handle.
     1. The data is floating point, you could convert it to centidegrees like `data = (uint16_t)(temp_measurement*100);`
     1. You could also use a union to send the bytes for the floating point number directly.
+
+# Reference implementation
+
+Reference implementation is located at https://github.com/uofu-emb/rtos.11
