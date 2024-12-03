@@ -168,7 +168,7 @@ Labs are broken into several components. You must complete all components of the
 | Dec. 2   | Lab 11 con't                             |                                                               |
 | Dec. 4   | Lab 11 con't                             |                                                               |
 
-Exam period is Wednesday, December 13, 2023 3:30 – 5:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
+Exam period is Friday, December 13, 2023 10:30 – 12:30 pm. We will use this time to eat ice cream, discuss what happened during the course, and show off our results.
 
 Note: This syllabus is meant to serve as an outline and guide for our course. Please note that I may modify it with reasonable notice to you. I may also modify the Course Schedule to accommodate the needs of our class. Any changes will be announced in class and posted on Canvas under Announcements.
 
