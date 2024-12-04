@@ -107,9 +107,9 @@ All code must:
 Letter grades are assigned based on completion of the following:
 | Grade | Graduate Requirements                                                                      | Undergraduate Requirements                                                                     |
 |-------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| C     | Case study presentation.<br/>Labs 0-7<br/>Contribute to the final project.                 | Case study presentation.<br/>Labs 0-6<br/>Contribute to the final project. |
-| B     | All neccessary to get a C, lab 8 and 2 more labs                                           | All neccessary to get a C and 2 more labs                                                        |
-| A     | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 2 more labs                                                      |
+| C     | Case study presentation.<br/>Labs 0-6                 | Case study presentation.<br/>Labs 0-6 |
+| B     | All neccessary to get a C, lab 8 and 1 more labs                                           | All neccessary to get a C and 2 more labs                                                        |
+| A     | All neccessary to get a B and 2 more labs.<br/>Lead a team for a task during final project | All neccessary to get a B and 1 more labs                                                      |
 
 Note that you are working in pairs, and a choice to abandon an assignment affects your partner.
 # Assignments
