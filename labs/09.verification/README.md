@@ -23,11 +23,11 @@ If you would like to draw your FSM on the computer, Graphviz is a great tool for
 All drawings provided were done with Graphviz and the source files are in the repository.
 To render a graph just run `dot mygraph.dot -Tpdf -o mygraph.pdf`
 
-### Railrod crossing problem
-Implement a FSM for a safety warning system to prevent crossings while a train is approaching and until it has passed.
+### Railroad crossing problem
+
 
 * There are two tracks, one going north and the other south. Trains on each track only run in one direction.
-* <strike>The tracks meet at a crossing. [Oct 16: this interpretation is allowed but not preferred]</strike> At the crossing, a roadway (for cars, pedestrians, baby strollers, etc.) intersects both tracks. See "diagram.png" for clarification.
+* At the crossing, a roadway (for cars, pedestrians, baby strollers, etc.) intersects both tracks. There is an arm which lowers to block crossing and an audible alarm which warns against crossing.
 * Each track has two proximity sensors __approach__ and __depart__, placed on the tracks before and after the crossing respectively.
     * The two __approach__ sensors emit the events **northbound_approach** and **southbound_approach** when the first car of the train crosses the sensor (leading edge).
     * The two __depart__ sensors emit the events **northbound_depart** and **southbound_depart** when the last car of the train crosses the sensor (trailing edge).
