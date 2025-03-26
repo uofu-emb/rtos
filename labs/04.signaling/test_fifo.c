@@ -78,7 +78,7 @@ void test_full(void)
         BaseType_t res = xQueueReceive(response, &data, 1000);
         TEST_ASSERT_EQUAL_INT(pdTRUE, res);
         printf("Got result %d for %d, handled by thread %d\n",
-               data.input, data.output, data.handled_by);
+               data.output, data.input, data.handled_by);
         TEST_ASSERT_EQUAL_INT(data.input + 5, data.output);
     }
 
